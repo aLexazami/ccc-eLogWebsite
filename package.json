@@ -1,0 +1,33 @@
+{
+  "name": "ccc-website",
+  "version": "1.0.0",
+  "description": "E-Log and Queueing System",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update-assets": "copyfiles -u 3 \"node_modules/bootstrap/dist/**/*\" assets/vendor/bootstrap && copyfiles -u 3 \"node_modules/bootstrap-icons/font/**/*\" assets/vendor/bootstrap-icons"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aLexazami/ccc-eLogWebsite.git"
+  },
+  "keywords": [
+    "queue-system",
+    "elog",
+    "php"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/aLexazami/ccc-eLogWebsite/issues"
+  },
+  "homepage": "https://github.com/aLexazami/ccc-eLogWebsite#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1"
+  }
+}

@@ -1,0 +1,7 @@
+# Ignore NPM dependencies (Never commit this folder)
+/node_modules/
+
+# Optional: Ignore OS and editor metadata
+.DS_Store
+Thumbs.db
+.vscode/
