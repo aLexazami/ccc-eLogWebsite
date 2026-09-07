@@ -1,0 +1,7 @@
+# Prevent directory browsing globally
+Options -Indexes
+
+# Block direct access to config and classes directories
+<DirectoryMatch "^(config|classes|includes)/">
+    Require all denied
+</DirectoryMatch>
