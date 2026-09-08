@@ -1,7 +1,15 @@
-# Prevent directory browsing globally
+# Disable directory browsing
 Options -Indexes
 
-# Block direct access to config and classes directories
-<DirectoryMatch "^(config|classes|includes)/">
+# Enable rewrite engine
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block direct web access to protected directories
+    RewriteRule ^(config|classes|includes|node_modules)(/|$) - [F,L]
+</IfModule>
+
+# Block access to sensitive files
+<FilesMatch "^(package\.json|package-lock\.json|\.gitignore)$">
     Require all denied
-</DirectoryMatch>
+</FilesMatch>

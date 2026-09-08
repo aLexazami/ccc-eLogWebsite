@@ -22,4 +22,4 @@ if (!defined('APP_INIT')) {
     <!-- Custom CSS Overrides -->
     <link rel="stylesheet" href="<?= BASE_URL; ?>/assets/css/style.css">
 </head>
-<body class="bg-light">
+<body>

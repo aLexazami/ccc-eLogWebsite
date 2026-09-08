@@ -1,0 +1,168 @@
+/* ==========================================================================
+   1. DESIGN TOKENS & SYSTEM VARIABLES
+   ========================================================================== */
+:root {
+    /* Primary Gradient Palette */
+    --color-royal-blue: #052482;    /* Gradient Center / Primary Brand */
+    --color-navy-dark: #051C4F;     /* Gradient Outer / Deep Base */
+
+    /* Supporting Accent Colors */
+    --color-classic-blue: #0F4C81;  /* Card Accents & Primary Buttons */
+    --color-blue-gray: #58A1D3;     /* Borders, Subtext, & Hover States */
+    --color-powder-blue: #B3DEF8;   /* High-Contrast Headings & Icons */
+    
+    /* Queue Status Accents */
+    --color-status-serving: #20c997;
+    --color-status-calling: #ffc107;
+    --color-status-waiting: #0d6efd;
+
+    /* Transitions & Spacing */
+    --radius-card: 1rem;
+    --transition-fast: 0.2s ease;
+    --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   2. GLOBAL RESETS & BASE STYLES
+   ========================================================================== */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: var(--color-navy-dark) !important;
+    color: #ffffff;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Fullscreen Radial Background */
+.portal-bg {
+    background-color: var(--color-royal-blue);
+    background: radial-gradient(circle at center, var(--color-royal-blue) 0%, var(--color-navy-dark) 100%);
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   3. BANNER COMPONENT
+   ========================================================================== */
+.banner-crop-container {
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    position: relative;
+    background-color: var(--color-navy-dark);
+}
+
+.banner-zoom-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    transform: scale(1.15);
+    transform-origin: center center;
+    will-change: transform;
+    transition: transform var(--transition-smooth);
+}
+
+@media (max-width: 768px) {
+    .banner-crop-container {
+        height: 130px;
+    }
+    .banner-zoom-img {
+        transform: scale(1.25);
+    }
+}
+
+/* ==========================================================================
+   4. REUSABLE UI COMPONENTS
+   ========================================================================== */
+/* Glassmorphism Card Surface */
+.custom-card {
+    background-color: rgba(5, 28, 79, 0.80);
+    border: 1px solid rgba(88, 161, 211, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.custom-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 1rem 2rem rgba(5, 28, 79, 0.7) !important;
+}
+
+/* Icon Badges */
+.icon-badge {
+    width: 75px;
+    height: 75px;
+    background-color: rgba(5, 36, 130, 0.6);
+    border: 1px solid rgba(88, 161, 211, 0.35);
+    border-radius: var(--radius-card);
+}
+
+/* Action Buttons */
+.btn-portal {
+    background-color: var(--color-royal-blue);
+    color: #ffffff;
+    border: 1px solid var(--color-blue-gray);
+    font-weight: 500;
+    transition: all var(--transition-fast);
+}
+
+.btn-portal:hover,
+.btn-portal:focus {
+    background-color: var(--color-blue-gray);
+    color: var(--color-navy-dark);
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 0 12px rgba(179, 222, 248, 0.4);
+}
+
+/* ==========================================================================
+   5. MODERN GLASSMOPHIC CLOCK WIDGET
+   ========================================================================== */
+.modern-clock-card {
+    max-width: 420px;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(5, 36, 130, 0.5) 0%, rgba(5, 28, 79, 0.75) 100%);
+    border: 1px solid rgba(179, 222, 248, 0.3);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 
+                inset 0 0 15px rgba(179, 222, 248, 0.1);
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.modern-clock-card:hover {
+    border-color: var(--color-powder-blue);
+    transform: translateY(-2px);
+}
+
+/* Tabular numbers prevent text jitter during ticking */
+.clock-time {
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    line-height: 1;
+    color: #ffffff;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -1px;
+    text-shadow: 0 0 20px rgba(179, 222, 248, 0.4);
+}
+
+.clock-period {
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    color: var(--color-powder-blue);
+    letter-spacing: 1px;
+}
+
+.clock-date {
+    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    color: var(--color-blue-gray);
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 576px) {
+    .modern-clock-card {
+        max-width: 100%;
+        padding: 0.85rem 1rem !important;
+    }
+}
