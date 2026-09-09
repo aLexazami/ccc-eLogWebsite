@@ -33,7 +33,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
 
                     <!-- Form -->
-                    <form id="kioskForm" action="office-selection.php" method="POST" novalidate>
+                    <form id="kioskForm" action="dept_select.php" method="POST" novalidate>
                         <input type="hidden" name="client_type" value="guest">
 
                         <div class="mb-3">
