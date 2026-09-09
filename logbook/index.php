@@ -13,7 +13,7 @@ require_once __DIR__ . '/../includes/header.php';
         <!-- Navigation Header -->
         <div class="row mb-4">
             <div class="col-12 d-flex align-items-center">
-                <a href="javascript:history.back()" class="btn btn-back text-decoration-none">
+                <a href="<?= BASE_URL; ?>/" class="btn btn-back text-decoration-none">
                     <i class="bi bi-arrow-left me-1"></i> BACK
                 </a>
             </div>

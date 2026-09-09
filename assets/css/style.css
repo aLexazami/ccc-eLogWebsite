@@ -47,10 +47,9 @@ html, body {
    ========================================================================== */
 .banner-crop-container {
     width: 100%;
-    height: 100px;
+    height: 130px;
     overflow: hidden;
     position: relative;
-    background-color: var(--color-navy-dark);
 }
 
 .banner-zoom-img {
@@ -67,7 +66,7 @@ html, body {
 
 @media (max-width: 768px) {
     .banner-crop-container {
-        height: 130px;
+        height: 110px;
     }
     .banner-zoom-img {
         transform: scale(1.25);
@@ -101,31 +100,78 @@ html, body {
     border-radius: var(--radius-card);
 }
 
-/* Action Buttons */
+/* ==========================================================================
+   ACTION BUTTONS
+   ========================================================================== */
+
 .btn-portal {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--color-royal-blue);
-    color: #ffffff;
-    border: 1px solid var(--color-blue-gray);
-    font-weight: 500;
-    transition: all var(--transition-fast);
+    color: #ffffff !important;
+    border: 1px solid rgba(179, 222, 248, 0.35);
+    padding: 0.75rem 1.5rem; /* Balanced pill padding */
+    transition: background-color var(--transition-fast), 
+                border-color var(--transition-fast), 
+                box-shadow var(--transition-fast), 
+                transform var(--transition-fast);
+    text-decoration: none;
+    overflow: hidden;
 }
 
+/* Oval / Pill Geometry */
+.btn-oval {
+    border-radius: 50rem !important;
+}
+
+/* Centered Button Label */
+.btn-portal .btn-label {
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+    text-align: center;
+}
+
+/* Hover & Active States */
 .btn-portal:hover,
 .btn-portal:focus {
-    background-color: var(--color-blue-gray);
-    color: var(--color-navy-dark);
+    background-color: var(--color-classic-blue);
     border-color: var(--color-powder-blue);
-    box-shadow: 0 0 12px rgba(179, 222, 248, 0.4);
+    box-shadow: 0 0 16px rgba(179, 222, 248, 0.45);
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.btn-portal:active {
+    transform: translateY(0);
+    box-shadow: 0 0 8px rgba(179, 222, 248, 0.3);
 }
 
 /* ==========================================================================
-   5. MODERN GLASSMOPHIC CLOCK WIDGET
+   5. APP TITLE & GLASSMOPHIC CLOCK WIDGET
    ========================================================================== */
+
+/* Bright Highlight White Title with Ambient Glow */
+.app-title {
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.5px;
+    
+    /* Reduced alpha channels and tighter blur radii for softer light emission */
+    text-shadow: 
+        0 0 6px rgba(255, 255, 255, 0.4),
+        0 0 12px rgba(179, 222, 248, 0.3),
+        0 0 20px rgba(5, 36, 130, 0.25);
+    
+    transition: text-shadow var(--transition-fast);
+}
+
 .modern-clock-card {
     max-width: 420px;
     width: 100%;
     background: linear-gradient(135deg, rgba(5, 36, 130, 0.5) 0%, rgba(5, 28, 79, 0.75) 100%);
-    border: 1px solid rgba(179, 222, 248, 0.3);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 
@@ -133,25 +179,23 @@ html, body {
     transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
-.modern-clock-card:hover {
-    border-color: var(--color-powder-blue);
-    transform: translateY(-2px);
-}
 
-/* Tabular numbers prevent text jitter during ticking */
+/* Monospaced Digital Clock Display using Courier New */
 .clock-time {
-    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 700;
     line-height: 1;
     color: #ffffff;
-    font-variant-numeric: tabular-nums;
     letter-spacing: -1px;
     text-shadow: 0 0 20px rgba(179, 222, 248, 0.4);
 }
 
 .clock-period {
-    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: clamp(1rem, 2vw, 1.25rem);
     color: var(--color-powder-blue);
-    letter-spacing: 1px;
+    letter-spacing: 0px;
 }
 
 .clock-date {
