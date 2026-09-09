@@ -76,32 +76,56 @@ html, body {
 /* ==========================================================================
    4. REUSABLE UI COMPONENTS
    ========================================================================== */
-/* Glassmorphism Card Surface */
+
+/* Glassmorphism Card Surface - Smooth Border Hover Variation */
 .custom-card {
     background-color: rgba(5, 28, 79, 0.80);
-    border: 1px solid rgba(88, 161, 211, 0.25);
+    /* Set transparent border initially to prevent layout shift on hover */
+    border: 1px solid transparent !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    /* Include border-color in transition properties */
+    transition: transform var(--transition-fast), 
+                box-shadow var(--transition-fast), 
+                border-color var(--transition-fast);
 }
 
 .custom-card:hover {
     transform: translateY(-6px);
-    border-color: var(--color-powder-blue);
-    box-shadow: 0 1rem 2rem rgba(5, 28, 79, 0.7) !important;
+    /* Add border color highlight on hover */
+    border-color: var(--color-powder-blue) !important;
+    box-shadow: 0 1rem 2.5rem rgba(5, 28, 79, 0.9), 
+                0 0 15px rgba(179, 222, 248, 0.25) !important;
 }
 
-/* Icon Badges */
+.custom-card:hover .icon-badge {
+    background-color: var(--color-royal-blue);
+    border-color: var(--color-powder-blue);
+    transform: scale(1.05);
+}
+
+.custom-card:hover .btn-portal {
+    background-color: var(--color-blue-gray);
+    color: var(--color-navy-dark) !important;
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 0 12px rgba(179, 222, 248, 0.4);
+}
+
+/* Circular Icon Badges */
 .icon-badge {
     width: 75px;
     height: 75px;
     background-color: rgba(5, 36, 130, 0.6);
     border: 1px solid rgba(88, 161, 211, 0.35);
-    border-radius: var(--radius-card);
+    border-radius: 50%; /* Perfect circular geometry */
+    flex-shrink: 0;
+    transition: transform var(--transition-fast), 
+                background-color var(--transition-fast), 
+                border-color var(--transition-fast);
 }
 
 /* ==========================================================================
-   ACTION BUTTONS
+   5. BUTTONS
    ========================================================================== */
 
 .btn-portal {
@@ -148,6 +172,72 @@ html, body {
     box-shadow: 0 0 8px rgba(179, 222, 248, 0.3);
 }
 
+/* Modern Oval Back Button with Left Circular Icon Badge */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    border-radius: 50rem !important; /* Full pill / oval geometry */
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+    padding: 0.35rem 1.25rem 0.35rem 0.35rem; /* Tight left padding to frame circle badge */
+    border: 1px solid rgba(88, 161, 211, 0.35);
+    color: var(--color-powder-blue) !important;
+    background: rgba(5, 36, 130, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background-color var(--transition-fast), 
+                border-color var(--transition-fast), 
+                box-shadow var(--transition-fast), 
+                transform var(--transition-fast);
+}
+
+/* Embedded Circular Icon Badge on the Left */
+.btn-back .btn-back-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%; /* Perfect circular geometry */
+    background-color: rgba(5, 28, 79, 0.75);
+    border: 1.5px solid var(--color-powder-blue);
+    color: var(--color-powder-blue);
+    font-size: 0.95rem;
+    flex-shrink: 0;
+    transition: transform var(--transition-fast), 
+                background-color var(--transition-fast), 
+                color var(--transition-fast);
+}
+
+/* Right Text Label */
+.btn-back .btn-back-label {
+    letter-spacing: 0.4px;
+    padding-right: 0.25rem;
+}
+
+/* Hover & Active States */
+.btn-back:hover,
+.btn-back:focus {
+    background-color: var(--color-blue-gray);
+    color: var(--color-navy-dark) !important;
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 0 14px rgba(179, 222, 248, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-back:hover .btn-back-icon {
+    background-color: var(--color-powder-blue);
+    color: var(--color-navy-dark);
+    transform: translateX(-2px) scale(1.05); /* Shifts arrow left on hover */
+}
+
+.btn-back:active {
+    transform: translateY(0);
+    box-shadow: 0 0 6px rgba(179, 222, 248, 0.25);
+}
+
 /* ==========================================================================
    5. APP TITLE & GLASSMOPHIC CLOCK WIDGET
    ========================================================================== */
@@ -158,14 +248,6 @@ html, body {
     font-weight: 700 !important;
     color: #ffffff !important;
     letter-spacing: -0.5px;
-    
-    /* Reduced alpha channels and tighter blur radii for softer light emission */
-    text-shadow: 
-        0 0 6px rgba(255, 255, 255, 0.4),
-        0 0 12px rgba(179, 222, 248, 0.3),
-        0 0 20px rgba(5, 36, 130, 0.25);
-    
-    transition: text-shadow var(--transition-fast);
 }
 
 .modern-clock-card {
@@ -179,34 +261,225 @@ html, body {
     transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
-
-/* Monospaced Digital Clock Display using Courier New */
+/* Monospaced Digital Clock Display - Scaled for High Mobile Impact */
 .clock-time {
     font-family: 'Courier New', Courier, monospace;
-    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-size: clamp(2.75rem, 8vw, 3.75rem);
     font-weight: 700;
     line-height: 1;
     color: #ffffff;
-    letter-spacing: -1px;
+    letter-spacing: -1.5px;
     text-shadow: 0 0 20px rgba(179, 222, 248, 0.4);
 }
 
 .clock-period {
     font-family: 'Courier New', Courier, monospace;
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-size: clamp(1.1rem, 3vw, 1.35rem);
     color: var(--color-powder-blue);
     letter-spacing: 0px;
 }
 
 .clock-date {
-    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
     color: var(--color-blue-gray);
     letter-spacing: 0.5px;
 }
 
+/* Mobile Viewport Responsiveness Optimization */
 @media (max-width: 576px) {
     .modern-clock-card {
         max-width: 100%;
-        padding: 0.85rem 1rem !important;
+        padding: 0.75rem 0.5rem !important; /* Reduced horizontal padding to prevent layout overflow */
     }
+
+    .clock-time {
+        font-size: clamp(4.5rem, 9vw, 3.25rem); /* Tailored font scaling for narrow phone displays */
+        letter-spacing: -2px; /* Tighter letter spacing for Courier New on mobile */
+    }
+
+    .clock-period {
+        font-size: 2.15rem;
+    }
+}
+
+/* ==========================================================================
+   6. LOGBOOK FORM & NAVIGATION STYLES
+   ========================================================================== */
+
+/* Glassmorphic Form Inputs & Floating Labels */
+.glass-input, 
+.glass-select {
+    background-color: rgba(5, 28, 79, 0.6) !important;
+    border: 1px solid rgba(88, 161, 211, 0.35) !important;
+    color: #ffffff !important;
+    border-radius: 12px !important;
+    transition: all var(--transition-fast);
+}
+
+/* Styling native options dropdown menu */
+.glass-select option {
+    background-color: var(--color-navy-dark);
+    color: #ffffff;
+}
+
+/* Placeholder & Floating Label States */
+.form-floating > label {
+    color: var(--color-blue-gray) !important;
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select ~ label {
+    color: var(--color-powder-blue) !important;
+}
+
+/* Input Focus Glow */
+.glass-input:focus, 
+.glass-select:focus {
+    border-color: var(--color-powder-blue) !important;
+    box-shadow: 0 0 12px rgba(179, 222, 248, 0.35) !important;
+}
+
+/* Form Action Button Overrides */
+.btn-submit {
+    background-color: var(--color-royal-blue);
+    color: #ffffff;
+    border: 1px solid var(--color-blue-gray);
+    border-radius: 12px;
+    padding: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-fast);
+}
+
+.btn-submit:hover {
+    background-color: var(--color-blue-gray);
+    color: var(--color-navy-dark);
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 0 16px rgba(179, 222, 248, 0.5);
+    transform: translateY(-1px);
+}
+
+
+
+/* ==========================================================================
+   8. FORM COMPONENTS & GLASS INPUTS
+   ========================================================================== */
+
+/* Type Category Badge */
+.category-badge {
+    display: inline-block;
+    background-color: rgba(5, 36, 130, 0.6);
+    color: var(--color-powder-blue);
+    border: 1px solid rgba(88, 161, 211, 0.35);
+    border-radius: 6px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+/* Custom Form Controls */
+.form-label-custom {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-label-custom .text-danger {
+    color: var(--color-powder-blue) !important;
+}
+
+.custom-glass-control {
+    background-color: rgba(5, 28, 79, 0.6) !important;
+    border: 1px solid rgba(88, 161, 211, 0.3) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 0.95rem;
+    transition: all var(--transition-fast);
+}
+
+.custom-glass-control::placeholder {
+    color: var(--color-blue-gray);
+    opacity: 0.7;
+}
+
+.custom-glass-control:focus {
+    border-color: var(--color-powder-blue) !important;
+    box-shadow: 0 0 12px rgba(179, 222, 248, 0.35) !important;
+    background-color: rgba(5, 28, 79, 0.8) !important;
+}
+
+/* Custom Select Dropdown Options */
+select.custom-glass-control option {
+    background-color: var(--color-navy-dark);
+    color: #ffffff;
+}
+
+/* Consent Box Surface */
+.consent-card-box {
+    background: rgba(5, 36, 130, 0.35);
+    border: 1px solid rgba(88, 161, 211, 0.25);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.consent-card-box .form-check-input {
+    background-color: rgba(5, 28, 79, 0.8);
+    border-color: var(--color-blue-gray);
+    cursor: pointer;
+    width: 1.15em;
+    height: 1.15em;
+    margin-top: 0.15em;
+}
+
+.consent-card-box .form-check-input:checked {
+    background-color: var(--color-powder-blue);
+    border-color: var(--color-powder-blue);
+}
+
+.consent-card-box .form-check-label {
+    color: var(--color-blue-gray);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+/* Primary Form Action Button */
+.btn-submit-action {
+    background-color: var(--color-royal-blue);
+    color: #ffffff;
+    border: 1px solid var(--color-blue-gray);
+    border-radius: 12px;
+    padding: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-fast);
+}
+
+.btn-submit-action:hover {
+    background-color: var(--color-blue-gray);
+    color: var(--color-navy-dark);
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 0 16px rgba(179, 222, 248, 0.5);
+    transform: translateY(-1px);
+}
+
+/* Glassmorphic Form Main Container Card */
+.custom-card {
+    background: rgba(5, 28, 79, 0.75);
+    border: 1px solid rgba(88, 161, 211, 0.25);
+    border-radius: var(--radius-card, 16px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Ensure Option Dropdown Contrast across all browsers */
+.custom-glass-control option {
+    background-color: var(--color-navy-dark, #051c4f) !important;
+    color: #ffffff !important;
 }

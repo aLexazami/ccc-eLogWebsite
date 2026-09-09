@@ -1,51 +1,100 @@
 <?php
-// kiosk/index.php
-$pageTitle = "Visitor Check-in & Queue";
-$pageScript = "/assets/js/kiosk.js";
+// logbook/index.php
+$pageTitle = "Select Client Type";
 
-// Include Header (Loads Bootstrap CSS)
+// Include Header (Auto-loads config.php and starts <body>)
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
+<div class="portal-bg min-vh-100 py-4 d-flex flex-column justify-content-between text-white">
+    
+    <!-- MAIN PAGE CONTAINER -->
+    <div class="container my-auto py-2">
+        
+        <!-- Navigation Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <a href="<?= BASE_URL; ?>/" class="btn btn-back text-decoration-none" role="button">
+                    <span class="btn-back-icon" aria-hidden="true">
+                        <i class="bi bi-arrow-left"></i>
+                    </span>
+                    <span class="btn-back-label fw-semibold">Back</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Page Header Title -->
+        <div class="text-center mb-5">
+            <h1 class="app-title fw-bold tracking-tight mb-2">Select Client Type</h1>
+        </div>
+
+        <!-- Selection Cards Grid -->
+        <div class="row g-4 justify-content-center">
             
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <h3 class="card-title text-center text-primary mb-3">
-                        <i class="bi bi-person-badge"></i> Visitor E-Log
-                    </h3>
-                    <p class="text-muted text-center mb-4">Fill out the details to get your queue ticket.</p>
-                    
-                    <form id="kioskForm">
-                        <div class="mb-3">
-                            <label for="visitorName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="visitorName" required>
+            <!-- Student Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card custom-card h-100 shadow-lg rounded-4 p-4 text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="icon-badge mx-auto mb-4 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-mortarboard fs-1" style="color: var(--color-powder-blue);" aria-hidden="true"></i>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="purpose" class="form-label">Purpose of Visit</label>
-                            <select class="form-select" id="purpose" required>
-                                <option value="" selected disabled>Select purpose...</option>
-                                <option value="Inquiry">Inquiry</option>
-                                <option value="Billing">Billing</option>
-                                <option value="Technical Support">Technical Support</option>
-                            </select>
+                        <h3 class="fw-bold text-white mb-2">Student</h3>
+                    </div>
+                    <div>
+                        <a href="<?= BASE_URL; ?>/logbook/student_info.php" class="btn btn-portal mt-3 btn-oval w-100 shadow-sm" role="button">
+                            <span class="btn-label fw-semibold">Select Student</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- School Personnel Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card custom-card h-100 shadow-lg rounded-4 p-4 text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="icon-badge mx-auto mb-4 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person-badge fs-1" style="color: var(--color-powder-blue);" aria-hidden="true"></i>
                         </div>
-                        
-                        <button type="submit" class="btn btn-primary w-100 py-2">
-                            <i class="bi bi-ticket-perforated"></i> Print / Generate Ticket
-                        </button>
-                    </form>
+                        <h3 class="fw-bold text-white mb-2">School Personnel</h3>
+                    </div>
+                    <div>
+                        <a href="<?= BASE_URL; ?>/logbook/personnel_info.php" class="btn btn-portal mt-3 btn-oval w-100 shadow-sm" role="button">
+                            <span class="btn-label fw-semibold">Select Personnel</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guest / Visitor Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card custom-card h-100 shadow-lg rounded-4 p-4 text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="icon-badge mx-auto mb-4 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person fs-1" style="color: var(--color-powder-blue);" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="fw-bold text-white mb-2">Guest / Visitor</h3>
+                    </div>
+                    <div>
+                        <a href="<?= BASE_URL; ?>/logbook/guest_info.php" class="btn btn-portal mt-3 btn-oval w-100 shadow-sm" role="button">
+                            <span class="btn-label fw-semibold">Select Guest</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
+
+    <!-- IN-PAGE FOOTER CREDIT BLOCK -->
+    <div class="text-center py-3 mt-auto">
+        <p class="small mb-0" style="color: var(--color-blue-gray);">
+            &copy; <?= date('Y'); ?> City College of Calamba &bull; All Rights Reserved
+        </p>
+    </div>
+
 </div>
 
 <?php
-// Include Footer (Loads Bootstrap JS)
+// Include Footer
 require_once __DIR__ . '/../includes/footer.php';
 ?>
