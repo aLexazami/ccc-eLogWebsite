@@ -1,5 +1,16 @@
 <?php
-// dept_select.php
+// dept_select.php - MUST BE AT THE VERY TOP BEFORE HEADER
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Store submitted client information in session if request is POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    foreach ($_POST as $key => $value) {
+        $_SESSION[$key] = $value;
+    }
+}
+
 $pageTitle = "Select Department";
 $pageScript = "/assets/js/kiosk.js";
 
@@ -73,7 +84,7 @@ $departments = [
                      data-name="<?= strtolower(htmlspecialchars($dept['name'])) ?>"
                      data-code="<?= strtolower(htmlspecialchars($dept['code'])) ?>">
                      
-                    <a href="purpose_select.php?dept_id=<?= $dept['id'] ?>" class="card dept-card h-100 p-3 text-decoration-none text-center d-flex flex-column align-items-center justify-content-center">
+                    <a href="select_inquiry.php?dept_id=<?= $dept['id'] ?>" class="card dept-card h-100 p-3 text-decoration-none text-center d-flex flex-column align-items-center justify-content-center">
                         <div class="dept-icon-box mb-3">
                             <i class="bi <?= htmlspecialchars($dept['icon']) ?> fs-2"></i>
                         </div>

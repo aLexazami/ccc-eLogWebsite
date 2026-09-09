@@ -501,3 +501,48 @@ select.custom-glass-control option {
     border-color: var(--color-powder-blue, #b3def8);
     box-shadow: 0 0 10px rgba(179, 222, 248, 0.3);
 }
+
+/* ==========================================================================
+   10. TRANSACTION & INQUIRY SELECTION STYLES
+   ========================================================================== */
+
+/* Department Header Banner Card */
+.selected-dept-header-card {
+    background: rgba(5, 28, 79, 0.75);
+    border: 1px solid rgba(88, 161, 211, 0.3);
+    border-left: 5px solid var(--color-powder-blue, #b3def8);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Transaction Option Action Cards */
+.transaction-card {
+    background: rgba(5, 28, 79, 0.6);
+    border: 1px solid rgba(88, 161, 211, 0.25) !important;
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all var(--transition-fast, 0.2s ease);
+    cursor: pointer;
+}
+
+.transaction-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-powder-blue, #b3def8) !important;
+    background: rgba(5, 36, 130, 0.6);
+    box-shadow: 0 8px 24px rgba(5, 28, 79, 0.6), 0 0 14px rgba(179, 222, 248, 0.25);
+}
+
+.transaction-card .text-muted-custom {
+    color: var(--color-blue-gray, #8b949e);
+}
+
+.transaction-card .arrow-icon {
+    color: var(--color-powder-blue, #b3def8);
+    transition: transform var(--transition-fast, 0.2s ease);
+}
+
+.transaction-card:hover .arrow-icon {
+    transform: translateX(5px);
+}
