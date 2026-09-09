@@ -28,7 +28,7 @@ require_once __DIR__ . '/includes/header.php';
 
             <!-- Centered Glassmorphic Clock Card Widget -->
             <div class="modern-clock-card mx-auto shadow-lg p-3 p-md-4 rounded-4">
-                <div class="d-flex align-items-baseline justify-content-center gap-2 mb-1">
+                <div class="d-flex align-items-baseline justify-content-center gap-1 gap-sm-2 mb-1">
                     <span class="clock-time fw-black" id="clockTime">00:00:00</span>
                     <span class="clock-period fw-bold text-uppercase" id="clockPeriod">AM</span>
                 </div>
@@ -43,7 +43,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 custom-card shadow rounded-4">
                     <div class="card-body p-4 d-flex flex-column text-center">
-                        <div class="icon-badge rounded-4 mx-auto mb-4 d-flex align-items-center justify-content-center">
+                        <div class="icon-badge mx-auto mb-4 d-flex align-items-center justify-content-center">
                             <i class="bi bi-journal-check fs-1" style="color: var(--color-powder-blue);" aria-hidden="true"></i>
                         </div>
                         <h4 class="text-white mb-2 fw-bold">Digital Logbook</h4>
@@ -61,7 +61,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="card h-100 custom-card shadow rounded-4">
                     <div class="card-body p-4 d-flex flex-column text-center">
                         
-                        <div class="icon-badge rounded-4 mx-auto mb-4 d-flex align-items-center justify-content-center">
+                        <div class="icon-badge mx-auto mb-4 d-flex align-items-center justify-content-center">
                             <i class="bi bi-broadcast fs-1" style="color: var(--color-powder-blue);" aria-hidden="true"></i>
                         </div>
                         
@@ -81,7 +81,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="card h-100 custom-card shadow rounded-4">
                     <div class="card-body p-4 d-flex flex-column text-center">
                         
-                        <div class="icon-badge rounded-4 mx-auto mb-4 d-flex align-items-center justify-content-center">
+                        <div class="icon-badge mx-auto mb-4 d-flex align-items-center justify-content-center">
                             <i class="bi bi-shield-lock-fill fs-1" style="color: var(--color-powder-blue);" aria-hidden="true"></i>
                         </div>
                         
@@ -115,7 +115,4 @@ $clockJsVersion = file_exists($clockJsPath) ? filemtime($clockJsPath) : time();
 ?>
 <script src="<?= BASE_URL; ?>/assets/js/clock.js?v=<?= $clockJsVersion; ?>"></script>
 
-<?php
-// 2. Include the reusable Footer (loads Bootstrap JS)
-require_once __DIR__ . '/includes/footer.php';
-?>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>
