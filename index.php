@@ -1,5 +1,9 @@
 <?php
 // index.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $pageTitle = "eSkueLog - CCC E-Log & Queue Management System";
 
 // 1. Include the reusable Header (loads Bootstrap CSS & config)
@@ -48,7 +52,6 @@ require_once __DIR__ . '/includes/header.php';
                         </div>
                         <h4 class="text-white mb-2 fw-bold">Digital Logbook</h4>
 
-                        <!-- OVAL BUTTON (CLEAN TEXT) -->
                         <a href="<?= BASE_URL; ?>/logbook/" class="btn btn-portal btn-oval w-100 mt-3 shadow-sm" role="button">
                             <span class="btn-label fw-semibold">Check-In</span>
                         </a>
@@ -56,7 +59,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- 2. QUEUE MONITOR -->
+            <!-- 2. QUEUE MONITOR (Redirects directly to live_queue.php) -->
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 custom-card shadow rounded-4">
                     <div class="card-body p-4 d-flex flex-column text-center">
@@ -67,8 +70,8 @@ require_once __DIR__ . '/includes/header.php';
                         
                         <h4 class="text-white mb-2 fw-bold">Live Queue</h4>
 
-                        <!-- OVAL BUTTON (CLEAN TEXT) -->
-                        <a href="<?= BASE_URL; ?>/monitor/" class="btn btn-portal btn-oval w-100 mt-3 shadow-sm" role="button">
+                        <!-- Updated button destination to live_queue.php -->
+                        <a href="<?= BASE_URL; ?>/queue_list/live_queue.php" class="btn btn-portal btn-oval w-100 mt-3 shadow-sm" role="button">
                             <span class="btn-label fw-semibold">View Queue</span>
                         </a>
 
@@ -87,7 +90,6 @@ require_once __DIR__ . '/includes/header.php';
                         
                         <h4 class="text-white mb-2 fw-bold">User Login</h4>
 
-                        <!-- OVAL BUTTON (CLEAN TEXT) -->
                         <a href="<?= BASE_URL; ?>/admin/" class="btn btn-portal btn-oval w-100 mt-3 shadow-sm" role="button">
                             <span class="btn-label fw-semibold">Login</span>
                         </a>
