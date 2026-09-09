@@ -70,15 +70,22 @@ require_once __DIR__ . '/../includes/header.php';
                 <h5 class="fw-bold text-white mb-0"><?= htmlspecialchars($transactionTitle) ?></h5>
             </div>
 
-            <!-- Home Button -->
+            <!-- Done / Reset Button -->
             <div class="mt-2">
-                <a href="reset_kiosk.php" class="btn btn-submit-action px-5 py-2 fs-5 text-decoration-none">
-                    Home
+                <a href="reset_session.php" class="btn btn-submit-action px-5 py-2 fs-5 text-decoration-none">
+                    Done / Next
                 </a>
             </div>
         </div>
 
     </div>
 </div>
+
+<!-- Auto-redirects to reset_session.php after 15 seconds of idle time -->
+<script>
+    setTimeout(function() {
+        window.location.href = "reset_session.php";
+    }, 15000);
+</script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
