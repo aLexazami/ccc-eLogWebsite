@@ -1,8 +1,15 @@
 <?php
 // logbook/index.php
-$pageTitle = "Select Client Type";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Include Header (Auto-loads config.php and starts <body>)
+require_once __DIR__ . '/../config/config.php';
+
+// ENFORCE GATEKEEPER SECURITY CHECK
+require_once __DIR__ . '/../includes/auth_check.php';
+
+$pageTitle = "Select Client Type";
 require_once __DIR__ . '/../includes/header.php';
 ?>
 

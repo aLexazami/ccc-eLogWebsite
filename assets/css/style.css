@@ -79,12 +79,12 @@ html, body {
 
 /* Glassmorphism Card Surface - Smooth Border Hover Variation */
 .custom-card {
-    background-color: rgba(5, 28, 79, 0.80);
-    /* Set transparent border initially to prevent layout shift on hover */
-    border: 1px solid transparent !important;
+    background-color: rgba(5, 28, 79, 0.75);
+    border: 1px solid rgba(88, 161, 211, 0.25);
+    border-radius: var(--radius-card, 16px);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    /* Include border-color in transition properties */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     transition: transform var(--transition-fast), 
                 box-shadow var(--transition-fast), 
                 border-color var(--transition-fast);
@@ -92,7 +92,6 @@ html, body {
 
 .custom-card:hover {
     transform: translateY(-6px);
-    /* Add border color highlight on hover */
     border-color: var(--color-powder-blue) !important;
     box-shadow: 0 1rem 2.5rem rgba(5, 28, 79, 0.9), 
                 0 0 15px rgba(179, 222, 248, 0.25) !important;
@@ -117,7 +116,7 @@ html, body {
     height: 75px;
     background-color: rgba(5, 36, 130, 0.6);
     border: 1px solid rgba(88, 161, 211, 0.35);
-    border-radius: 50%; /* Perfect circular geometry */
+    border-radius: 50%;
     flex-shrink: 0;
     transition: transform var(--transition-fast), 
                 background-color var(--transition-fast), 
@@ -136,7 +135,7 @@ html, body {
     background-color: var(--color-royal-blue);
     color: #ffffff !important;
     border: 1px solid rgba(179, 222, 248, 0.35);
-    padding: 0.75rem 1.5rem; /* Balanced pill padding */
+    padding: 0.75rem 1.5rem;
     transition: background-color var(--transition-fast), 
                 border-color var(--transition-fast), 
                 box-shadow var(--transition-fast), 
@@ -145,19 +144,16 @@ html, body {
     overflow: hidden;
 }
 
-/* Oval / Pill Geometry */
 .btn-oval {
     border-radius: 50rem !important;
 }
 
-/* Centered Button Label */
 .btn-portal .btn-label {
     font-size: 1rem;
     letter-spacing: 0.3px;
     text-align: center;
 }
 
-/* Hover & Active States */
 .btn-portal:hover,
 .btn-portal:focus {
     background-color: var(--color-classic-blue);
@@ -172,16 +168,16 @@ html, body {
     box-shadow: 0 0 8px rgba(179, 222, 248, 0.3);
 }
 
-/* Modern Oval Back Button with Left Circular Icon Badge */
+/* Modern Oval Back Button */
 .btn-back {
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
-    border-radius: 50rem !important; /* Full pill / oval geometry */
+    border-radius: 50rem !important;
     font-weight: 600;
     font-size: 0.875rem;
     letter-spacing: 0.5px;
-    padding: 0.35rem 1.25rem 0.35rem 0.35rem; /* Tight left padding to frame circle badge */
+    padding: 0.35rem 1.25rem 0.35rem 0.35rem;
     border: 1px solid rgba(88, 161, 211, 0.35);
     color: var(--color-powder-blue) !important;
     background: rgba(5, 36, 130, 0.45);
@@ -193,14 +189,13 @@ html, body {
                 transform var(--transition-fast);
 }
 
-/* Embedded Circular Icon Badge on the Left */
 .btn-back .btn-back-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 32px;
     height: 32px;
-    border-radius: 50%; /* Perfect circular geometry */
+    border-radius: 50%;
     background-color: rgba(5, 28, 79, 0.75);
     border: 1.5px solid var(--color-powder-blue);
     color: var(--color-powder-blue);
@@ -211,13 +206,11 @@ html, body {
                 color var(--transition-fast);
 }
 
-/* Right Text Label */
 .btn-back .btn-back-label {
     letter-spacing: 0.4px;
     padding-right: 0.25rem;
 }
 
-/* Hover & Active States */
 .btn-back:hover,
 .btn-back:focus {
     background-color: var(--color-blue-gray);
@@ -230,7 +223,7 @@ html, body {
 .btn-back:hover .btn-back-icon {
     background-color: var(--color-powder-blue);
     color: var(--color-navy-dark);
-    transform: translateX(-2px) scale(1.05); /* Shifts arrow left on hover */
+    transform: translateX(-2px) scale(1.05);
 }
 
 .btn-back:active {
@@ -239,10 +232,9 @@ html, body {
 }
 
 /* ==========================================================================
-   5. APP TITLE & GLASSMOPHIC CLOCK WIDGET
+   6. APP TITLE & GLASSMOPHIC CLOCK WIDGET
    ========================================================================== */
 
-/* Bright Highlight White Title with Ambient Glow */
 .app-title {
     font-size: clamp(2.25rem, 5vw, 3.25rem);
     font-weight: 700 !important;
@@ -261,7 +253,6 @@ html, body {
     transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
-/* Monospaced Digital Clock Display - Scaled for High Mobile Impact */
 .clock-time {
     font-family: 'Courier New', Courier, monospace;
     font-size: clamp(2.75rem, 8vw, 3.75rem);
@@ -285,16 +276,15 @@ html, body {
     letter-spacing: 0.5px;
 }
 
-/* Mobile Viewport Responsiveness Optimization */
 @media (max-width: 576px) {
     .modern-clock-card {
         max-width: 100%;
-        padding: 0.75rem 0.5rem !important; /* Reduced horizontal padding to prevent layout overflow */
+        padding: 0.75rem 0.5rem !important;
     }
 
     .clock-time {
-        font-size: clamp(4.5rem, 9vw, 3.25rem); /* Tailored font scaling for narrow phone displays */
-        letter-spacing: -2px; /* Tighter letter spacing for Courier New on mobile */
+        font-size: clamp(4.5rem, 9vw, 3.25rem);
+        letter-spacing: -2px;
     }
 
     .clock-period {
@@ -303,10 +293,9 @@ html, body {
 }
 
 /* ==========================================================================
-   6. LOGBOOK FORM & NAVIGATION STYLES
+   7. FORM COMPONENTS & GLASS INPUTS
    ========================================================================== */
 
-/* Glassmorphic Form Inputs & Floating Labels */
 .glass-input, 
 .glass-select {
     background-color: rgba(5, 28, 79, 0.6) !important;
@@ -316,13 +305,12 @@ html, body {
     transition: all var(--transition-fast);
 }
 
-/* Styling native options dropdown menu */
-.glass-select option {
-    background-color: var(--color-navy-dark);
-    color: #ffffff;
+.glass-select option,
+select.custom-glass-control option {
+    background-color: var(--color-navy-dark) !important;
+    color: #ffffff !important;
 }
 
-/* Placeholder & Floating Label States */
 .form-floating > label {
     color: var(--color-blue-gray) !important;
 }
@@ -333,40 +321,17 @@ html, body {
     color: var(--color-powder-blue) !important;
 }
 
-/* Input Focus Glow */
 .glass-input:focus, 
 .glass-select:focus {
     border-color: var(--color-powder-blue) !important;
     box-shadow: 0 0 12px rgba(179, 222, 248, 0.35) !important;
 }
 
-/* Form Action Button Overrides */
-.btn-submit {
-    background-color: var(--color-royal-blue);
-    color: #ffffff;
-    border: 1px solid var(--color-blue-gray);
-    border-radius: 12px;
-    padding: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: all var(--transition-fast);
+.glass-input:hover {
+    border-color: var(--color-powder-blue) !important;
+    background-color: rgba(5, 28, 79, 0.8) !important;
 }
 
-.btn-submit:hover {
-    background-color: var(--color-blue-gray);
-    color: var(--color-navy-dark);
-    border-color: var(--color-powder-blue);
-    box-shadow: 0 0 16px rgba(179, 222, 248, 0.5);
-    transform: translateY(-1px);
-}
-
-
-
-/* ==========================================================================
-   8. FORM COMPONENTS & GLASS INPUTS
-   ========================================================================== */
-
-/* Type Category Badge */
 .category-badge {
     display: inline-block;
     background-color: rgba(5, 36, 130, 0.6);
@@ -380,7 +345,6 @@ html, body {
     text-transform: uppercase;
 }
 
-/* Custom Form Controls */
 .form-label-custom {
     color: #ffffff;
     font-weight: 600;
@@ -413,12 +377,6 @@ html, body {
     background-color: rgba(5, 28, 79, 0.8) !important;
 }
 
-/* Custom Select Dropdown Options */
-select.custom-glass-control option {
-    background-color: var(--color-navy-dark);
-    color: #ffffff;
-}
-
 /* Consent Box Surface */
 .consent-card-box {
     background: rgba(5, 36, 130, 0.35);
@@ -448,18 +406,20 @@ select.custom-glass-control option {
     cursor: pointer;
 }
 
-/* Primary Form Action Button */
+/* Action Buttons */
+.btn-submit,
 .btn-submit-action {
     background-color: var(--color-royal-blue);
     color: #ffffff;
     border: 1px solid var(--color-blue-gray);
     border-radius: 12px;
-    padding: 0.9rem;
+    padding: 0.85rem;
     font-weight: 600;
     letter-spacing: 0.5px;
     transition: all var(--transition-fast);
 }
 
+.btn-submit:hover,
 .btn-submit-action:hover {
     background-color: var(--color-blue-gray);
     color: var(--color-navy-dark);
@@ -468,18 +428,61 @@ select.custom-glass-control option {
     transform: translateY(-1px);
 }
 
-/* Glassmorphic Form Main Container Card */
-.custom-card {
-    background: rgba(5, 28, 79, 0.75);
-    border: 1px solid rgba(88, 161, 211, 0.25);
-    border-radius: var(--radius-card, 16px);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+.btn-cancel {
+    background-color: rgba(5, 36, 130, 0.45);
+    color: var(--color-powder-blue) !important;
+    border: 1px solid rgba(88, 161, 211, 0.35);
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--transition-fast), 
+                border-color var(--transition-fast), 
+                color var(--transition-fast);
 }
 
-/* Ensure Option Dropdown Contrast across all browsers */
-.custom-glass-control option {
-    background-color: var(--color-navy-dark, #051c4f) !important;
+.btn-cancel:hover,
+.btn-cancel:focus {
+    background-color: rgba(220, 53, 69, 0.25);
+    border-color: #ffb3b8;
     color: #ffffff !important;
+}
+
+/* ==========================================================================
+   8. AUTHENTICATION & TERMINAL UNLOCK STYLES
+   ========================================================================== */
+
+/* Single Consolidated Definition for Static Auth Card (Borders Stripped Completely) */
+.auth-card-static {
+    background-color: rgba(5, 28, 79, 0.85) !important;
+    border: 0 !important;
+    border-color: transparent !important;
+    outline: none !important;
+    --bs-card-border-width: 0px !important;
+    --bs-card-border-color: transparent !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transform: none !important;
+    transition: none !important;
+}
+
+/* ==========================================================================
+   9. PASSWORD VISIBILITY TOGGLE OVERLAY
+   ========================================================================== */
+
+.password-toggle-btn {
+    z-index: 5;
+    cursor: pointer;
+    transition: color var(--transition-fast, 0.2s ease);
+}
+
+.password-toggle-btn:hover,
+.password-toggle-btn:focus {
+    color: var(--color-powder-blue, #58a1d3) !important;
+    outline: none;
+}
+
+.form-floating > .glass-input.pe-5 {
+    padding-right: 3rem !important;
 }

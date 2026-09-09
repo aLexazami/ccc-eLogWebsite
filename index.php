@@ -49,7 +49,7 @@ require_once __DIR__ . '/includes/header.php';
                         <h4 class="text-white mb-2 fw-bold">Digital Logbook</h4>
 
                         <!-- OVAL BUTTON (CLEAN TEXT) -->
-                        <a href="<?= BASE_URL; ?>/logbook/" class="btn btn-portal btn-oval w-100 mt-3 shadow-sm" role="button">
+                        <a href="<?= BASE_URL; ?>/logbook/login.php" class="btn btn-portal btn-oval w-100 mt-3 shadow-sm" role="button">
                             <span class="btn-label fw-semibold">Check-In</span>
                         </a>
                     </div>
