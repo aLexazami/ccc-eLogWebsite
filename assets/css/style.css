@@ -546,3 +546,33 @@ select.custom-glass-control option {
 .transaction-card:hover .arrow-icon {
     transform: translateX(5px);
 }
+
+/* ==========================================================================
+   11. QUEUE TICKET DISPLAY STYLES
+   ========================================================================== */
+
+.ticket-display-card {
+    background: rgba(5, 28, 79, 0.75);
+    border: 1px solid rgba(88, 161, 211, 0.3);
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.ticket-dept-badge {
+    background: rgba(5, 36, 130, 0.5);
+    border: 1px solid rgba(88, 161, 211, 0.25);
+    border-radius: 12px;
+}
+
+.ticket-queue-number {
+    color: var(--color-powder-blue, #b3def8);
+    font-size: 5rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(179, 222, 248, 0.3);
+}
+
+.tracking-wider {
+    letter-spacing: 1.5px;
+}

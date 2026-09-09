@@ -40,6 +40,10 @@ $deptData = [
 // Fallback to Registrar if ID doesn't exist in mock array
 $currentDept = $deptData[$deptId] ?? $deptData[1];
 
+// Store department info in session so queue_number.php can display it
+$_SESSION['dept_name'] = $currentDept['name'];
+$_SESSION['dept_code'] = $currentDept['code'];
+
 $pageTitle = "Select Inquiry - " . $currentDept['name'];
 $pageScript = "/assets/js/kiosk.js";
 
@@ -117,7 +121,8 @@ require_once __DIR__ . '/../includes/header.php';
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
-            <form action="queue_summary.php" method="POST">
+            <!-- TARGET UPDATED TO queue_number.php DIRECTLY -->
+            <form action="queue_number.php" method="POST">
                 <div class="modal-body py-4">
                     <input type="hidden" name="transaction_id" id="modalTxId">
                     <input type="hidden" name="transaction_title" id="modalTxTitleInput">
@@ -137,11 +142,9 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
                 
                 <div class="modal-footer border-0 pt-0 d-flex gap-2">
-                    <!-- Option to Proceed Directly Without Notes -->
                     <button type="submit" class="btn btn-outline-light rounded-3 px-3 py-2 text-decoration-none">
                         Skip & Proceed
                     </button>
-                    <!-- Option to Submit Notes -->
                     <button type="submit" class="btn btn-submit-action flex-grow-1">
                         Submit & Continue <i class="bi bi-arrow-right ms-1"></i>
                     </button>
@@ -156,8 +159,6 @@ function openInquiryModal(txId, txTitle) {
     document.getElementById('modalTxId').value = txId;
     document.getElementById('modalTxTitleInput').value = txTitle;
     document.getElementById('modalTransactionTitle').innerText = txTitle;
-    
-    // Clear textarea prior to showing
     document.getElementById('inquiryDetails').value = '';
 
     const modal = new bootstrap.Modal(document.getElementById('inquiryModal'));
