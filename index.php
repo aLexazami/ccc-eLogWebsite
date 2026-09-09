@@ -50,7 +50,7 @@ require_once __DIR__ . '/includes/header.php';
                         <p class="small flex-grow-1" style="color: var(--color-powder-blue); opacity: 0.85;">
                             Record your visit details in the digital logbook, specify department purpose, and generate your queue ticket.
                         </p>
-                        <a href="<?= BASE_URL; ?>/kiosk/" class="btn btn-portal btn-lg w-100 py-2 mt-3 rounded-3 shadow-sm">
+                        <a href="<?= BASE_URL; ?>/logbook/" class="btn btn-portal btn-lg w-100 py-2 mt-3 rounded-3 shadow-sm">
                             Check-In <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </div>
