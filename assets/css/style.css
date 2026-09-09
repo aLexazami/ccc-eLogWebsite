@@ -166,3 +166,140 @@ html, body {
         padding: 0.85rem 1rem !important;
     }
 }
+
+/* ==========================================================================
+   6. KIOSK FORM & NAVIGATION STYLES
+   ========================================================================== */
+
+/* Modern Back Button matching portal tokens */
+.btn-back {
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    padding: 8px 16px;
+    border: 1px solid rgba(88, 161, 211, 0.35);
+    color: var(--color-powder-blue);
+    background: rgba(5, 36, 130, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all var(--transition-fast);
+}
+
+.btn-back:hover {
+    background: var(--color-blue-gray);
+    color: var(--color-navy-dark);
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 0 12px rgba(179, 222, 248, 0.3);
+}
+
+/* Glassmorphic Form Inputs & Floating Labels */
+.glass-input, 
+.glass-select {
+    background-color: rgba(5, 28, 79, 0.6) !important;
+    border: 1px solid rgba(88, 161, 211, 0.35) !important;
+    color: #ffffff !important;
+    border-radius: 12px !important;
+    transition: all var(--transition-fast);
+}
+
+/* Styling native options dropdown menu */
+.glass-select option {
+    background-color: var(--color-navy-dark);
+    color: #ffffff;
+}
+
+/* Placeholder & Floating Label States */
+.form-floating > label {
+    color: var(--color-blue-gray) !important;
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select ~ label {
+    color: var(--color-powder-blue) !important;
+}
+
+/* Input Focus Glow */
+.glass-input:focus, 
+.glass-select:focus {
+    border-color: var(--color-powder-blue) !important;
+    box-shadow: 0 0 12px rgba(179, 222, 248, 0.35) !important;
+}
+
+/* Form Action Button Overrides */
+.btn-submit {
+    background-color: var(--color-royal-blue);
+    color: #ffffff;
+    border: 1px solid var(--color-blue-gray);
+    border-radius: 12px;
+    padding: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-fast);
+}
+
+.btn-submit:hover {
+    background-color: var(--color-blue-gray);
+    color: var(--color-navy-dark);
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 0 16px rgba(179, 222, 248, 0.5);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   7. CLIENT SELECTION CARDS
+   ========================================================================== */
+
+/* Client Type Selection Cards */
+.client-type-card {
+    background: rgba(5, 28, 79, 0.75);
+    border: 1px solid rgba(88, 161, 211, 0.25);
+    border-radius: var(--radius-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all var(--transition-smooth);
+}
+
+.client-type-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 12px 28px rgba(5, 28, 79, 0.8), 0 0 15px rgba(179, 222, 248, 0.25) !important;
+}
+
+/* Large Icon Container Inside Selection Cards */
+.client-icon-wrapper {
+    width: 85px;
+    height: 85px;
+    background-color: rgba(5, 36, 130, 0.6);
+    border: 1px solid rgba(88, 161, 211, 0.35);
+    border-radius: 50%;
+    margin: 0 auto;
+    transition: all var(--transition-fast);
+}
+
+.client-type-card:hover .client-icon-wrapper {
+    background-color: var(--color-royal-blue);
+    border-color: var(--color-powder-blue);
+    transform: scale(1.05);
+}
+
+/* Card Button Styling */
+.btn-select-type {
+    background: transparent;
+    color: var(--color-powder-blue);
+    border: 1px solid rgba(88, 161, 211, 0.4);
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    padding: 10px 18px;
+    transition: all var(--transition-fast);
+}
+
+.client-type-card:hover .btn-select-type {
+    background-color: var(--color-blue-gray);
+    color: var(--color-navy-dark);
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 0 12px rgba(179, 222, 248, 0.4);
+}

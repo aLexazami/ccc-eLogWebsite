@@ -1,47 +1,95 @@
 <?php
 // kiosk/index.php
-$pageTitle = "Visitor Check-in & Queue";
+$pageTitle = "Select Client Type";
 $pageScript = "/assets/js/kiosk.js";
 
-// Include Header (Loads Bootstrap CSS)
+// Include Header (Loads Bootstrap CSS & styles.css)
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
+<div class="portal-bg py-5">
+    <div class="container">
+        
+        <!-- Navigation Header -->
+        <div class="row mb-4">
+            <div class="col-12 d-flex align-items-center">
+                <a href="javascript:history.back()" class="btn btn-back text-decoration-none">
+                    <i class="bi bi-arrow-left me-1"></i> BACK
+                </a>
+            </div>
+        </div>
+
+        <!-- Page Header Title -->
+        <div class="text-center mb-5">
+            <h1 class="fw-bold display-6 mb-2" style="color: #ffffff;">Select Client Type</h1>
+            <p style="color: var(--color-blue-gray);">Please select the type of client making the transaction.</p>
+        </div>
+
+        <!-- Selection Cards Grid -->
+        <div class="row g-4 justify-content-center">
             
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <h3 class="card-title text-center text-primary mb-3">
-                        <i class="bi bi-person-badge"></i> Visitor E-Log
-                    </h3>
-                    <p class="text-muted text-center mb-4">Fill out the details to get your queue ticket.</p>
-                    
-                    <form id="kioskForm">
-                        <div class="mb-3">
-                            <label for="visitorName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="visitorName" required>
+            <!-- Student Card -->
+            <div class="col-md-4">
+                <div class="card client-type-card h-100 p-4 text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="client-icon-wrapper d-flex align-items-center justify-content-center mb-4">
+                            <i class="bi bi-mortarboard fs-1" style="color: var(--color-powder-blue);"></i>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="purpose" class="form-label">Purpose of Visit</label>
-                            <select class="form-select" id="purpose" required>
-                                <option value="" selected disabled>Select purpose...</option>
-                                <option value="Inquiry">Inquiry</option>
-                                <option value="Billing">Billing</option>
-                                <option value="Technical Support">Technical Support</option>
-                            </select>
+                        <h3 class="fw-bold mb-3" style="color: #ffffff;">Student</h3>
+                        <p class="small mb-4" style="color: var(--color-blue-gray);">
+                            For currently enrolled students who need to inquire, request services, or visit a school office.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="kiosk-form.php?type=student" class="btn btn-select-type w-100 text-uppercase">
+                            SELECT STUDENT <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- School Personnel Card -->
+            <div class="col-md-4">
+                <div class="card client-type-card h-100 p-4 text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="client-icon-wrapper d-flex align-items-center justify-content-center mb-4">
+                            <i class="bi bi-person-badge fs-1" style="color: var(--color-powder-blue);"></i>
                         </div>
-                        
-                        <button type="submit" class="btn btn-primary w-100 py-2">
-                            <i class="bi bi-ticket-perforated"></i> Print / Generate Ticket
-                        </button>
-                    </form>
+                        <h3 class="fw-bold mb-3" style="color: #ffffff;">School Personnel</h3>
+                        <p class="small mb-4" style="color: var(--color-blue-gray);">
+                            For teachers, faculty, staff, administrators, and other school personnel.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="kiosk-form.php?type=personnel" class="btn btn-select-type w-100 text-uppercase">
+                            SELECT PERSONNEL <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guest / Visitor Card -->
+            <div class="col-md-4">
+                <div class="card client-type-card h-100 p-4 text-center d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="client-icon-wrapper d-flex align-items-center justify-content-center mb-4">
+                            <i class="bi bi-person fs-1" style="color: var(--color-powder-blue);"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3" style="color: #ffffff;">Guest / Visitor</h3>
+                        <p class="small mb-4" style="color: var(--color-blue-gray);">
+                            For parents, visitors, applicants, partners, and other individuals from outside the school.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="kiosk-form.php?type=guest" class="btn btn-select-type w-100 text-uppercase">
+                            SELECT GUEST <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
 
         </div>
+
     </div>
 </div>
 
