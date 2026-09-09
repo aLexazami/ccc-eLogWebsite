@@ -6,28 +6,23 @@ if (!defined('APP_INIT')) {
     define('APP_INIT', true);
 }
 
-// 1. Detect protocol (http vs https)
-$isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || ($_SERVER['SERVER_PORT'] ?? 80) == 443;
-$protocol = $isSecure ? "https://" : "http://";
-
-// 2. Detect host (e.g., localhost or domain.com)
-$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-
-// 3. Extract subfolder root dynamically from script execution path
-$scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-$pathSegments = array_values(array_filter(explode('/', $scriptName)));
-
-// If running in a subdirectory (e.g., /ccc-website/index.php), capture the first segment
-$subfolder = (!empty($pathSegments) && count($pathSegments) > 1 && $pathSegments[0] !== 'index.php') 
-    ? '/' . $pathSegments[0] 
-    : '';
-
-// 4. Define global BASE_URL without trailing slash
-if (!defined('BASE_URL')) {
-    define('BASE_URL', $subfolder);
-}
-
-// 5. System Root Absolute Path for PHP Includes
+// 1. Define Absolute System Root Path
 if (!defined('ROOT_PATH')) {
     define('ROOT_PATH', dirname(__DIR__));
+}
+
+// 2. Calculate Base URL dynamically by comparing Document Root to System Root
+if (!defined('BASE_URL')) {
+    // Normalize directory separators for Windows/Linux compatibility
+    $docRoot  = str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT']));
+    $projRoot = str_replace('\\', '/', ROOT_PATH);
+
+    // Extract exact relative path from htdocs to project root
+    $baseDir = str_replace($docRoot, '', $projRoot);
+    
+    // Format leading/trailing slashes correctly
+    $baseUrl = '/' . ltrim($baseDir, '/');
+    $baseUrl = rtrim($baseUrl, '/');
+
+    define('BASE_URL', $baseUrl);
 }
