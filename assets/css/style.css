@@ -76,32 +76,56 @@ html, body {
 /* ==========================================================================
    4. REUSABLE UI COMPONENTS
    ========================================================================== */
-/* Glassmorphism Card Surface */
+
+/* Glassmorphism Card Surface - Smooth Border Hover Variation */
 .custom-card {
     background-color: rgba(5, 28, 79, 0.80);
-    border: 1px solid rgba(88, 161, 211, 0.25);
+    /* Set transparent border initially to prevent layout shift on hover */
+    border: 1px solid transparent !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    /* Include border-color in transition properties */
+    transition: transform var(--transition-fast), 
+                box-shadow var(--transition-fast), 
+                border-color var(--transition-fast);
 }
 
 .custom-card:hover {
     transform: translateY(-6px);
-    border-color: var(--color-powder-blue);
-    box-shadow: 0 1rem 2rem rgba(5, 28, 79, 0.7) !important;
+    /* Add border color highlight on hover */
+    border-color: var(--color-powder-blue) !important;
+    box-shadow: 0 1rem 2.5rem rgba(5, 28, 79, 0.9), 
+                0 0 15px rgba(179, 222, 248, 0.25) !important;
 }
 
-/* Icon Badges */
+.custom-card:hover .icon-badge {
+    background-color: var(--color-royal-blue);
+    border-color: var(--color-powder-blue);
+    transform: scale(1.05);
+}
+
+.custom-card:hover .btn-portal {
+    background-color: var(--color-blue-gray);
+    color: var(--color-navy-dark) !important;
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 0 12px rgba(179, 222, 248, 0.4);
+}
+
+/* Circular Icon Badges */
 .icon-badge {
     width: 75px;
     height: 75px;
     background-color: rgba(5, 36, 130, 0.6);
     border: 1px solid rgba(88, 161, 211, 0.35);
-    border-radius: var(--radius-card);
+    border-radius: 50%; /* Perfect circular geometry */
+    flex-shrink: 0;
+    transition: transform var(--transition-fast), 
+                background-color var(--transition-fast), 
+                border-color var(--transition-fast);
 }
 
 /* ==========================================================================
-   ACTION BUTTONS
+   5. BUTTONS
    ========================================================================== */
 
 .btn-portal {
@@ -148,6 +172,72 @@ html, body {
     box-shadow: 0 0 8px rgba(179, 222, 248, 0.3);
 }
 
+/* Modern Oval Back Button with Left Circular Icon Badge */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    border-radius: 50rem !important; /* Full pill / oval geometry */
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+    padding: 0.35rem 1.25rem 0.35rem 0.35rem; /* Tight left padding to frame circle badge */
+    border: 1px solid rgba(88, 161, 211, 0.35);
+    color: var(--color-powder-blue) !important;
+    background: rgba(5, 36, 130, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background-color var(--transition-fast), 
+                border-color var(--transition-fast), 
+                box-shadow var(--transition-fast), 
+                transform var(--transition-fast);
+}
+
+/* Embedded Circular Icon Badge on the Left */
+.btn-back .btn-back-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%; /* Perfect circular geometry */
+    background-color: rgba(5, 28, 79, 0.75);
+    border: 1.5px solid var(--color-powder-blue);
+    color: var(--color-powder-blue);
+    font-size: 0.95rem;
+    flex-shrink: 0;
+    transition: transform var(--transition-fast), 
+                background-color var(--transition-fast), 
+                color var(--transition-fast);
+}
+
+/* Right Text Label */
+.btn-back .btn-back-label {
+    letter-spacing: 0.4px;
+    padding-right: 0.25rem;
+}
+
+/* Hover & Active States */
+.btn-back:hover,
+.btn-back:focus {
+    background-color: var(--color-blue-gray);
+    color: var(--color-navy-dark) !important;
+    border-color: var(--color-powder-blue);
+    box-shadow: 0 0 14px rgba(179, 222, 248, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-back:hover .btn-back-icon {
+    background-color: var(--color-powder-blue);
+    color: var(--color-navy-dark);
+    transform: translateX(-2px) scale(1.05); /* Shifts arrow left on hover */
+}
+
+.btn-back:active {
+    transform: translateY(0);
+    box-shadow: 0 0 6px rgba(179, 222, 248, 0.25);
+}
+
 /* ==========================================================================
    5. APP TITLE & GLASSMOPHIC CLOCK WIDGET
    ========================================================================== */
@@ -158,14 +248,6 @@ html, body {
     font-weight: 700 !important;
     color: #ffffff !important;
     letter-spacing: -0.5px;
-    
-    /* Reduced alpha channels and tighter blur radii for softer light emission */
-    text-shadow: 
-        0 0 6px rgba(255, 255, 255, 0.4),
-        0 0 12px rgba(179, 222, 248, 0.3),
-        0 0 20px rgba(5, 36, 130, 0.25);
-    
-    transition: text-shadow var(--transition-fast);
 }
 
 .modern-clock-card {
@@ -179,63 +261,50 @@ html, body {
     transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
-
-/* Monospaced Digital Clock Display using Courier New */
+/* Monospaced Digital Clock Display - Scaled for High Mobile Impact */
 .clock-time {
     font-family: 'Courier New', Courier, monospace;
-    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-size: clamp(2.75rem, 8vw, 3.75rem);
     font-weight: 700;
     line-height: 1;
     color: #ffffff;
-    letter-spacing: -1px;
+    letter-spacing: -1.5px;
     text-shadow: 0 0 20px rgba(179, 222, 248, 0.4);
 }
 
 .clock-period {
     font-family: 'Courier New', Courier, monospace;
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-size: clamp(1.1rem, 3vw, 1.35rem);
     color: var(--color-powder-blue);
     letter-spacing: 0px;
 }
 
 .clock-date {
-    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
     color: var(--color-blue-gray);
     letter-spacing: 0.5px;
 }
 
+/* Mobile Viewport Responsiveness Optimization */
 @media (max-width: 576px) {
     .modern-clock-card {
         max-width: 100%;
-        padding: 0.85rem 1rem !important;
+        padding: 0.75rem 0.5rem !important; /* Reduced horizontal padding to prevent layout overflow */
+    }
+
+    .clock-time {
+        font-size: clamp(4.5rem, 9vw, 3.25rem); /* Tailored font scaling for narrow phone displays */
+        letter-spacing: -2px; /* Tighter letter spacing for Courier New on mobile */
+    }
+
+    .clock-period {
+        font-size: 2.15rem;
     }
 }
 
 /* ==========================================================================
-   6. KIOSK FORM & NAVIGATION STYLES
+   6. LOGBOOK FORM & NAVIGATION STYLES
    ========================================================================== */
-
-/* Modern Back Button matching portal tokens */
-.btn-back {
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    padding: 8px 16px;
-    border: 1px solid rgba(88, 161, 211, 0.35);
-    color: var(--color-powder-blue);
-    background: rgba(5, 36, 130, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: all var(--transition-fast);
-}
-
-.btn-back:hover {
-    background: var(--color-blue-gray);
-    color: var(--color-navy-dark);
-    border-color: var(--color-powder-blue);
-    box-shadow: 0 0 12px rgba(179, 222, 248, 0.3);
-}
 
 /* Glassmorphic Form Inputs & Floating Labels */
 .glass-input, 
@@ -291,62 +360,7 @@ html, body {
     transform: translateY(-1px);
 }
 
-/* ==========================================================================
-   7. CLIENT SELECTION CARDS
-   ========================================================================== */
 
-/* Client Type Selection Cards */
-.client-type-card {
-    background: rgba(5, 28, 79, 0.75);
-    border: 1px solid rgba(88, 161, 211, 0.25);
-    border-radius: var(--radius-card);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transition: all var(--transition-smooth);
-}
-
-.client-type-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--color-powder-blue);
-    box-shadow: 0 12px 28px rgba(5, 28, 79, 0.8), 0 0 15px rgba(179, 222, 248, 0.25) !important;
-}
-
-/* Large Icon Container Inside Selection Cards */
-.client-icon-wrapper {
-    width: 85px;
-    height: 85px;
-    background-color: rgba(5, 36, 130, 0.6);
-    border: 1px solid rgba(88, 161, 211, 0.35);
-    border-radius: 50%;
-    margin: 0 auto;
-    transition: all var(--transition-fast);
-}
-
-.client-type-card:hover .client-icon-wrapper {
-    background-color: var(--color-royal-blue);
-    border-color: var(--color-powder-blue);
-    transform: scale(1.05);
-}
-
-/* Card Button Styling */
-.btn-select-type {
-    background: transparent;
-    color: var(--color-powder-blue);
-    border: 1px solid rgba(88, 161, 211, 0.4);
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    padding: 10px 18px;
-    transition: all var(--transition-fast);
-}
-
-.client-type-card:hover .btn-select-type {
-    background-color: var(--color-blue-gray);
-    color: var(--color-navy-dark);
-    border-color: var(--color-powder-blue);
-    box-shadow: 0 0 12px rgba(179, 222, 248, 0.4);
-}
 
 /* ==========================================================================
    8. FORM COMPONENTS & GLASS INPUTS
