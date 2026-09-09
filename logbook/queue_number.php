@@ -20,72 +20,150 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Generate queue ticket prefix & number if not generated yet
 if (!isset($_SESSION['queue_number'])) {
     $deptCode = $_SESSION['dept_code'] ?? 'REG'; 
-    $prefix = strtoupper(substr($deptCode, 0, 1)); // First letter (e.g., 'R' for Registrar)
+    $prefix = strtoupper(substr($deptCode, 0, 1)); 
     $sequence = str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT); 
     $_SESSION['queue_number'] = $prefix . '-' . $sequence;
+    $_SESSION['issued_at'] = date('Y-m-d h:i A');
 }
 
 $deptName = $_SESSION['dept_name'] ?? 'Registrar';
 $queueNumber = $_SESSION['queue_number'];
-$transactionTitle = $_SESSION['transaction_title'] ?? 'Request Transcript';
+$transactionTitle = $_SESSION['transaction_title'] ?? 'General Inquiry';
+$issuedAt = $_SESSION['issued_at'] ?? date('Y-m-d h:i A');
 
-$pageTitle = "Your Queue Number";
+// Data string to encode inside the QR code (e.g., ticket verification data)
+$qrData = "Ticket: " . $queueNumber . " | Dept: " . $deptName . " | Trans: " . $transactionTitle;
+
+$pageTitle = "Your Queue Ticket";
 $pageScript = "/assets/js/kiosk.js";
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
+<!-- HTML2PDF Library & QRCodeJS CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+/* Receipt Container Styling */
+.receipt-card {
+    background: #ffffff !important;
+    color: #111111 !important;
+    border-radius: 6px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border-top: 6px solid var(--color-classic-blue, #052482);
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+}
+
+.receipt-dashed-line {
+    border-top: 2px dashed #888888;
+    margin: 1.25rem 0;
+}
+
+/* Center QR Code Wrapper */
+#qrcode img {
+    margin: 0 auto;
+}
+</style>
+
 <div class="portal-bg py-5">
     <div class="container d-flex flex-column align-items-center">
         
         <!-- Navigation Header -->
-        <div class="w-100 mb-4" style="max-width: 650px;">
+        <div class="w-100 mb-4 d-flex justify-content-between align-items-center" style="max-width: 380px;">
             <a href="select_inquiry.php" class="btn btn-back text-decoration-none">
-                <i class="bi bi-arrow-left me-1"></i> Back to Inquiries
+                <i class="bi bi-arrow-left me-1"></i> Back
             </a>
         </div>
 
-        <!-- Queue Ticket Display Card -->
-        <div class="card ticket-display-card text-center p-4 p-md-5 w-100" style="max-width: 650px;">
-            <h1 class="display-6 fw-bold text-white mb-1">Your Queue Number</h1>
-            <p class="mb-4" style="color: var(--color-blue-gray);">Please wait for your number to be called.</p>
-
-            <!-- Department Section -->
-            <div class="ticket-dept-badge mx-auto mb-4 p-3 w-100">
-                <span class="text-uppercase small fw-semibold tracking-wider d-block mb-1" style="color: var(--color-blue-gray); opacity: 0.85;">DEPARTMENT</span>
-                <h3 class="fw-bold text-white mb-0"><?= htmlspecialchars($deptName) ?></h3>
+        <!-- TARGET AREA FOR PDF GENERATION -->
+        <div id="receipt-ticket" class="receipt-card text-center p-4">
+            <!-- Header -->
+            <div class="mb-2">
+                <h3 class="fw-black text-uppercase tracking-wider mb-0" style="letter-spacing: 1.5px; color: #000;">eSkueLog</h3>
+                <small class="text-muted text-uppercase fw-semibold" style="font-size: 0.72rem;">Official Queue Ticket</small>
             </div>
 
-            <!-- Queue Number Display -->
-            <div class="my-3">
-                <span class="text-uppercase small fw-semibold tracking-wider d-block mb-1" style="color: var(--color-blue-gray); opacity: 0.85;">QUEUE NUMBER</span>
-                <h1 class="ticket-queue-number display-1 fw-bolder my-0"><?= htmlspecialchars($queueNumber) ?></h1>
+            <div class="receipt-dashed-line"></div>
+
+            <!-- Queue Number -->
+            <div class="my-2">
+                <span class="text-uppercase small fw-bold text-muted d-block mb-1" style="font-size: 0.75rem;">Queue Number</span>
+                <h1 class="fw-bolder my-0 text-dark" style="font-size: 3.5rem; line-height: 1;"><?= htmlspecialchars($queueNumber) ?></h1>
             </div>
 
-            <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.2);">
+            <div class="receipt-dashed-line"></div>
 
-            <!-- Transaction Title Display -->
-            <div class="mb-4">
-                <span class="text-uppercase small fw-semibold tracking-wider d-block mb-1" style="color: var(--color-blue-gray); opacity: 0.85;">TRANSACTION</span>
-                <h5 class="fw-bold text-white mb-0"><?= htmlspecialchars($transactionTitle) ?></h5>
+            <!-- Ticket Details -->
+            <div class="text-start fs-6 my-2" style="font-size: 0.85rem;">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-semibold text-muted">Department:</span>
+                    <span class="fw-bold text-dark text-end"><?= htmlspecialchars($deptName) ?></span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-semibold text-muted">Transaction:</span>
+                    <span class="fw-bold text-dark text-end"><?= htmlspecialchars($transactionTitle) ?></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span class="fw-semibold text-muted">Issued Date:</span>
+                    <span class="fw-bold text-dark text-end"><?= htmlspecialchars($issuedAt) ?></span>
+                </div>
             </div>
 
-            <!-- Done / Reset Button -->
-            <div class="mt-2">
-                <a href="reset_session.php" class="btn btn-submit-action px-5 py-2 fs-5 text-decoration-none">
-                    Done / Next
-                </a>
+            <div class="receipt-dashed-line"></div>
+
+            <!-- QR Code Section -->
+            <div class="my-3 d-flex flex-column align-items-center">
+                <div id="qrcode" class="mb-2"></div>
+                <small class="text-muted" style="font-size: 0.65rem; letter-spacing: 0.5px;">Scan to verify ticket</small>
             </div>
+
+            <!-- Receipt Footer -->
+            <p class="small text-muted mb-0" style="font-size: 0.7rem;">Please keep this slip and wait for your ticket to be called.</p>
+        </div>
+
+        <!-- Action Control Buttons -->
+        <div class="mt-4 d-flex gap-2 w-100 justify-content-center" style="max-width: 380px;">
+            <button onclick="downloadPDF()" class="btn btn-outline-light px-3 py-2 fw-semibold">
+                <i class="bi bi-file-earmark-pdf me-2"></i>Download PDF
+            </button>
+            <a href="reset_session.php" class="btn btn-submit-action px-4 py-2 fw-semibold text-decoration-none">
+                Done / Next
+            </a>
         </div>
 
     </div>
 </div>
 
-<!-- Auto-redirects to reset_session.php after 15 seconds of idle time -->
 <script>
-    setTimeout(function() {
-        window.location.href = "reset_session.php";
-    }, 15000);
+    // Automatically generate QR Code on page load
+    window.addEventListener('DOMContentLoaded', (event) => {
+        new QRCode(document.getElementById("qrcode"), {
+            text: "<?= htmlspecialchars($qrData) ?>",
+            width: 90,
+            height: 90,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.M
+        });
+    });
+
+    // Function to generate and download PDF containing the QR code
+    function downloadPDF() {
+        const element = document.getElementById('receipt-ticket');
+        const opt = {
+            margin:       0.2,
+            filename:     'Queue_Ticket_<?= htmlspecialchars($queueNumber) ?>.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'in', format: [4, 6], orientation: 'portrait' } 
+        };
+
+        html2pdf().set(opt).from(element).save();
+    }
+
 </script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

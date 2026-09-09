@@ -640,16 +640,12 @@ select.custom-glass-control option {
    ========================================================================== */
 
 /* Lock Viewport Constraints */
-html, body {
+body.live-queue-page {
     height: 100vh !important;
     width: 100vw !important;
     max-height: 100vh !important;
     max-width: 100vw !important;
     overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background-color: var(--color-navy-dark) !important;
-    color: #ffffff;
 }
 
 /* Outer Shell */
@@ -685,7 +681,8 @@ html, body {
     flex: 2;
 }
 
-.app-title {
+/* Scope exclusively to the top header row */
+.top-header-row .app-title {
     color: var(--color-powder-blue) !important;
     font-weight: 700;
     font-size: 1.5rem;
