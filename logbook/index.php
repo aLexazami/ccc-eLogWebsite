@@ -3,7 +3,7 @@
 $pageTitle = "Select Client Type";
 $pageScript = "/assets/js/kiosk.js";
 
-// Include Header (Loads Bootstrap CSS & styles.css)
+// Include Header
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
@@ -41,7 +41,7 @@ require_once __DIR__ . '/../includes/header.php';
                         </p>
                     </div>
                     <div>
-                        <a href="kiosk-form.php?type=student" class="btn btn-select-type w-100 text-uppercase">
+                        <a href="student_info.php" class="btn btn-select-type w-100 text-uppercase">
                             SELECT STUDENT <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -61,7 +61,7 @@ require_once __DIR__ . '/../includes/header.php';
                         </p>
                     </div>
                     <div>
-                        <a href="kiosk-form.php?type=personnel" class="btn btn-select-type w-100 text-uppercase">
+                        <a href="personnel_info.php" class="btn btn-select-type w-100 text-uppercase">
                             SELECT PERSONNEL <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -81,7 +81,7 @@ require_once __DIR__ . '/../includes/header.php';
                         </p>
                     </div>
                     <div>
-                        <a href="kiosk-form.php?type=guest" class="btn btn-select-type w-100 text-uppercase">
+                        <a href="guest_info.php" class="btn btn-select-type w-100 text-uppercase">
                             SELECT GUEST <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -89,11 +89,7 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
 
         </div>
-
     </div>
 </div>
 
-<?php
-// Include Footer (Loads Bootstrap JS)
-require_once __DIR__ . '/../includes/footer.php';
-?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>
