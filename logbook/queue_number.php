@@ -70,14 +70,6 @@ require_once __DIR__ . '/../includes/header.php';
 
 <div class="portal-bg py-5">
     <div class="container d-flex flex-column align-items-center">
-        
-        <!-- Navigation Header -->
-        <div class="w-100 mb-4 d-flex justify-content-between align-items-center" style="max-width: 380px;">
-            <a href="select_inquiry.php" class="btn btn-back text-decoration-none">
-                <i class="bi bi-arrow-left me-1"></i> Back
-            </a>
-        </div>
-
         <!-- TARGET AREA FOR PDF GENERATION -->
         <div id="receipt-ticket" class="receipt-card text-center p-4">
             <!-- Header -->
