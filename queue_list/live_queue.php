@@ -248,7 +248,7 @@ function speakNowCalling(ticketNumber, officeName) {
     .map(char => (char === '-' ? ' ' : char))
     .join(', ');
 
-  const announcement = `Number ${spokenTicket}, please proceed to ${officeName}.`;
+  const announcement = `Now Calling, ${spokenTicket}, please proceed to ${officeName}.`;
 
   const utterance = new SpeechSynthesisUtterance(announcement);
   utterance.rate = 0.88;
