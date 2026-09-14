@@ -6,33 +6,36 @@ $pageScript = "/assets/js/kiosk.js";
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="portal-bg py-5">
-    <div class="container">
+<div class="portal-bg py-5 min-vh-100">
+    <div class="container py-2">
         
-        <!-- Navigation Header -->
+        <!-- NAVIGATION HEADER -->
         <div class="row mb-4">
             <div class="col-12 col-lg-8 mx-auto d-flex align-items-center">
                 <a href="index.php" class="btn btn-back text-decoration-none">
-                    <i class="bi bi-arrow-left me-1"></i> BACK
+                    <span class="btn-back-icon">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    </span>
+                    <span>BACK</span>
                 </a>
             </div>
         </div>
 
-        <!-- Main Form Card Container -->
+        <!-- MAIN FORM CARD CONTAINER -->
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
-                <div class="card custom-card p-4 p-md-5 rounded-4">
+                <div class="card custom-card p-4 p-md-5">
                     
-                    <!-- Top Category Badge & Title -->
-                    <div class="mb-4">
+                    <!-- TOP CATEGORY BADGE & TITLE -->
+                    <div class="mb-4 text-center text-md-start">
                         <span class="category-badge mb-3">STUDENT</span>
-                        <h1 class="fw-bold mb-2" style="color: #ffffff;">Student Information</h1>
-                        <p class="mb-0" style="color: var(--color-blue-gray);">
+                        <h1 class="fw-black mb-2" style="color: var(--color-text-primary);">Student Information</h1>
+                        <p class="mb-0 fw-semibold" style="color: var(--color-text-secondary);">
                             Please provide your personal information before proceeding to office selection.
                         </p>
                     </div>
 
-                    <!-- Form -->
+                    <!-- FORM -->
                     <form id="kioskForm" action="dept_select.php" method="POST" novalidate>
                         <input type="hidden" name="client_type" value="student">
 
@@ -73,18 +76,20 @@ require_once __DIR__ . '/../includes/header.php';
                             <input type="tel" class="form-control custom-glass-control" id="contactNumber" name="contact_number" placeholder="09XXXXXXXXX" required>
                         </div>
 
+                        <!-- CONSENT BOX -->
                         <div class="consent-card-box mb-4">
                             <div class="form-check d-flex align-items-start gap-2">
                                 <input class="form-check-input mt-1" type="checkbox" id="dataConsent" name="data_consent" required>
                                 <label class="form-check-label" for="dataConsent">
                                     I authorize the school to collect and use the information I have provided for 
-                                    <strong class="text-white">school-related services, queue management, and record-keeping purposes</strong>. <span class="text-danger">*</span>
+                                    <strong style="color: var(--color-text-primary);">school-related services, queue management, and record-keeping purposes</strong>. <span class="text-danger">*</span>
                                 </label>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-submit-action w-100">
-                            Continue to Office Selection <i class="bi bi-arrow-right ms-1"></i>
+                        <button type="submit" class="btn btn-submit-action w-100 py-3">
+                            <span>Continue to Office Selection</span>
+                            <i class="bi bi-arrow-right ms-2" aria-hidden="true"></i>
                         </button>
                     </form>
 

@@ -11,6 +11,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Determine previous step safely for explicit Back navigation
+$clientType = $_SESSION['client_type'] ?? 'student';
+$backUrl = 'student_info.php';
+if ($clientType === 'personnel') {
+    $backUrl = 'personnel_info.php';
+} elseif ($clientType === 'guest') {
+    $backUrl = 'guest_info.php';
+}
+
 $pageTitle = "Select Department";
 $pageScript = "/assets/js/kiosk.js";
 
@@ -39,14 +48,17 @@ $departments = [
 ];
 ?>
 
-<div class="portal-bg py-5">
-    <div class="container">
+<div class="portal-bg py-5 min-vh-100">
+    <div class="container py-2">
         
         <!-- Navigation Header -->
         <div class="row mb-4">
             <div class="col-12 d-flex align-items-center justify-content-between">
-                <a href="javascript:history.back()" class="btn btn-back text-decoration-none">
-                    <i class="bi bi-arrow-left me-1"></i> BACK
+                <a href="<?= htmlspecialchars($backUrl) ?>" class="btn btn-back text-decoration-none">
+                    <span class="btn-back-icon">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    </span>
+                    <span>BACK</span>
                 </a>
             </div>
         </div>
@@ -54,14 +66,14 @@ $departments = [
         <!-- Section Title & Search -->
         <div class="row mb-4 align-items-center">
             <div class="col-md-6 mb-3 mb-md-0">
-                <h1 class="fw-bold display-6 mb-1" style="color: #ffffff;">Select Office / Department</h1>
-                <p class="mb-0" style="color: var(--color-blue-gray);">Choose the office or department you need to visit.</p>
+                <h1 class="fw-black display-6 mb-1" style="color: var(--color-text-primary);">Select Office / Department</h1>
+                <p class="mb-0 fw-semibold" style="color: var(--color-text-secondary);">Choose the office or department you need to visit.</p>
             </div>
             
             <!-- Real-time Search Bar -->
             <div class="col-md-6">
                 <div class="position-relative">
-                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3" style="color: var(--color-text-muted);"></i>
                     <input type="text" id="deptSearch" class="form-control custom-glass-control ps-5" placeholder="Search office or department name...">
                 </div>
             </div>
@@ -88,7 +100,7 @@ $departments = [
                         <div class="dept-icon-box mb-3">
                             <i class="bi <?= htmlspecialchars($dept['icon']) ?> fs-2"></i>
                         </div>
-                        <h6 class="fw-bold text-white mb-1 dept-title"><?= htmlspecialchars($dept['name']) ?></h6>
+                        <h6 class="fw-bold mb-1 dept-title" style="color: var(--color-text-primary);"><?= htmlspecialchars($dept['name']) ?></h6>
                         <span class="dept-code-badge"><?= htmlspecialchars($dept['code']) ?></span>
                     </a>
                 </div>
@@ -97,9 +109,9 @@ $departments = [
 
         <!-- No Results Found State -->
         <div id="noResults" class="text-center py-5 d-none">
-            <i class="bi bi-search fs-1 text-muted mb-2 d-block"></i>
-            <h5 class="text-white">No matching offices found</h5>
-            <p style="color: var(--color-blue-gray);">Try searching for a different keyword or select another category.</p>
+            <i class="bi bi-search fs-1 mb-2 d-block" style="color: var(--color-text-muted);"></i>
+            <h5 class="fw-bold" style="color: var(--color-text-primary);">No matching offices found</h5>
+            <p class="fw-semibold" style="color: var(--color-text-secondary);">Try searching for a different keyword or select another category.</p>
         </div>
 
     </div>

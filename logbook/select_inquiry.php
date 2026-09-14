@@ -50,14 +50,17 @@ $pageScript = "/assets/js/kiosk.js";
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="portal-bg py-5">
-    <div class="container">
+<div class="portal-bg py-5 min-vh-100">
+    <div class="container py-2">
         
         <!-- Navigation Header -->
         <div class="row mb-4">
             <div class="col-12 d-flex align-items-center">
                 <a href="dept_select.php" class="btn btn-back text-decoration-none">
-                    <i class="bi bi-arrow-left me-1"></i> BACK
+                    <span class="btn-back-icon">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    </span>
+                    <span>BACK</span>
                 </a>
             </div>
         </div>
@@ -71,8 +74,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <i class="bi <?= htmlspecialchars($currentDept['icon']) ?> fs-2"></i>
                         </div>
                         <div>
-                            <h2 class="fw-bold mb-1 text-white"><?= htmlspecialchars($currentDept['name']) ?></h2>
-                            <p class="mb-0" style="color: var(--color-blue-gray);">Select the type of transaction you need.</p>
+                            <h2 class="fw-black mb-1" style="color: var(--color-text-primary);"><?= htmlspecialchars($currentDept['name']) ?></h2>
+                            <p class="mb-0 fw-semibold" style="color: var(--color-text-secondary);">Select the type of transaction you need.</p>
                         </div>
                     </div>
                 </div>
@@ -81,8 +84,8 @@ require_once __DIR__ . '/../includes/header.php';
 
         <!-- Section Title -->
         <div class="mb-4">
-            <h3 class="fw-bold mb-1" style="color: #ffffff;">Select Transaction</h3>
-            <p class="mb-0" style="color: var(--color-blue-gray);">Choose the transaction that best matches your request.</p>
+            <h3 class="fw-black mb-1" style="color: var(--color-text-primary);">Select Transaction</h3>
+            <p class="mb-0 fw-semibold" style="color: var(--color-text-secondary);">Choose the transaction that best matches your request.</p>
         </div>
 
         <!-- Transaction Options Grid -->
@@ -98,7 +101,7 @@ require_once __DIR__ . '/../includes/header.php';
                                     <i class="bi bi-file-text fs-4"></i>
                                 </div>
                                 <div>
-                                    <h5 class="fw-bold text-white mb-1"><?= htmlspecialchars($tx['title']) ?></h5>
+                                    <h5 class="fw-bold mb-1" style="color: var(--color-text-primary);"><?= htmlspecialchars($tx['title']) ?></h5>
                                     <p class="small mb-0 text-muted-custom"><?= htmlspecialchars($tx['desc']) ?></p>
                                 </div>
                             </div>
@@ -117,17 +120,16 @@ require_once __DIR__ . '/../includes/header.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content custom-card border-0">
             <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title text-white fw-bold" id="modalTransactionTitle">Additional Information</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title fw-bold" id="modalTransactionTitle" style="color: var(--color-text-primary);">Additional Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
-            <!-- TARGET UPDATED TO queue_number.php DIRECTLY -->
             <form action="queue_number.php" method="POST">
                 <div class="modal-body py-4">
                     <input type="hidden" name="transaction_id" id="modalTxId">
                     <input type="hidden" name="transaction_title" id="modalTxTitleInput">
                     
-                    <p class="small mb-3" style="color: var(--color-blue-gray);">
+                    <p class="small mb-3 fw-semibold" style="color: var(--color-text-secondary);">
                         You may provide specific details or concerns about your transaction (Optional).
                     </p>
 
@@ -142,11 +144,12 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
                 
                 <div class="modal-footer border-0 pt-0 d-flex gap-2">
-                    <button type="submit" class="btn btn-outline-light rounded-3 px-3 py-2 text-decoration-none">
+                    <button type="submit" class="btn btn-outline-secondary rounded-3 px-3 py-2 text-decoration-none fw-semibold">
                         Skip & Proceed
                     </button>
                     <button type="submit" class="btn btn-submit-action flex-grow-1">
-                        Submit & Continue <i class="bi bi-arrow-right ms-1"></i>
+                        <span>Submit & Continue</span>
+                        <i class="bi bi-arrow-right ms-1"></i>
                     </button>
                 </div>
             </form>

@@ -199,45 +199,47 @@ html, body {
     box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
 }
 
-/* Modern Oval Back Button */
 .btn-back {
     display: inline-flex;
     align-items: center;
-    gap: 0.65rem;
-    border-radius: 50rem !important;
+    gap: 0.5rem;
+    background: rgba(0, 82, 204, 0.1);
+    color: var(--color-royal-blue, #0052CC) !important;
+    border: 1.5px solid rgba(0, 82, 204, 0.25);
+    border-radius: 30px;
+    padding: 0.4rem 1rem 0.4rem 0.5rem;
     font-weight: 700;
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     letter-spacing: 0.5px;
-    padding: 0.35rem 1.25rem 0.35rem 0.35rem;
-    border: 1.5px solid rgba(255, 255, 255, 0.9);
-    color: var(--color-text-primary) !important;
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transition: all var(--transition-fast);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all var(--transition-fast, 0.2s ease);
 }
 
-.btn-back .btn-back-icon {
+.btn-back-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-royal-blue, #0052CC);
+    color: #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: #0284c7;
-    color: #ffffff;
-    font-size: 0.95rem;
-    flex-shrink: 0;
-    transition: transform var(--transition-fast);
+    font-size: 0.9rem;
+    transition: all var(--transition-fast, 0.2s ease);
 }
 
 .btn-back:hover {
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);
+    background: var(--color-royal-blue, #0052CC);
+    color: #FFFFFF !important;
+    border-color: var(--color-royal-blue, #0052CC);
+    box-shadow: 0 4px 14px rgba(0, 82, 204, 0.35);
+    transform: translateX(-3px);
 }
 
 .btn-back:hover .btn-back-icon {
-    transform: translateX(-2px);
+    background: #FFFFFF;
+    color: var(--color-royal-blue, #0052CC);
 }
 
 /* ==========================================================================
@@ -347,146 +349,153 @@ html, body {
 }
 
 /* ==========================================================================
-   8. FORM COMPONENTS & GLASS INPUTS
+   8. FORM COMPONENTS & GLASS INPUTS (BRIGHT DIAMOND GLASS)
    ========================================================================== */
 
 /* Type Category Badge */
 .category-badge {
     display: inline-block;
-    background-color: rgba(5, 36, 130, 0.6);
-    color: var(--color-powder-blue);
-    border: 1px solid rgba(88, 161, 211, 0.35);
-    border-radius: 6px;
+    background: rgba(0, 82, 204, 0.1);
+    color: var(--color-royal-blue, #0052CC);
+    border: 1px solid rgba(0, 82, 204, 0.25);
+    border-radius: 8px;
     padding: 0.35rem 0.85rem;
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 0.8px;
     text-transform: uppercase;
 }
 
-/* Custom Form Controls */
+/* Custom Form Labels */
 .form-label-custom {
-    color: #ffffff;
-    font-weight: 600;
+    color: var(--color-text-primary, #0A192F);
+    font-weight: 700;
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
 }
 
 .form-label-custom .text-danger {
-    color: var(--color-powder-blue) !important;
+    color: #D32F2F !important;
 }
 
+/* Bright Glass Input Controls */
 .custom-glass-control {
-    background-color: rgba(5, 28, 79, 0.6) !important;
-    border: 1px solid rgba(88, 161, 211, 0.3) !important;
-    color: #ffffff !important;
-    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.75) !important;
+    border: 1.5px solid rgba(0, 82, 204, 0.18) !important;
+    color: var(--color-text-primary, #0A192F) !important;
+    border-radius: 12px !important;
     padding: 0.75rem 1rem !important;
     font-size: 0.95rem;
-    transition: all var(--transition-fast);
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all var(--transition-fast, 0.2s ease);
 }
 
 .custom-glass-control::placeholder {
-    color: var(--color-blue-gray);
-    opacity: 0.7;
+    color: var(--color-text-muted, #64748B);
+    opacity: 0.8;
 }
 
 .custom-glass-control:focus {
-    border-color: var(--color-powder-blue) !important;
-    box-shadow: 0 0 12px rgba(179, 222, 248, 0.35) !important;
-    background-color: rgba(5, 28, 79, 0.8) !important;
+    border-color: var(--color-royal-blue, #0052CC) !important;
+    box-shadow: 0 0 0 4px rgba(0, 82, 204, 0.15) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    outline: none;
 }
 
-/* Custom Select Dropdown Options */
+/* Custom Select Dropdown Options (High Contrast Fix) */
 select.custom-glass-control option {
-    background-color: var(--color-navy-dark);
-    color: #ffffff;
+    background-color: #FFFFFF !important;
+    color: var(--color-text-primary, #0A192F) !important;
 }
 
 /* Consent Box Surface */
 .consent-card-box {
-    background: rgba(5, 36, 130, 0.35);
-    border: 1px solid rgba(88, 161, 211, 0.25);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 14px;
     padding: 1.25rem;
+    box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.5);
 }
 
 .consent-card-box .form-check-input {
-    background-color: rgba(5, 28, 79, 0.8);
-    border-color: var(--color-blue-gray);
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1.5px solid rgba(0, 82, 204, 0.3);
     cursor: pointer;
-    width: 1.15em;
-    height: 1.15em;
+    width: 1.2em;
+    height: 1.2em;
     margin-top: 0.15em;
+    border-radius: 4px;
 }
 
 .consent-card-box .form-check-input:checked {
-    background-color: var(--color-powder-blue);
-    border-color: var(--color-powder-blue);
+    background-color: var(--color-royal-blue, #0052CC);
+    border-color: var(--color-royal-blue, #0052CC);
 }
 
 .consent-card-box .form-check-label {
-    color: var(--color-blue-gray);
-    font-size: 0.85rem;
+    color: var(--color-text-secondary, #334155);
+    font-size: 0.875rem;
     line-height: 1.5;
+    font-weight: 500;
     cursor: pointer;
 }
 
 /* Primary Form Action Button */
 .btn-submit-action {
-    background-color: var(--color-royal-blue);
-    color: #ffffff;
-    border: 1px solid var(--color-blue-gray);
+    background: linear-gradient(135deg, #0052CC 0%, #003999 100%);
+    color: #FFFFFF;
+    border: none;
     border-radius: 12px;
-    padding: 0.9rem;
-    font-weight: 600;
+    padding: 0.9rem 1.5rem;
+    font-weight: 700;
     letter-spacing: 0.5px;
-    transition: all var(--transition-fast);
+    box-shadow: 0 4px 14px rgba(0, 82, 204, 0.35);
+    transition: all var(--transition-fast, 0.2s ease);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-submit-action:hover {
-    background-color: var(--color-blue-gray);
-    color: var(--color-navy-dark);
-    border-color: var(--color-powder-blue);
-    box-shadow: 0 0 16px rgba(179, 222, 248, 0.5);
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, #0066FF 0%, #0044CC 100%);
+    color: #FFFFFF;
+    box-shadow: 0 6px 20px rgba(0, 82, 204, 0.45);
+    transform: translateY(-2px);
 }
 
-/* Glassmorphic Form Main Container Card */
+/* Glassmorphic Main Container Card */
 .custom-card {
-    background: rgba(5, 28, 79, 0.75);
-    border: 1px solid rgba(88, 161, 211, 0.25);
-    border-radius: var(--radius-card, 16px);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: var(--radius-card, 20px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 16px 40px rgba(0, 82, 204, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-/* Ensure Option Dropdown Contrast across all browsers */
-.custom-glass-control option {
-    background-color: var(--color-navy-dark, #051c4f) !important;
-    color: #ffffff !important;
-}
 
 /* ==========================================================================
-   9. DEPARTMENT SELECTION GRID & FILTERS
+   9. DEPARTMENT SELECTION GRID & FILTERS (BRIGHT DIAMOND GLASS)
    ========================================================================== */
 
 /* Department Selection Cards */
 .dept-card {
-    background: rgba(5, 28, 79, 0.6);
-    border: 1px solid rgba(88, 161, 211, 0.25);
-    border-radius: 14px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 24px rgba(0, 82, 204, 0.06);
     transition: all var(--transition-fast, 0.2s ease);
 }
 
 .dept-card:hover {
     transform: translateY(-4px);
-    border-color: var(--color-powder-blue, #b3def8);
-    background: rgba(5, 36, 130, 0.6);
-    box-shadow: 0 8px 20px rgba(5, 28, 79, 0.6), 0 0 12px rgba(179, 222, 248, 0.2);
+    border-color: rgba(0, 82, 204, 0.3);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 12px 30px rgba(0, 82, 204, 0.15);
 }
 
 /* Circle Icon Container Inside Cards */
@@ -494,9 +503,9 @@ select.custom-glass-control option {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: rgba(5, 36, 130, 0.5);
-    border: 1px solid rgba(88, 161, 211, 0.3);
-    color: var(--color-powder-blue, #b3def8);
+    background: rgba(0, 82, 204, 0.08);
+    border: 1px solid rgba(0, 82, 204, 0.15);
+    color: var(--color-royal-blue, #0052CC);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -504,91 +513,99 @@ select.custom-glass-control option {
 }
 
 .dept-card:hover .dept-icon-box {
-    background: var(--color-royal-blue, #1040a3);
+    background: var(--color-royal-blue, #0052CC);
+    color: #FFFFFF;
     transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.3);
 }
 
 /* Small Code Badge (REG, AC, etc.) */
 .dept-code-badge {
     font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--color-powder-blue, #b3def8);
-    background-color: rgba(5, 36, 130, 0.8);
-    padding: 2px 8px;
+    font-weight: 800;
+    color: var(--color-royal-blue, #0052CC);
+    background-color: rgba(0, 82, 204, 0.1);
+    padding: 3px 10px;
     border-radius: 6px;
-    border: 1px solid rgba(88, 161, 211, 0.3);
+    border: 1px solid rgba(0, 82, 204, 0.2);
 }
 
 /* Category Filter Pills */
 .btn-filter {
-    background: rgba(5, 36, 130, 0.4);
-    border: 1px solid rgba(88, 161, 211, 0.3);
-    color: var(--color-blue-gray, #8b949e);
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(0, 82, 204, 0.15);
+    color: var(--color-text-secondary, #334155);
     border-radius: 30px;
-    padding: 0.4rem 1.2rem;
+    padding: 0.45rem 1.25rem;
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 700;
     white-space: nowrap;
+    backdrop-filter: blur(8px);
     transition: all var(--transition-fast, 0.2s ease);
 }
 
 .btn-filter:hover {
-    color: #ffffff;
-    border-color: var(--color-powder-blue, #b3def8);
+    color: var(--color-royal-blue, #0052CC);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 82, 204, 0.3);
 }
 
 .btn-filter.active {
-    background: var(--color-royal-blue, #1040a3);
-    color: #ffffff;
-    border-color: var(--color-powder-blue, #b3def8);
-    box-shadow: 0 0 10px rgba(179, 222, 248, 0.3);
+    background: var(--color-royal-blue, #0052CC);
+    color: #FFFFFF;
+    border-color: var(--color-royal-blue, #0052CC);
+    box-shadow: 0 4px 14px rgba(0, 82, 204, 0.35);
 }
 
+
 /* ==========================================================================
-   10. TRANSACTION & INQUIRY SELECTION STYLES
+   10. TRANSACTION & INQUIRY SELECTION STYLES (BRIGHT DIAMOND GLASS)
    ========================================================================== */
 
 /* Department Header Banner Card */
 .selected-dept-header-card {
-    background: rgba(5, 28, 79, 0.75);
-    border: 1px solid rgba(88, 161, 211, 0.3);
-    border-left: 5px solid var(--color-powder-blue, #b3def8);
-    border-radius: 16px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-left: 5px solid var(--color-royal-blue, #0052CC);
+    border-radius: 18px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px rgba(0, 82, 204, 0.08);
 }
 
 /* Transaction Option Action Cards */
 .transaction-card {
-    background: rgba(5, 28, 79, 0.6);
-    border: 1px solid rgba(88, 161, 211, 0.25) !important;
-    border-radius: 14px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 16px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 6px 20px rgba(0, 82, 204, 0.05);
     transition: all var(--transition-fast, 0.2s ease);
     cursor: pointer;
 }
 
 .transaction-card:hover {
     transform: translateY(-3px);
-    border-color: var(--color-powder-blue, #b3def8) !important;
-    background: rgba(5, 36, 130, 0.6);
-    box-shadow: 0 8px 24px rgba(5, 28, 79, 0.6), 0 0 14px rgba(179, 222, 248, 0.25);
+    border-color: rgba(0, 82, 204, 0.3) !important;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 12px 28px rgba(0, 82, 204, 0.15);
 }
 
 .transaction-card .text-muted-custom {
-    color: var(--color-blue-gray, #8b949e);
+    color: var(--color-text-muted, #64748B);
+    font-weight: 500;
 }
 
 .transaction-card .arrow-icon {
-    color: var(--color-powder-blue, #b3def8);
+    color: var(--color-royal-blue, #0052CC);
+    font-size: 1.25rem;
     transition: transform var(--transition-fast, 0.2s ease);
 }
 
 .transaction-card:hover .arrow-icon {
-    transform: translateX(5px);
+    transform: translateX(6px);
 }
-
 /* ==========================================================================
    11. QUEUE TICKET DISPLAY STYLES
    ========================================================================== */
