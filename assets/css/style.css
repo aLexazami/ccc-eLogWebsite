@@ -559,7 +559,7 @@ select.custom-glass-control option {
 
 
 /* ==========================================================================
-   PURE BLUE GLASS BACK BUTTON (GLOBAL)
+   10. PURE BLUE GLASS BACK BUTTON (GLOBAL)
    ========================================================================== */
 .btn-back {
     display: inline-flex;
@@ -840,21 +840,29 @@ body.live-queue-page {
     background: var(--color-royal-blue, #0052CC);
 }
 
+/* Clean horizontal list items with dividing lines */
 .waiting-item {
-    border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.6) !important;
-    padding: 0.6rem 0.85rem !important;
-    margin-bottom: 0.5rem !important;
+    border: none !important;
+    border-bottom: 3px solid rgba(0, 82, 204, 0.12) !important; /* Elegant subtle divider line */
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    padding: 0.65rem 0.5rem !important;
+    margin-bottom: 0 !important;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: all var(--transition-fast, 0.2s ease);
+    transition: background-color var(--transition-fast, 0.2s ease);
 }
 
+/* Optional soft hover effect */
 .waiting-item:hover {
-    background-color: rgba(255, 255, 255, 0.95) !important;
-    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.08);
+    background-color: rgba(255, 255, 255, 0.4) !important;
+    border-radius: 6px !important;
+}
+
+/* Remove the divider line on the last queue item */
+.waiting-list-scroll .waiting-item:last-child {
+    border-bottom: none !important;
 }
 
 .waiting-item .queue-num {

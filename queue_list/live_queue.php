@@ -69,7 +69,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="now-calling-number my-1" id="currentNumber">---</div>
                 <div class="now-calling-subtext text-uppercase mt-1">CURRENTLY BEING CALLED AT</div>
                 <div class="now-calling-office mb-1" id="servingOffice">---</div>
-                <small class="text-secondary" style="font-size: 0.7rem;">Please proceed to the indicated office.</small>
+                <small class="text-secondary" style="font-size: 0.7rem; color: #CBD5E1 !important;">Please proceed to the indicated office.</small>
             </div>
         </div>
 
