@@ -19,11 +19,13 @@ require_once __DIR__ . '/../includes/header.php';
 
     <!-- TOP HEADER: Back Button, Title, and Clock in One Single Row -->
     <div class="top-header-row d-flex justify-content-between align-items-center mb-1">
-        <!-- Left: Back Button -->
+        <!-- Left: Pure Blue Back Button -->
         <div class="header-left">
-            <a href="<?= $baseUrl; ?>/index.php" class="btn-back">
-                <span class="btn-back-icon"><i class="bi bi-arrow-left"></i></span>
-                <span class="btn-back-label">Back to Main</span>
+            <a href="<?= $baseUrl; ?>/index.php" class="btn btn-back text-decoration-none">
+                <span class="btn-back-icon">
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                </span>
+                <span>BACK TO MAIN</span>
             </a>
         </div>
 
@@ -67,7 +69,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="now-calling-number my-1" id="currentNumber">---</div>
                 <div class="now-calling-subtext text-uppercase mt-1">CURRENTLY BEING CALLED AT</div>
                 <div class="now-calling-office mb-1" id="servingOffice">---</div>
-                <small class="text-white-50" style="font-size: 0.7rem;">Please proceed to the indicated office.</small>
+                <small class="text-secondary" style="font-size: 0.7rem;">Please proceed to the indicated office.</small>
             </div>
         </div>
 
@@ -77,7 +79,7 @@ require_once __DIR__ . '/../includes/header.php';
     <div class="status-matrix-card">
         <div class="text-center mb-1">
             <h5 class="fw-bold mb-0">Current Office Queue Status</h5>
-            <small class="text-white-50" id="officeSubtitle" style="font-size: 0.65rem;">0 offices currently serving</small>
+            <small class="text-muted-custom" id="officeSubtitle" style="font-size: 0.65rem;">0 offices currently serving</small>
         </div>
 
         <div class="row g-1" id="officeGrid">
@@ -85,13 +87,13 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
 
         <div class="text-center mt-1">
-            <small class="text-white-50" id="officePage" style="font-size: 0.6rem;">Showing Offices 0–0 of 0</small>
+            <small class="text-muted-custom" id="officePage" style="font-size: 0.6rem;">Showing Offices 0–0 of 0</small>
         </div>
     </div>
 
     <!-- FOOTER -->
     <footer class="text-center">
-        <small class="text-white-50">
+        <small class="text-muted-custom">
             Copyright &copy; <?= date('Y'); ?> City College of Calamba. All Rights Reserved.
         </small>
     </footer>
