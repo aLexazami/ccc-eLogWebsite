@@ -1,7 +1,7 @@
 <?php
 // queue_list/live_queue.php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 $pageTitle = "Live Queue Display";
@@ -9,409 +9,389 @@ $pageTitle = "Live Queue Display";
 $cssPath = __DIR__ . '/../assets/css/style.css';
 $cssVersion = file_exists($cssPath) ? filemtime($cssPath) : time();
 
-$baseUrl = defined('BASE_URL') ? BASE_URL : '..'; 
+$baseUrl = defined('BASE_URL') ? BASE_URL : '..';
 $extraCss = '<link rel="stylesheet" href="' . $baseUrl . '/assets/css/style.css?v=' . $cssVersion . '">';
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="main-wrapper">
+<div class="live-queue-wrapper">
 
-    <!-- TOP HEADER: Back Button, Title, and Clock in One Single Row -->
-    <div class="top-header-row d-flex justify-content-between align-items-center mb-1">
-        <!-- Left: Pure Blue Back Button -->
-        <div class="header-left">
-            <a href="<?= $baseUrl; ?>/index.php" class="btn btn-back text-decoration-none">
-                <span class="btn-back-icon">
-                    <i class="bi bi-arrow-left" aria-hidden="true"></i>
-                </span>
-                <span>BACK TO MAIN</span>
-            </a>
+  <!-- TOP HEADER -->
+  <header class="queue-nav-header d-flex align-items-center justify-content-between">
+    <!-- Left: Logo & Branding -->
+    <div class="d-flex align-items-center gap-3">
+      <a href="<?= $baseUrl; ?>/index.php" class="d-flex align-items-center gap-3 text-decoration-none text-white">
+        <img src="<?= $baseUrl; ?>/assets/img/ccc-logo.png" alt="CCC Logo" class="queue-logo"
+          onerror="this.style.display='none'">
+        <div>
+          <h3 class="fw-bold mb-0 text-white tracking-tight fs-4">City College of Calamba</h3>
+          <p class="small text-white-50 mb-0 fw-bold tracking-widest text-uppercase" style="font-size: 0.65rem;">STUDENT
+            SERVICE QUEUE SYSTEM</p>
         </div>
-
-        <!-- Center: App Title -->
-        <div class="header-center text-center">
-            <h2 class="app-title mb-0">Live Queue Display</h2>
-        </div>
-
-        <!-- Right: Scoped Live Queue Clock Widget -->
-        <div class="header-right">
-            <div class="queue-clock-card text-center">
-                <div class="d-flex justify-content-center align-items-baseline gap-1">
-                    <span id="headerClock" class="queue-clock-time">12:00:00 AM</span>
-                </div>
-                <div id="headerDate" class="queue-clock-date">Wednesday, September 9, 2026</div>
-            </div>
-        </div>
+      </a>
     </div>
 
-    <!-- MAIN DASHBOARD MIDDLE -->
-    <div class="row g-0 top-dashboard-row my-1">
-        
-        <!-- LEFT: Waiting Queue Sidebar -->
-        <div class="col-12 col-lg-3 h-100">
-            <div class="waiting-card p-2">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h5 class="fw-bold mb-0">Waiting Queue</h5>
-                    <span class="badge badge-pill-custom rounded-pill px-2 py-1" id="queueCount">0 Waiting</span>
-                </div>
+    <!-- Right: Live Date & Clock -->
+    <div class="d-flex align-items-center gap-3 text-white">
+      <div class="d-flex align-items-center gap-2 fw-bold small text-uppercase"
+        style="font-size: 0.85rem; opacity: 0.9;">
+        <i class="bi bi-calendar3"></i>
+        <span id="headerDate">MON, SEPTEMBER 14, 2026</span>
+      </div>
+      <div class="header-v-divider"></div>
+      <div class="d-flex align-items-center gap-2 fs-3 fw-extrabold">
+        <i class="bi bi-clock"></i>
+        <span id="headerClock">10:23 AM</span>
+      </div>
+    </div>
+  </header>
 
-                <div class="waiting-list-scroll pe-1" id="waitingList">
-                    <!-- Populated dynamically by JS -->
-                </div>
-            </div>
-        </div>
+  <!-- MAIN DASHBOARD CONTENT -->
+  <main class="queue-main-content">
+    <div class="row g-3 h-100 align-items-stretch">
 
-        <!-- RIGHT: Hero Screen -->
-        <div class="col-12 col-lg-9 h-100">
-            <div class="now-calling-card text-center d-flex flex-column justify-content-center align-items-center">
-                <div class="now-calling-title text-uppercase mb-1">NOW CALLING</div>
-                <div class="now-calling-number my-1" id="currentNumber">---</div>
-                <div class="now-calling-subtext text-uppercase mt-1">CURRENTLY BEING CALLED AT</div>
-                <div class="now-calling-office mb-1" id="servingOffice">---</div>
-                <small class="text-secondary" style="font-size: 0.7rem; color: #CBD5E1 !important;">Please proceed to the indicated office.</small>
+      <!-- LEFT: Waiting Queue Sidebar -->
+      <div class="col-12 col-lg-3 h-100">
+        <div class="queue-card h-100 d-flex flex-column">
+          <div class="card-blue-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2 fw-bold text-uppercase fs-6">
+              <i class="bi bi-people-fill"></i> Waiting Queue
             </div>
+            <span class="badge bg-white text-primary rounded-pill px-3 py-1 fw-bold fs-7" id="queueCount">0
+              WAITING</span>
+          </div>
+
+          <div class="waiting-list-scroll p-3 flex-grow-1" id="waitingList">
+            <!-- Dynamic items generated by JS -->
+          </div>
         </div>
+      </div>
+
+      <!-- CENTER: Hero Screen (Now Calling) -->
+      <div class="col-12 col-lg-6 h-100">
+        <div
+          class="hero-calling-card h-100 text-center text-white d-flex flex-column justify-content-between align-items-center position-relative">
+
+          <!-- Top Announcement Pill -->
+          <div
+            class="now-calling-pill rounded-pill px-5 py-3 text-white fw-extrabold text-uppercase d-inline-flex align-items-center gap-2">
+            <i class="bi bi-megaphone-fill"></i> NOW CALLING
+          </div>
+
+          <!-- Center Display (Chevron Arrows & Token) -->
+          <div class="my-auto w-100 position-relative py-3">
+            <h1 class="hero-ticket-text" id="currentNumber">---</h1>
+            <h2 class="hero-office-text" id="servingOffice">---</h2>
+            <div class="divider-line mx-auto"></div>
+          </div>
+
+          <p class="proceed-notice fs-10 text-white mb-0 text-uppercase">
+            Please proceed to the indicated office.
+          </p>
+        </div>
+      </div>
+
+      <!-- RIGHT: Office Status Grid -->
+      <div class="col-12 col-lg-3 h-100">
+        <div class="queue-card h-100 d-flex flex-column">
+          <div>
+            <div class="card-blue-header d-flex justify-content-between align-items-center mb-3">
+              <div class="d-flex align-items-center gap-2 fw-bold text-uppercase fs-6">
+                <i class="bi bi-building-fill"></i> Office Status
+              </div>
+              <span class="badge bg-white text-primary rounded-pill px-3 py-1 fw-bold fs-7" id="officeSubtitle">0
+                OFFICES</span>
+            </div>
+
+            <div class="row g-2" id="officeGrid">
+              <!-- Dynamic 2-column office cards generated by JS -->
+            </div>
+          </div>
+
+          <div class="text-center pt-2">
+            <small class="text-muted fw-bold" id="officePage" style="font-size: 0.7rem;">Showing Offices 0–0 of
+              0</small>
+          </div>
+        </div>
+      </div>
 
     </div>
+  </main>
 
-    <!-- BOTTOM SECTION: Office Status Matrix -->
-    <div class="status-matrix-card">
-        <div class="text-center mb-1">
-            <h5 class="fw-bold mb-0">Current Office Queue Status</h5>
-            <small class="text-muted-custom" id="officeSubtitle" style="font-size: 0.65rem;">0 offices currently serving</small>
-        </div>
+  <!-- FOOTER STRIP WITH CAMPUS IMAGE BACKGROUND -->
+  <footer
+    class="queue-footer-strip d-flex align-items-center justify-content-between px-4 position-relative overflow-hidden">
+    <!-- Background Campus Image Container -->
+    <div class="footer-bg-image" style="background-image: url('<?= $baseUrl; ?>/assets/img/queue_footer.webp');"></div>
+    <div class="footer-bg-overlay"></div>
 
-        <div class="row g-1" id="officeGrid">
-            <!-- Populated dynamically by JS -->
-        </div>
 
-        <div class="text-center mt-1">
-            <small class="text-muted-custom" id="officePage" style="font-size: 0.6rem;">Showing Offices 0–0 of 0</small>
-        </div>
+
+    <!-- Center: College Motto / Branding -->
+    <div class="text-center position-absolute start-50 translate-middle-x z-1">
+      <span class="motto-script text-white">Your Success</span>
+      <span class="motto-sub text-warning fw-extrabold">Our Commitment</span>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="text-center">
-        <small class="text-muted-custom">
-            Copyright &copy; <?= date('Y'); ?> City College of Calamba. All Rights Reserved.
-        </small>
-    </footer>
+  </footer>
+</div>
 </div>
 
 <script>
-/* =====================================================
-   DATA CONFIGURATION
-   ===================================================== */
-const queueData = [
-  { number: "R-024", office: "Registrar Office" },
-  { number: "AC-015", office: "Accounting Office" },
-  { number: "AD-008", office: "Admissions Office" },
-  { number: "G-011", office: "Guidance Office" },
-  { number: "L-012", office: "Library" },
-  { number: "C-006", office: "School Clinic" },
-  { number: "CA-018", office: "Cashier" },
-  { number: "HR-004", office: "Human Resources" }
-];
-
-const officeStatus = [
-  { office: "Registrar Office", queue: "R-024", status: "SERVING" },
-  { office: "Accounting Office", queue: "AC-015", status: "SERVING" },
-  { office: "Admissions Office", queue: "AD-008", status: "SERVING" },
-  { office: "Guidance Office", queue: "G-011", status: "SERVING" },
-  { office: "Library", queue: "L-012", status: "SERVING" },
-  { office: "School Clinic", queue: "C-006", status: "SERVING" },
-  { office: "Cashier", queue: "CA-018", status: "SERVING" },
-  { office: "Human Resources", queue: "HR-004", status: "SERVING" },
-  { office: "Student Affairs", queue: "SA-009", status: "SERVING" },
-  { office: "Scholarship Office", queue: "S-005", status: "SERVING" },
-  { office: "IT Services", queue: "IT-013", status: "SERVING" },
-  { office: "Registrar Extension", queue: "RE-006", status: "SERVING" },
-  { office: "Cashier Extension", queue: "CE-011", status: "SERVING" },
-  { office: "Records Office", queue: "RO-007", status: "SERVING" },
-  { office: "Testing Center", queue: "TC-003", status: "SERVING" },
-  { office: "Student Development", queue: "SD-014", status: "SERVING" },
-  { office: "Research Office", queue: "RS-008", status: "SERVING" },
-  { office: "Finance Office", queue: "F-019", status: "SERVING" },
-  { office: "Procurement", queue: "P-006", status: "SERVING" },
-  { office: "Human Capital", queue: "HC-004", status: "SERVING" },
-  { office: "Alumni Office", queue: "AL-010", status: "SERVING" },
-  { office: "Registrar Window 2", queue: "R2-017", status: "SERVING" },
-  { office: "Accounting Window 2", queue: "A2-008", status: "SERVING" },
-  { office: "Admissions Window 2", queue: "AD2-005", status: "SERVING" },
-  { office: "General Services", queue: "GS-012", status: "SERVING" }
-];
-
-let currentIndex = 0;
-const officesPerPage = 10;
-let officePageIndex = 0;
-
-const ROTATION_INTERVAL = 10000;
-const NOW_CALLING_HOLD_TIME = 10000;
-let pageRotationTimeout = null;
-let pauseRotationUntil = 0;
-
-/* =====================================================
-   STRICT FEMALE VOICE INITIALIZATION
-   ===================================================== */
-let singleFemaleVoice = null;
-
-function getBestFemaleVoice() {
-  if (!('speechSynthesis' in window)) return null;
-
-  const voices = window.speechSynthesis.getVoices();
-  if (!voices || voices.length === 0) return null;
-
-  const femaleNames = [
-    "zira", "janny", "jenny", "samantha", "siri", "victoria", 
-    "karen", "aria", "ava", "emma", "hazel", "susan", "female", "google us english"
+  /* =====================================================
+     DATA CONFIGURATION
+     ===================================================== */
+  const queueData = [
+    { number: "R-024", office: "Registrar Office" },
+    { number: "AC-015", office: "Accounting Office" },
+    { number: "AD-008", office: "Admissions Office" },
+    { number: "G-011", office: "Guidance Office" },
+    { number: "L-012", office: "Library" },
+    { number: "C-006", office: "School Clinic" },
+    { number: "CA-018", office: "Cashier" },
+    { number: "HR-004", office: "Human Resources" }
   ];
-  const maleNames = ["david", "mark", "george", "james", "richard", "male", "guy", "stefan"];
 
-  let selected = voices.find(v => {
-    const name = v.name.toLowerCase();
-    return v.lang.startsWith('en') && femaleNames.some(fn => name.includes(fn));
-  });
+  const officeStatus = [
+    { office: "Registrar Office", queue: "R-024", status: "SERVING", icon: "bi-file-earmark-text-fill", color: "text-primary bg-primary-subtle" },
+    { office: "Accounting Office", queue: "AC-015", status: "SERVING", icon: "bi-calculator-fill", color: "text-success bg-success-subtle" },
+    { office: "Admissions Office", queue: "AD-008", status: "SERVING", icon: "bi-mortarboard-fill", color: "text-warning bg-warning-subtle" },
+    { office: "Guidance Office", queue: "G-011", status: "SERVING", icon: "bi-people-fill", color: "text-info bg-info-subtle" },
+    { office: "School Clinic", queue: "C-006", status: "SERVING", icon: "bi-hospital-fill", color: "text-danger bg-danger-subtle" },
+    { office: "Library", queue: "L-012", status: "SERVING", icon: "bi-book-fill", color: "text-secondary bg-secondary-subtle" }
+  ];
 
-  if (!selected) {
-    selected = voices.find(v => {
-      const name = v.name.toLowerCase();
-      return v.lang.startsWith('en') && !maleNames.some(mn => name.includes(mn));
-    });
+  let currentIndex = 0;
+  const officesPerPage = 6;
+  let officePageIndex = 0;
+
+  const ROTATION_INTERVAL = 10000;
+  const NOW_CALLING_HOLD_TIME = 10000;
+  let pageRotationTimeout = null;
+  let pauseRotationUntil = 0;
+
+  /* =====================================================
+     VOICE ANNOUNCEMENT LOGIC
+     ===================================================== */
+  let singleFemaleVoice = null;
+
+  function getBestFemaleVoice() {
+    if (!('speechSynthesis' in window)) return null;
+    const voices = window.speechSynthesis.getVoices();
+    if (!voices || voices.length === 0) return null;
+
+    const femaleNames = ["zira", "janny", "jenny", "samantha", "siri", "victoria", "karen", "aria", "ava", "emma", "hazel", "susan", "female", "google us english"];
+    const maleNames = ["david", "mark", "george", "james", "richard", "male", "guy", "stefan"];
+
+    let selected = voices.find(v => v.lang.startsWith('en') && femaleNames.some(fn => v.name.toLowerCase().includes(fn)));
+    if (!selected) {
+      selected = voices.find(v => v.lang.startsWith('en') && !maleNames.some(mn => v.name.toLowerCase().includes(mn)));
+    }
+    return selected || voices.find(v => v.lang.startsWith('en')) || voices[0];
   }
 
-  if (!selected) {
-    selected = voices.find(v => v.lang.startsWith('en')) || voices[0];
-  }
-
-  return selected;
-}
-
-function loadVoices() {
-  singleFemaleVoice = getBestFemaleVoice();
-}
-
-if ('speechSynthesis' in window) {
-  window.speechSynthesis.onvoiceschanged = loadVoices;
-  loadVoices();
-}
-
-/* =====================================================
-   BELL CHIME AUDIO SYNTHESIS
-   ===================================================== */
-function playBellDing() {
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
-
-    const osc1 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-    osc1.type = 'sine';
-    osc1.frequency.setValueAtTime(659.25, ctx.currentTime);
-    gain1.gain.setValueAtTime(0.3, ctx.currentTime);
-    gain1.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
-
-    osc1.connect(gain1);
-    gain1.connect(ctx.destination);
-    osc1.start(ctx.currentTime);
-    osc1.stop(ctx.currentTime + 1.2);
-
-    const osc2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-    osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(783.99, ctx.currentTime + 0.25);
-    gain2.gain.setValueAtTime(0.35, ctx.currentTime + 0.25);
-    gain2.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.6);
-
-    osc2.connect(gain2);
-    gain2.connect(ctx.destination);
-    osc2.start(ctx.currentTime + 0.25);
-    osc2.stop(ctx.currentTime + 1.6);
-  } catch(e) {
-    console.warn("Audio Context blocked until page interaction.", e);
-  }
-}
-
-/* =====================================================
-   FEMALE VOICE ANNOUNCEMENT
-   ===================================================== */
-function speakNowCalling(ticketNumber, officeName) {
-  if (!('speechSynthesis' in window)) return;
-
-  window.speechSynthesis.cancel();
-
-  if (!singleFemaleVoice) {
+  function loadVoices() { singleFemaleVoice = getBestFemaleVoice(); }
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
     loadVoices();
   }
 
-  const spokenTicket = ticketNumber
-    .split('')
-    .map(char => (char === '-' ? ' ' : char))
-    .join(', ');
+  function playBellDing() {
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
 
-  const announcement = `Now Calling, ${spokenTicket}, please proceed to ${officeName}.`;
+      const ctx = new AudioContext();
 
-  const utterance = new SpeechSynthesisUtterance(announcement);
-  utterance.rate = 0.88;
-  utterance.pitch = 1.1;
-  utterance.lang = 'en-US';
+      function playTone(freq, startTime, duration) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
 
-  if (singleFemaleVoice) {
-    utterance.voice = singleFemaleVoice;
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        gain.gain.setValueAtTime(0.3, startTime);
+        gain.gain.exponentialRampToValueAtTime(
+          0.0001,
+          startTime + duration
+        );
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      }
+
+      const now = ctx.currentTime;
+
+      // Original two-tone bell
+      playTone(659.25, now, 0.8);
+      playTone(523.25, now + 0.25, 1.2);
+
+    } catch (e) {
+      console.error("Audio error:", e);
+    }
   }
 
-  setTimeout(() => {
-    window.speechSynthesis.speak(utterance);
-  }, 500);
-}
+  function speakNowCalling(ticketNumber, officeName) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    if (!singleFemaleVoice) loadVoices();
 
-/* =====================================================
-   CORE LOGIC FUNCTIONS
-   ===================================================== */
-function getNowCallingOfficeIndex() {
-  const currentTicket = queueData[currentIndex].number;
-  return officeStatus.findIndex((office) => office.queue === currentTicket);
-}
+    const spokenTicket = ticketNumber.split('').map(char => (char === '-' ? ' ' : char)).join(', ');
+    const utterance = new SpeechSynthesisUtterance(`Now Calling, ${spokenTicket}, please proceed to ${officeName}.`);
+    utterance.rate = 0.88;
+    utterance.pitch = 1.1;
+    utterance.lang = 'en-US';
+    if (singleFemaleVoice) utterance.voice = singleFemaleVoice;
 
-function getNowCallingPage() {
-  const officeIndex = getNowCallingOfficeIndex();
-  if (officeIndex === -1) return null;
-  return Math.floor(officeIndex / officesPerPage);
-}
-
-function showNowCallingOfficePage() {
-  const nowCallingPage = getNowCallingPage();
-  if (nowCallingPage !== null) {
-    officePageIndex = nowCallingPage;
-    pauseRotationUntil = Date.now() + NOW_CALLING_HOLD_TIME;
-  }
-}
-
-function updateCallingQueue() {
-  const current = queueData[currentIndex];
-
-  const numEl = document.getElementById("currentNumber");
-  const officeEl = document.getElementById("servingOffice");
-
-  numEl.textContent = current.number;
-  officeEl.textContent = current.office;
-
-  playBellDing();
-  speakNowCalling(current.number, current.office);
-
-  // Render Waiting List Sidebar
-  const waitingList = document.getElementById("waitingList");
-  waitingList.innerHTML = "";
-
-  for (let i = 1; i < queueData.length; i++) {
-    const index = (currentIndex + i) % queueData.length;
-    const queue = queueData[index];
-
-    const item = document.createElement("div");
-    item.className = "waiting-item d-flex justify-content-between align-items-center";
-    item.innerHTML = `
-      <span class="queue-num ps-1">${queue.number}</span>
-      <span class="office-name pe-1">${queue.office}</span>
-    `;
-    waitingList.appendChild(item);
+    setTimeout(() => window.speechSynthesis.speak(utterance), 500);
   }
 
-  document.getElementById("queueCount").textContent = `${queueData.length - 1} Waiting`;
+  /* =====================================================
+     DOM UPDATES
+     ===================================================== */
+  function updateCallingQueue() {
+    // Guard against empty queue array or invalid index
+    if (!Array.isArray(queueData) || queueData.length === 0 || !queueData[currentIndex]) {
+      const currentNumberEl = document.getElementById("currentNumber");
+      const servingOfficeEl = document.getElementById("servingOffice");
+      const queueCountEl = document.getElementById("queueCount");
 
-  showNowCallingOfficePage();
-  updateOfficeStatus();
-}
+      if (currentNumberEl) currentNumberEl.textContent = "---";
+      if (servingOfficeEl) servingOfficeEl.textContent = "NO ACTIVE CALLS";
+      if (queueCountEl) queueCountEl.textContent = "0 WAITING";
+      return;
+    }
 
-function updateOfficeStatus() {
-  const grid = document.getElementById("officeGrid");
-  grid.innerHTML = "";
+    const current = queueData[currentIndex];
 
-  const totalOffices = officeStatus.length;
-  const totalPages = Math.ceil(totalOffices / officesPerPage);
+    // 1. Update Hero Section (Now Calling)
+    const currentNumberEl = document.getElementById("currentNumber");
+    const servingOfficeEl = document.getElementById("servingOffice");
 
-  if (officePageIndex >= totalPages) {
-    officePageIndex = 0;
+    if (currentNumberEl) currentNumberEl.textContent = current.number || "---";
+    if (servingOfficeEl) servingOfficeEl.textContent = current.office || "---";
+
+    // 2. Audio and Speech Triggers (Original Sound Execution Kept Intact)
+    if (typeof playBellDing === "function") playBellDing();
+    if (typeof speakNowCalling === "function") {
+      speakNowCalling(current.number, current.office);
+    }
+
+    // 3. Render Waiting List Sidebar (Optimized with DocumentFragment)
+    const waitingList = document.getElementById("waitingList");
+    if (waitingList) {
+      waitingList.innerHTML = "";
+      const fragment = document.createDocumentFragment();
+
+      for (let i = 1; i < queueData.length; i++) {
+        const index = (currentIndex + i) % queueData.length;
+        const queue = queueData[index];
+
+        const item = document.createElement("div");
+        item.className = "waiting-item d-flex justify-content-between align-items-center p-2 mb-2 rounded-3";
+        item.innerHTML = `
+        <span class="token-pill">${queue.number || "---"}</span>
+        <span class="fw-bold text-dark small ms-2 text-truncate">${queue.office || "---"}</span>
+      `;
+        fragment.appendChild(item);
+      }
+      waitingList.appendChild(fragment);
+    }
+
+    // 4. Update Queue Count Badge
+    const queueCountEl = document.getElementById("queueCount");
+    if (queueCountEl) {
+      queueCountEl.textContent = `${Math.max(0, queueData.length - 1)} WAITING`;
+    }
+
+    // 5. Update Footer Next-in-Line
+    const nextTicketEl = document.getElementById("nextInLineTicket");
+    const nextOfficeEl = document.getElementById("nextInLineOffice");
+
+    if (queueData.length > 1) {
+      const nextQueue = queueData[(currentIndex + 1) % queueData.length];
+      if (nextTicketEl) nextTicketEl.textContent = nextQueue.number || "---";
+      if (nextOfficeEl) nextOfficeEl.textContent = nextQueue.office || "---";
+    } else {
+      if (nextTicketEl) nextTicketEl.textContent = "---";
+      if (nextOfficeEl) nextOfficeEl.textContent = "None";
+    }
+
+    // 6. Update Office Status Grid
+    if (typeof updateOfficeStatus === "function") {
+      updateOfficeStatus();
+    }
   }
+  function updateOfficeStatus() {
+    const grid = document.getElementById("officeGrid");
+    grid.innerHTML = "";
 
-  const start = officePageIndex * officesPerPage;
-  const end = Math.min(start + officesPerPage, totalOffices);
-  const currentTicket = queueData[currentIndex].number;
+    const totalOffices = officeStatus.length;
+    const start = officePageIndex * officesPerPage;
+    const end = Math.min(start + officesPerPage, totalOffices);
+    const currentTicket = queueData[currentIndex].number;
 
-  for (let i = start; i < end; i++) {
-    const office = officeStatus[i];
-    const isNowCalling = office.queue === currentTicket;
+    for (let i = start; i < end; i++) {
+      const office = officeStatus[i];
+      const isNowCalling = office.queue === currentTicket;
 
-    const col = document.createElement("div");
-    col.className = "col-6 col-md-4 col-lg-2-4";
+      const col = document.createElement("div");
+      col.className = "col-6";
 
-    const displayStatus = isNowCalling ? "NOW CALLING" : office.status;
-    const badgeClass = isNowCalling ? "now-calling" : "serving";
-    const activeCallingClass = isNowCalling ? " active-calling" : "";
+      const displayStatus = isNowCalling ? "NOW CALLING" : office.status;
+      const badgeColor = isNowCalling ? "text-warning" : "text-success";
 
-    col.innerHTML = `
-      <div class="status-box text-center${activeCallingClass}">
-        <div class="dept-title text-truncate">${office.office}</div>
-        <div class="ticket-no">${office.queue}</div>
-        <div class="status-badge ${badgeClass}">● ${displayStatus}</div>
+      col.innerHTML = `
+      <div class="office-status-card d-flex align-items-center gap-2 ${isNowCalling ? 'active-calling' : ''}">
+        <div class="icon-circle ${office.color}">
+          <i class="bi ${office.icon || 'bi-building'} fs-5"></i>
+        </div>
+        <div class="overflow-hidden">
+          <div class="fw-bold text-dark small text-truncate" style="font-size:0.75rem;">${office.office}</div>
+          <div class="fw-extrabold text-primary fs-6">${office.queue}</div>
+          <span class="status-indicator ${badgeColor}"><i class="bi bi-circle-fill me-1" style="font-size:0.4rem;"></i>${displayStatus}</span>
+        </div>
       </div>
     `;
 
-    grid.appendChild(col);
+      grid.appendChild(col);
+    }
+
+    document.getElementById("officePage").textContent = `Showing Offices ${start + 1}–${end} of ${totalOffices}`;
+    document.getElementById("officeSubtitle").textContent = `${totalOffices} OFFICES`;
   }
 
-  document.getElementById("officePage").textContent = `Showing Offices ${start + 1}–${end} of ${totalOffices}`;
+  function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+    minutes = minutes.toString().padStart(2, "0");
 
-  const servingCount = officeStatus.filter((office) => office.status === "SERVING").length;
-  document.getElementById("officeSubtitle").textContent = `${servingCount} offices currently serving`;
-}
+    document.getElementById("headerClock").textContent = `${hours}:${minutes} ${ampm}`;
 
-function scheduleNextPageRotation() {
-  if (pageRotationTimeout) clearTimeout(pageRotationTimeout);
+    const options = { weekday: "short", month: "long", day: "numeric", year: "numeric" };
+    document.getElementById("headerDate").textContent = now.toLocaleDateString("en-US", options).toUpperCase();
+  }
 
-  const now = Date.now();
-  const delay = Math.max(ROTATION_INTERVAL, pauseRotationUntil - now);
+  /* =====================================================
+     INIT
+     ===================================================== */
+  updateClock();
+  setInterval(updateClock, 1000);
 
-  pageRotationTimeout = setTimeout(() => {
-    if (Date.now() >= pauseRotationUntil) {
-      const totalPages = Math.ceil(officeStatus.length / officesPerPage);
-      officePageIndex = (officePageIndex + 1) % totalPages;
-      updateOfficeStatus();
-    }
-    scheduleNextPageRotation();
-  }, delay);
-}
-
-function updateClock() {
-  const now = new Date();
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
-  const ampm = hours >= 12 ? "PM" : "AM";
-
-  hours = hours % 12 || 12;
-  minutes = minutes.toString().padStart(2, "0");
-
-  document.getElementById("headerClock").textContent = `${hours}:${minutes} ${ampm}`;
-
-  const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
-  document.getElementById("headerDate").textContent = now.toLocaleDateString("en-US", options);
-}
-
-/* =====================================================
-   INITIALIZATION & TIMERS
-   ===================================================== */
-updateClock();
-setInterval(updateClock, 1000);
-
-setTimeout(() => {
-  updateCallingQueue();
-  setInterval(() => {
-    currentIndex = (currentIndex + 1) % queueData.length;
+  setTimeout(() => {
     updateCallingQueue();
-  }, 10000);
-}, 300);
-
-scheduleNextPageRotation();
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % queueData.length;
+      updateCallingQueue();
+    }, 10000);
+  }, 300);
 </script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
