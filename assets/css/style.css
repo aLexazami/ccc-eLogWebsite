@@ -578,53 +578,6 @@ select.custom-glass-control option {
     box-shadow: 0 4px 14px rgba(0, 82, 204, 0.35);
 }
 
-
-/* ==========================================================================
-   10. PURE BLUE GLASS BACK BUTTON (GLOBAL)
-   ========================================================================== */
-.btn-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(0, 82, 204, 0.1);
-    color: var(--color-royal-blue, #0052CC) !important;
-    border: 1.5px solid rgba(0, 82, 204, 0.25);
-    border-radius: 30px;
-    padding: 0.4rem 1rem 0.4rem 0.5rem;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: all var(--transition-fast, 0.2s ease);
-}
-
-.btn-back-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--color-royal-blue, #0052CC);
-    color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    transition: all var(--transition-fast, 0.2s ease);
-}
-
-.btn-back:hover {
-    background: var(--color-royal-blue, #0052CC);
-    color: #FFFFFF !important;
-    border-color: var(--color-royal-blue, #0052CC);
-    box-shadow: 0 4px 14px rgba(0, 82, 204, 0.35);
-    transform: translateX(-3px);
-}
-
-.btn-back:hover .btn-back-icon {
-    background: #FFFFFF;
-    color: var(--color-royal-blue, #0052CC);
-}
-
 /* ==========================================================================
    10. TRANSACTION & INQUIRY SELECTION STYLES (BRIGHT DIAMOND GLASS)
    ========================================================================== */
@@ -675,7 +628,53 @@ select.custom-glass-control option {
 }
 
 /* ==========================================================================
-   LIVE QUEUE TV DISPLAY THEME REPLICATE
+   11. PURE BLUE GLASS BACK BUTTON (GLOBAL)
+   ========================================================================== */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 82, 204, 0.1);
+    color: var(--color-royal-blue, #0052CC) !important;
+    border: 1.5px solid rgba(0, 82, 204, 0.25);
+    border-radius: 30px;
+    padding: 0.4rem 1rem 0.4rem 0.5rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all var(--transition-fast, 0.2s ease);
+}
+
+.btn-back-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-royal-blue, #0052CC);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: all var(--transition-fast, 0.2s ease);
+}
+
+.btn-back:hover {
+    background: var(--color-royal-blue, #0052CC);
+    color: #FFFFFF !important;
+    border-color: var(--color-royal-blue, #0052CC);
+    box-shadow: 0 4px 14px rgba(0, 82, 204, 0.35);
+    transform: translateX(-3px);
+}
+
+.btn-back:hover .btn-back-icon {
+    background: #FFFFFF;
+    color: var(--color-royal-blue, #0052CC);
+}
+
+/* ==========================================================================
+   12. LIVE QUEUE TV DISPLAY THEME REPLICATE
    ========================================================================== */
 
 body.live-queue-page {
@@ -843,7 +842,7 @@ body.live-queue-page {
 }
 
 /* ==========================================================================
-   QUEUE FOOTER WITH BACKGROUND IMAGE
+   12.1 QUEUE FOOTER WITH BACKGROUND IMAGE
    ========================================================================== */
 
 .queue-footer-strip {
@@ -904,4 +903,86 @@ body.live-queue-page {
     color: #0047B3;
     font-weight: 900;
     border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ==========================================================================
+   13. DASHBOARD STATUS BADGES & SHIFT INDICATORS
+   ========================================================================== */
+.badge-shift-active {
+    background: rgba(16, 185, 129, 0.15) !important;
+    color: #047857 !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.badge-role-staff {
+    background: rgba(2, 132, 199, 0.15) !important;
+    color: #0369a1 !important;
+    border: 1px solid rgba(2, 132, 199, 0.3) !important;
+}
+
+/* ==========================================================================
+   13.1 OPERATIONAL MODULE SPECIFIC STYLING
+   ========================================================================== */
+.card-staff-action {
+    min-height: 280px;
+}
+
+.text-primary-dark {
+    color: var(--color-text-primary) !important;
+}
+
+ /* ==========================================================================
+   13.2 DASHBOARD APP LAYOUT & SIDEBAR NAVIGATION
+   ========================================================================== */
+.app-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f1f5f9;
+}
+
+.sidebar-nav {
+    width: 240px;
+    background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem 1rem;
+    flex-shrink: 0;
+}
+
+.sidebar-menu .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all var(--transition-fast, 0.25s ease);
+    text-decoration: none;
+}
+
+.sidebar-menu .nav-link:hover,
+.sidebar-menu .nav-link.active {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-footer-slogan {
+    font-size: 1.1rem;
+    font-weight: 800;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.2;
+    padding-left: 0.5rem;
+}
+
+.app-main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
 }
