@@ -677,7 +677,7 @@ select.custom-glass-control option {
    12. LIVE QUEUE TV DISPLAY THEME REPLICATE
    ========================================================================== */
 
-body.live-queue-page {
+html, body.live-queue-page {
     background-color: #EBF3FC !important;
     overflow: hidden !important;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
