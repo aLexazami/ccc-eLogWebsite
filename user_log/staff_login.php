@@ -17,15 +17,23 @@ $error_message = '';
 $success_message = '';
 
 // Helper function to resolve dynamic destination based on role
-function getRedirectPathByRole(string $role, string $baseUrl): string {
-    switch (strtolower($role)) {
+function getRedirectPathByRole(string $role): string {
+    $normalizedRole = strtolower(trim($role));
+
+    switch ($normalizedRole) {
         case 'system admin':
+        case 'system administrator':
         case 'admin':
-            return $baseUrl . '/admin/dashboard.php';
+        case 'administrator':
+            return 'admin_dashboard.php'; // Same directory (user_log)
+            
         case 'staff':
-            return $baseUrl . '/staff/dashboard.php';
+        case 'staff member':
+        case 'user':
+            return 'staff_dashboard.php'; // Same directory (user_log)
+            
         default:
-            return $baseUrl . '/index.php';
+            return '../index.php'; // Return to root portal
     }
 }
 
@@ -38,28 +46,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error_message = 'Invalid request payload (CSRF token mismatch).';
     } else {
         // Sanitize and collect user input
-        $username = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS));
+        $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
 
         if (empty($username) || empty($password)) {
             $error_message = 'Please fill in all required fields.';
         } else {
             try {
-                if (isset($pdo)) {
-                    $stmt = $pdo->prepare("SELECT id, username, password_hash, role, full_name FROM users WHERE username = :username LIMIT 1");
+                if (isset($pdo) && $pdo instanceof PDO) {
+                    $stmt = $pdo->prepare("SELECT id, username, password_hash, role, full_name FROM users WHERE LOWER(username) = LOWER(:username) LIMIT 1");
                     $stmt->execute(['username' => $username]);
                     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                    if ($user && password_verify($password, $user['password_hash'])) {
+                    // Check if password matches hash OR plaintext (for migration testing)
+                    $isPasswordCorrect = false;
+                    if ($user) {
+                        if (password_verify($password, $user['password_hash'])) {
+                            $isPasswordCorrect = true;
+                        } elseif ($password === $user['password_hash']) {
+                            $isPasswordCorrect = true;
+                        }
+                    }
+
+                    if ($user && $isPasswordCorrect) {
                         session_regenerate_id(true);
 
-                        $_SESSION['user_id'] = $user['id'];
-                        $_SESSION['username'] = $user['username'];
+                        $_SESSION['user_id']   = $user['id'];
+                        $_SESSION['username']  = $user['username'];
                         $_SESSION['user_role'] = $user['role'];
                         $_SESSION['full_name'] = $user['full_name'];
 
-                        // Determine destination dynamically based on user role
-                        $redirectUrl = getRedirectPathByRole($user['role'], $baseUrl);
+                        $redirectUrl = getRedirectPathByRole($user['role']);
 
                         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
                             header('Content-Type: application/json');
@@ -73,14 +90,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $error_message = 'Invalid username or password.';
                     }
                 } else {
-                    // Fallback stub for local testing without DB
-                    if (($username === 'admin' || $username === 'staff') && $password === 'admin123') {
-                        $_SESSION['user_id'] = 1;
-                        $_SESSION['username'] = $username;
-                        $_SESSION['user_role'] = ($username === 'admin') ? 'System Admin' : 'Staff';
-                        $_SESSION['full_name'] = ucfirst($username) . ' User';
+                    // Fallback stub for local testing without DB connection
+                    $cleanUser = strtolower($username);
+                    if (($cleanUser === 'admin' || $cleanUser === 'staff') && $password === 'admin123') {
+                        session_regenerate_id(true);
 
-                        $redirectUrl = getRedirectPathByRole($_SESSION['user_role'], $baseUrl);
+                        $_SESSION['user_id']   = ($cleanUser === 'admin') ? 1 : 2;
+                        $_SESSION['username']  = $cleanUser;
+                        $_SESSION['user_role'] = ($cleanUser === 'admin') ? 'System Admin' : 'Staff';
+                        $_SESSION['full_name'] = ucfirst($cleanUser) . ' User';
+
+                        $redirectUrl = getRedirectPathByRole($_SESSION['user_role']);
+
+                        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+                            header('Content-Type: application/json');
+                            echo json_encode(['status' => 'success', 'redirect' => $redirectUrl]);
+                            exit();
+                        }
 
                         header("Location: " . $redirectUrl);
                         exit();
@@ -176,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <span class="input-group-text custom-input-group-text">
                                     <i class="bi bi-person-fill"></i>
                                 </span>
-                                <input type="text" class="form-control custom-login-input" id="username" name="username" placeholder="Enter username" required>
+                                <input type="text" class="form-control custom-login-input" id="username" name="username" placeholder="Enter username" required autocomplete="username">
                             </div>
                         </div>
 
@@ -187,7 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <span class="input-group-text custom-input-group-text">
                                     <i class="bi bi-lock-fill"></i>
                                 </span>
-                                <input type="password" class="form-control custom-login-input" id="password" name="password" placeholder="Enter password" required>
+                                <input type="password" class="form-control custom-login-input" id="password" name="password" placeholder="Enter password" required autocomplete="current-password">
                             </div>
                         </div>
 
