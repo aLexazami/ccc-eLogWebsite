@@ -80,11 +80,13 @@ require_once __DIR__ . '/../includes/header.php';
     .office-status-grid-container {
       display: grid !important;
       grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(6, 1fr);
-      gap: 0.35rem !important;
+      grid-template-rows: repeat(6, 1fr) !important;
+      gap: 0.4rem !important; /* Proper spacing between boxes */
+      padding: 0.6rem !important; /* Adds breathing room between the blue header and top boxes */
       height: 100%;
       min-height: 0;
       overflow: hidden;
+      box-sizing: border-box;
     }
 
     .queue-footer-strip {
@@ -142,6 +144,7 @@ require_once __DIR__ . '/../includes/header.php';
       display: grid !important;
       grid-template-columns: repeat(2, 1fr);
       gap: 0.5rem !important;
+      padding: 0.5rem !important;
       height: auto !important;
     }
 
@@ -154,11 +157,11 @@ require_once __DIR__ . '/../includes/header.php';
     }
   }
 
-  /* Compact Office Card Utility Rules */
+  /* Compact Office Card Sizing */
   .office-compact-card {
     min-height: 0 !important;
-    padding: 0.35rem 0.5rem !important;
-    overflow: hidden;
+    height: 100% !important;
+    padding: 0.35rem 0.5rem !important; /* Slightly reduced top/bottom padding to keep card neat */
     box-sizing: border-box;
   }
 
@@ -189,57 +192,56 @@ require_once __DIR__ . '/../includes/header.php';
   }
 
   /* Step-by-Step Header Process Flow */
-.header-process-flow {
-  gap: 0.75rem;
-}
+  .header-process-flow {
+    gap: 0.75rem;
+  }
 
-.step-circle-icon {
-  width: 38px;
-  height: 38px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
+  .step-circle-icon {
+    width: 38px;
+    height: 38px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
 
-.step-badge-number {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 16px;
-  height: 16px;
-  background-color: #0dcaf0;
-  color: #000000;
-  font-size: 0.6rem;
-  font-weight: 800;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #ffffff;
-}
+  .step-badge-number {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    background-color: #0dcaf0;
+    color: #000000;
+    font-size: 0.6rem;
+    font-weight: 800;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ffffff;
+  }
 
-.step-title {
-  font-size: 0.75rem;
-  letter-spacing: 0.03em;
-  color: #ffffff;
-}
+  .step-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    color: #ffffff;
+  }
 
-.step-subtitle {
-  font-size: 0.6rem;
-  opacity: 0.75;
-  color: #ffffff;
-}
+  .step-subtitle {
+    font-size: 0.6rem;
+    opacity: 0.75;
+    color: #ffffff;
+  }
 
-.step-arrow {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.5);
-}
+  .step-arrow {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
 </style>
-
 <div class="portal-bg">
 
   <!-- WRAPPER FOR HEADER AND MAIN CONTENT -->
