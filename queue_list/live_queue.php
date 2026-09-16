@@ -387,8 +387,8 @@ require_once __DIR__ . '/../includes/header.php';
 
         <!-- RIGHT: Office Status Grid -> Reordered to 3rd on Mobile -->
         <div class="col-12 col-lg-3 order-3 order-lg-3 d-flex flex-column">
-          <div class="queue-card d-flex flex-column p-2">
-            <div class="card-blue-header d-flex justify-content-between align-items-center mb-2 p-2 flex-shrink-0">
+          <div class="queue-card d-flex flex-column">
+            <div class="card-blue-header d-flex justify-content-between align-items-center flex-shrink-0">
               <div class="d-flex align-items-center gap-2 fw-bold text-uppercase fs-6">
                 <i class="bi bi-building-fill"></i> Office Status
               </div>
