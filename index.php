@@ -79,24 +79,6 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- 3. STAFF & ADMIN CONSOLE -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 custom-card">
-                    <div class="card-body p-4 d-flex flex-column text-center align-items-center">
-                        <div class="icon-badge-wrapper my-3">
-                            <div class="icon-badge">
-                                <i class="bi bi-shield-lock-fill fs-1" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                        <h3 class="fw-extrabold mb-4" style="color: var(--color-text-primary);">Staff Portal</h3>
-
-                        <a href="<?= BASE_URL; ?>/modules/user_log/staff_login.php" class="btn btn-portal btn-oval w-100 py-3 mt-auto shadow-sm" role="button">
-                            <span class="btn-label fw-semibold">Login</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <!-- SYSTEM FOOTER INFO -->
