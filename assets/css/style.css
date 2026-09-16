@@ -219,14 +219,13 @@ html, body {
     box-shadow: 0 4px 12px rgba(0, 82, 204, 0.3) !important;
 }
 
-/* Back Button (Glass to Royal Blue Transition) */
 .btn-back {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(0, 82, 204, 0.1) !important;
+    background: rgba(0, 82, 204, 0.1);
     color: var(--color-royal-blue, #0052CC) !important;
-    border: 1.5px solid rgba(0, 82, 204, 0.3) !important;
+    border: 1.5px solid rgba(0, 82, 204, 0.25);
     border-radius: 30px;
     padding: 0.4rem 1rem 0.4rem 0.5rem;
     font-weight: 700;
@@ -241,8 +240,8 @@ html, body {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: var(--color-royal-blue, #0052CC) !important;
-    color: #FFFFFF !important;
+    background: var(--color-royal-blue, #0052CC);
+    color: #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -251,16 +250,16 @@ html, body {
 }
 
 .btn-back:hover {
-    background: var(--color-royal-blue, #0052CC) !important;
+    background: var(--color-royal-blue, #0052CC);
     color: #FFFFFF !important;
-    border-color: var(--color-royal-blue, #0052CC) !important;
-    box-shadow: 0 4px 14px rgba(0, 82, 204, 0.35) !important;
+    border-color: var(--color-royal-blue, #0052CC);
+    box-shadow: 0 4px 14px rgba(0, 82, 204, 0.35);
     transform: translateX(-3px);
 }
 
 .btn-back:hover .btn-back-icon {
-    background: #FFFFFF !important;
-    color: var(--color-royal-blue, #0052CC) !important;
+    background: #FFFFFF;
+    color: var(--color-royal-blue, #0052CC);
 }
 
 /* ==========================================================================
@@ -486,17 +485,6 @@ select.custom-glass-control option {
     transform: translateY(-2px);
 }
 
-/* Glassmorphic Main Container Card */
-.custom-card {
-    background: rgba(255, 255, 255, 0.72);
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    border-radius: var(--radius-card, 20px);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 16px 40px rgba(0, 82, 204, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-}
-
-
 /* ==========================================================================
    9. DEPARTMENT SELECTION GRID & FILTERS (BRIGHT DIAMOND GLASS)
    ========================================================================== */
@@ -628,53 +616,7 @@ select.custom-glass-control option {
 }
 
 /* ==========================================================================
-   11. PURE BLUE GLASS BACK BUTTON (GLOBAL)
-   ========================================================================== */
-.btn-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(0, 82, 204, 0.1);
-    color: var(--color-royal-blue, #0052CC) !important;
-    border: 1.5px solid rgba(0, 82, 204, 0.25);
-    border-radius: 30px;
-    padding: 0.4rem 1rem 0.4rem 0.5rem;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: all var(--transition-fast, 0.2s ease);
-}
-
-.btn-back-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--color-royal-blue, #0052CC);
-    color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    transition: all var(--transition-fast, 0.2s ease);
-}
-
-.btn-back:hover {
-    background: var(--color-royal-blue, #0052CC);
-    color: #FFFFFF !important;
-    border-color: var(--color-royal-blue, #0052CC);
-    box-shadow: 0 4px 14px rgba(0, 82, 204, 0.35);
-    transform: translateX(-3px);
-}
-
-.btn-back:hover .btn-back-icon {
-    background: #FFFFFF;
-    color: var(--color-royal-blue, #0052CC);
-}
-
-/* ==========================================================================
-   12. LIVE QUEUE TV DISPLAY THEME REPLICATE
+   11. LIVE QUEUE TV DISPLAY THEME REPLICATE
    ========================================================================== */
 
    body.live-queue-page {
@@ -842,7 +784,7 @@ select.custom-glass-control option {
 }
 
 /* ==========================================================================
-   12.1 QUEUE FOOTER WITH BACKGROUND IMAGE
+   11.1 QUEUE FOOTER WITH BACKGROUND IMAGE
    ========================================================================== */
 
 .queue-footer-strip {
@@ -931,84 +873,3 @@ select.custom-glass-control option {
   transform: translateY(-100%);
 }
 
-/* ==========================================================================
-   13. DASHBOARD STATUS BADGES & SHIFT INDICATORS
-   ========================================================================== */
-.badge-shift-active {
-    background: rgba(16, 185, 129, 0.15) !important;
-    color: #047857 !important;
-    border: 1px solid rgba(16, 185, 129, 0.3) !important;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-}
-
-.badge-role-staff {
-    background: rgba(2, 132, 199, 0.15) !important;
-    color: #0369a1 !important;
-    border: 1px solid rgba(2, 132, 199, 0.3) !important;
-}
-
-/* ==========================================================================
-   13.1 OPERATIONAL MODULE SPECIFIC STYLING
-   ========================================================================== */
-.card-staff-action {
-    min-height: 280px;
-}
-
-.text-primary-dark {
-    color: var(--color-text-primary) !important;
-}
-
- /* ==========================================================================
-   13.2 DASHBOARD APP LAYOUT & SIDEBAR NAVIGATION
-   ========================================================================== */
-.app-wrapper {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f1f5f9;
-}
-
-.sidebar-nav {
-    width: 240px;
-    background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.5rem 1rem;
-    flex-shrink: 0;
-}
-
-.sidebar-menu .nav-link {
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 600;
-    padding: 0.75rem 1rem;
-    border-radius: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    transition: all var(--transition-fast, 0.25s ease);
-    text-decoration: none;
-}
-
-.sidebar-menu .nav-link:hover,
-.sidebar-menu .nav-link.active {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.sidebar-footer-slogan {
-    font-size: 1.1rem;
-    font-weight: 800;
-    font-style: italic;
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.2;
-    padding-left: 0.5rem;
-}
-
-.app-main-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-}
