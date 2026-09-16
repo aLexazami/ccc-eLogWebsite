@@ -176,7 +176,7 @@ require_once __DIR__ . '/../../includes/header.php';
               <div class="d-flex align-items-center gap-2 fw-bold text-uppercase fs-6">
                 <i class="bi bi-building-fill"></i> Office Status
               </div>
-              <span class="badge bg-white text-primary rounded-pill px-2 py-1 fw-bold" style="font-size: 0.65rem;" id="officeSubtitle">12 OFFICES</span>
+              <span class="badge bg-white text-primary rounded-pill px-2 py-1 fw-bold" style="font-size: 0.65rem;" id="officeSubtitle">0 OFFICES</span>
             </div>
 
             <div class="office-status-grid-container flex-grow-1" id="officeGrid">

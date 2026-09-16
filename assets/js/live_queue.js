@@ -167,40 +167,51 @@
   }
 
   function updateOfficeStatus() {
-    const grid = document.getElementById("officeGrid");
-    grid.innerHTML = "";
+  const grid = document.getElementById("officeGrid");
+  const subtitle = document.getElementById("officeSubtitle");
+  
+  grid.innerHTML = "";
 
-    const totalOffices = officeStatus.length;
-    const currentTicket = queueData[currentIndex] ? queueData[currentIndex].number : "";
+  const totalOffices = officeStatus.length;
+  const currentTicket = queueData[currentIndex] ? queueData[currentIndex].number : "";
 
-    for (let i = 0; i < totalOffices; i++) {
-      const office = officeStatus[i];
-      const isNowCalling = office.queue === currentTicket;
-
-      const displayStatus = isNowCalling ? "NOW CALLING" : office.status;
-      const badgeColor = isNowCalling ? "text-warning" : "text-success";
-
-      const card = document.createElement("div");
-      card.className = `office-status-card office-compact-card w-100 d-flex align-items-center gap-1 rounded-2 border ${isNowCalling ? 'active-calling border-warning bg-warning-subtle' : 'bg-white'}`;
-
-      card.innerHTML = `
-        <div class="icon-circle rounded-circle ${office.color} d-flex align-items-center justify-content-center flex-shrink-0">
-          <i class="bi ${office.icon || 'bi-building'}"></i>
-        </div>
-        <div class="overflow-hidden flex-grow-1">
-          <div class="fw-bold text-dark office-title">${office.office}</div>
-          <div class="fw-extrabold text-primary office-ticket">${office.queue}</div>
-          <span class="status-indicator ${badgeColor} d-block">
-            <i class="bi bi-circle-fill me-1" style="font-size:0.35rem;"></i>${displayStatus}
-          </span>
-        </div>
-      `;
-
-      grid.appendChild(card);
-    }
-
-    document.getElementById("officeSubtitle").textContent = `${totalOffices} OFFICES`;
+  if (subtitle) {
+    subtitle.textContent = `${totalOffices} OFFICE${totalOffices === 1 ? '' : 'S'}`;
   }
+
+  for (let i = 0; i < totalOffices; i++) {
+    const office = officeStatus[i];
+    const isNowCalling = office.queue === currentTicket;
+
+    const displayStatus = isNowCalling ? "NOW CALLING" : office.status;
+    const badgeColor = isNowCalling ? "text-warning" : "text-success";
+
+    const counterBadge = office.counter 
+      ? `<span class="badge bg-secondary-subtle text-dark ms-1" style="font-size: 0.55rem;">${office.counter}</span>` 
+      : "";
+
+    const card = document.createElement("div");
+    card.className = `office-status-card office-compact-card w-100 d-flex align-items-center gap-1 rounded-2 border ${isNowCalling ? 'active-calling border-warning bg-warning-subtle' : 'bg-white'}`;
+
+    card.innerHTML = `
+      <div class="icon-circle rounded-circle ${office.color} d-flex align-items-center justify-content-center flex-shrink-0">
+        <i class="bi ${office.icon || 'bi-building'}"></i>
+      </div>
+      <div class="overflow-hidden flex-grow-1 d-flex flex-column align-items-start">
+        <div class="fw-bold text-dark office-title">${office.office}</div>
+        <div class="d-flex align-items-center">
+          <span class="fw-extrabold text-primary office-ticket">${office.queue}</span>
+          ${counterBadge}
+        </div>
+        <span class="status-indicator ${badgeColor} d-block mt-1">
+          <i class="bi bi-circle-fill me-1" style="font-size:0.35rem;"></i>${displayStatus}
+        </span>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  }
+}
 
   function updateClock() {
     const now = new Date();
