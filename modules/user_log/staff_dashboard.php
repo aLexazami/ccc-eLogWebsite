@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // 1. Pathing: Base folder is one level up ('..')
 $baseUrl = defined('BASE_URL') ? BASE_URL : '..';
-require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../../includes/header.php';
 
 // 2. RBAC Access Verification
 if (!isset($_SESSION['user_id'])) {
@@ -107,4 +107,4 @@ $fullName = $_SESSION['full_name'] ?? 'Staff Member';
 
 </div>
 
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>

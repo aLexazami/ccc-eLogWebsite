@@ -44,7 +44,7 @@ require_once __DIR__ . '/../../includes/header.php';
                             <h3 class="fw-extrabold mb-3" style="color: var(--color-text-primary);">Student</h3>
                         </div>
                         <div class="w-100">
-                            <a href="<?= BASE_URL; ?>/logbook/student_info.php" class="btn btn-portal btn-oval w-100 py-3 mt-3 shadow-sm" role="button">
+                            <a href="<?= BASE_URL; ?>/modules/logbook/student_info.php" class="btn btn-portal btn-oval w-100 py-3 mt-3 shadow-sm" role="button">
                                 <span class="btn-label fw-bold">Select Student</span>
                             </a>
                         </div>
@@ -65,7 +65,7 @@ require_once __DIR__ . '/../../includes/header.php';
                             <h3 class="fw-extrabold mb-3" style="color: var(--color-text-primary);">School Personnel</h3>
                         </div>
                         <div class="w-100">
-                            <a href="<?= BASE_URL; ?>/logbook/personnel_info.php" class="btn btn-portal btn-oval w-100 py-3 mt-3 shadow-sm" role="button">
+                            <a href="<?= BASE_URL; ?>/modules/logbook/personnel_info.php" class="btn btn-portal btn-oval w-100 py-3 mt-3 shadow-sm" role="button">
                                 <span class="btn-label fw-bold">Select Personnel</span>
                             </a>
                         </div>
@@ -86,7 +86,7 @@ require_once __DIR__ . '/../../includes/header.php';
                             <h3 class="fw-extrabold mb-3" style="color: var(--color-text-primary);">Guest / Visitor</h3>
                         </div>
                         <div class="w-100">
-                            <a href="<?= BASE_URL; ?>/logbook/guest_info.php" class="btn btn-portal btn-oval w-100 py-3 mt-3 shadow-sm" role="button">
+                            <a href="<?= BASE_URL; ?>/modules/logbook/guest_info.php" class="btn btn-portal btn-oval w-100 py-3 mt-3 shadow-sm" role="button">
                                 <span class="btn-label fw-bold">Select Guest</span>
                             </a>
                         </div>

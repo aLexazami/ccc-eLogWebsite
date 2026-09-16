@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // 1. Calculate relative paths to core files
 $baseUrl = defined('BASE_URL') ? BASE_URL : '..';
-require_once __DIR__ . '/../includes/header.php'; // Includes DB connection & configurations
+require_once __DIR__ . '/../../includes/header.php'; // Includes DB connection & configurations
 
 // 2. Security: Generate CSRF Token for form submission
 if (empty($_SESSION['csrf_token'])) {
@@ -242,4 +242,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </div>
 
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
