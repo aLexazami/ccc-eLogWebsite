@@ -1,9 +1,9 @@
 <?php
-// personnel_info.php
-$pageTitle = "Personnel Information";
+// student_info.php
+$pageTitle = "Student Information";
 $pageScript = "/assets/js/kiosk.js";
 
-require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../../includes/header.php';
 ?>
 
 <div class="portal-bg py-5 min-vh-100">
@@ -28,20 +28,20 @@ require_once __DIR__ . '/../includes/header.php';
                     
                     <!-- TOP CATEGORY BADGE & TITLE -->
                     <div class="mb-4 text-center text-md-start">
-                        <span class="category-badge mb-3">SCHOOL PERSONNEL</span>
-                        <h1 class="fw-black mb-2" style="color: var(--color-text-primary);">Personnel Information</h1>
+                        <span class="category-badge mb-3">STUDENT</span>
+                        <h1 class="fw-black mb-2" style="color: var(--color-text-primary);">Student Information</h1>
                         <p class="mb-0 fw-semibold" style="color: var(--color-text-secondary);">
-                            Please provide your faculty/staff details before proceeding.
+                            Please provide your personal information before proceeding to office selection.
                         </p>
                     </div>
 
                     <!-- FORM -->
                     <form id="kioskForm" action="dept_select.php" method="POST" novalidate>
-                        <input type="hidden" name="client_type" value="personnel">
+                        <input type="hidden" name="client_type" value="student">
 
                         <div class="mb-3">
-                            <label for="employeeId" class="form-label-custom">Employee / Faculty ID <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control custom-glass-control" id="employeeId" name="employee_id" placeholder="Enter your employee ID" required>
+                            <label for="studentId" class="form-label-custom">Student ID <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control custom-glass-control" id="studentId" name="student_id" placeholder="Enter your student ID" required>
                         </div>
 
                         <div class="mb-3">
@@ -51,17 +51,23 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
-                                <label for="department" class="form-label-custom">Department / Office <span class="text-danger">*</span></label>
-                                <select class="form-select custom-glass-control" id="department" name="department" required>
-                                    <option value="" selected disabled>Select department</option>
-                                    <option value="College of Computer Studies">College of Computer Studies</option>
-                                    <option value="College of Business">College of Business</option>
-                                    <option value="Administration">Administration</option>
+                                <label for="courseProgram" class="form-label-custom">Course / Program <span class="text-danger">*</span></label>
+                                <select class="form-select custom-glass-control" id="courseProgram" name="course_program" required>
+                                    <option value="" selected disabled>Select course / program</option>
+                                    <option value="BSCS">BS Computer Science</option>
+                                    <option value="BSIT">BS Information Technology</option>
+                                    <option value="BSBA">BS Business Administration</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="position" class="form-label-custom">Position / Role <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control custom-glass-control" id="position" name="position" placeholder="e.g. Instructor, Staff" required>
+                                <label for="yearLevel" class="form-label-custom">Year Level <span class="text-danger">*</span></label>
+                                <select class="form-select custom-glass-control" id="yearLevel" name="year_level" required>
+                                    <option value="" selected disabled>Select year level</option>
+                                    <option value="1st Year">1st Year</option>
+                                    <option value="2nd Year">2nd Year</option>
+                                    <option value="3rd Year">3rd Year</option>
+                                    <option value="4th Year">4th Year</option>
+                                </select>
                             </div>
                         </div>
 
@@ -94,4 +100,4 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>

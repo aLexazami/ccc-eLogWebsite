@@ -3,7 +3,7 @@
 $pageTitle = "Select Client Type";
 
 // Include Header (Auto-loads config.php and starts <body>)
-require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../../includes/header.php';
 ?>
 
 <div class="portal-bg min-vh-100 py-4 d-flex flex-column justify-content-between">
@@ -108,5 +108,5 @@ require_once __DIR__ . '/../includes/header.php';
 
 <?php
 // Include Footer
-require_once __DIR__ . '/../includes/footer.php';
+require_once __DIR__ . '/../../includes/footer.php';
 ?>

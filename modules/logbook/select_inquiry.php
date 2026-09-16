@@ -47,7 +47,7 @@ $_SESSION['dept_code'] = $currentDept['code'];
 $pageTitle = "Select Inquiry - " . $currentDept['name'];
 $pageScript = "/assets/js/kiosk.js";
 
-require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../../includes/header.php';
 ?>
 
 <div class="portal-bg py-5 min-vh-100">
@@ -169,4 +169,4 @@ function openInquiryModal(txId, txTitle) {
 }
 </script>
 
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>

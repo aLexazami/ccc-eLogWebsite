@@ -23,5 +23,5 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // Redirect to the landing page outside the folder
-header("Location: ../index.php");
+header("Location: ../../index.php");
 exit();

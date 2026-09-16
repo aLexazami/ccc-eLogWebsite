@@ -54,7 +54,7 @@ require_once __DIR__ . '/includes/header.php';
                         </div>
                         <h3 class="fw-extrabold mb-4" style="color: var(--color-text-primary);">Digital Logbook</h3>
 
-                        <a href="<?= BASE_URL; ?>/logbook/" class="btn btn-portal btn-oval w-100 py-3 mt-auto shadow-sm" role="button">
+                        <a href="<?= BASE_URL; ?>/modules/logbook/" class="btn btn-portal btn-oval w-100 py-3 mt-auto shadow-sm" role="button">
                             <span class="btn-label fw-semibold">Check-In</span>
                         </a>
                     </div>
@@ -72,7 +72,7 @@ require_once __DIR__ . '/includes/header.php';
                         </div>
                         <h3 class="fw-extrabold mb-4" style="color: var(--color-text-primary);">Live Queue</h3>
 
-                        <a href="<?= BASE_URL; ?>/queue_list/live_queue.php" class="btn btn-portal btn-oval w-100 py-3 mt-auto shadow-sm" role="button">
+                        <a href="<?= BASE_URL; ?>/modules/queue_list/live_queue.php" class="btn btn-portal btn-oval w-100 py-3 mt-auto shadow-sm" role="button">
                             <span class="btn-label fw-semibold">View Queue</span>
                         </a>
                     </div>
@@ -90,7 +90,7 @@ require_once __DIR__ . '/includes/header.php';
                         </div>
                         <h3 class="fw-extrabold mb-4" style="color: var(--color-text-primary);">Staff Portal</h3>
 
-                        <a href="<?= BASE_URL; ?>/user_log/staff_login.php" class="btn btn-portal btn-oval w-100 py-3 mt-auto shadow-sm" role="button">
+                        <a href="<?= BASE_URL; ?>/modules/user_log/staff_login.php" class="btn btn-portal btn-oval w-100 py-3 mt-auto shadow-sm" role="button">
                             <span class="btn-label fw-semibold">Login</span>
                         </a>
                     </div>

@@ -1,9 +1,9 @@
 <?php
-// guest_info.php
-$pageTitle = "Visitor Information";
+// personnel_info.php
+$pageTitle = "Personnel Information";
 $pageScript = "/assets/js/kiosk.js";
 
-require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../../includes/header.php';
 ?>
 
 <div class="portal-bg py-5 min-vh-100">
@@ -28,25 +28,41 @@ require_once __DIR__ . '/../includes/header.php';
                     
                     <!-- TOP CATEGORY BADGE & TITLE -->
                     <div class="mb-4 text-center text-md-start">
-                        <span class="category-badge mb-3">GUEST / VISITOR</span>
-                        <h1 class="fw-black mb-2" style="color: var(--color-text-primary);">Visitor Information</h1>
+                        <span class="category-badge mb-3">SCHOOL PERSONNEL</span>
+                        <h1 class="fw-black mb-2" style="color: var(--color-text-primary);">Personnel Information</h1>
                         <p class="mb-0 fw-semibold" style="color: var(--color-text-secondary);">
-                            Please provide your visitor details before proceeding.
+                            Please provide your faculty/staff details before proceeding.
                         </p>
                     </div>
 
                     <!-- FORM -->
                     <form id="kioskForm" action="dept_select.php" method="POST" novalidate>
-                        <input type="hidden" name="client_type" value="guest">
+                        <input type="hidden" name="client_type" value="personnel">
+
+                        <div class="mb-3">
+                            <label for="employeeId" class="form-label-custom">Employee / Faculty ID <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control custom-glass-control" id="employeeId" name="employee_id" placeholder="Enter your employee ID" required>
+                        </div>
 
                         <div class="mb-3">
                             <label for="fullName" class="form-label-custom">Full Name <span class="text-danger">*</span></label>
                             <input type="text" class="form-control custom-glass-control" id="fullName" name="full_name" placeholder="Enter your full name" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="address" class="form-label-custom">Address <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control custom-glass-control" id="address" name="address" placeholder="Enter your current address" required>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="department" class="form-label-custom">Department / Office <span class="text-danger">*</span></label>
+                                <select class="form-select custom-glass-control" id="department" name="department" required>
+                                    <option value="" selected disabled>Select department</option>
+                                    <option value="College of Computer Studies">College of Computer Studies</option>
+                                    <option value="College of Business">College of Business</option>
+                                    <option value="Administration">Administration</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="position" class="form-label-custom">Position / Role <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control custom-glass-control" id="position" name="position" placeholder="e.g. Instructor, Staff" required>
+                            </div>
                         </div>
 
                         <div class="mb-4">
@@ -78,4 +94,4 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>

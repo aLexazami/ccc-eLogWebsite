@@ -23,7 +23,7 @@ if ($clientType === 'personnel') {
 $pageTitle = "Select Department";
 $pageScript = "/assets/js/kiosk.js";
 
-require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../../includes/header.php';
 
 // Mock list of departments (Fetch this from your database in production)
 $departments = [
@@ -167,4 +167,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
