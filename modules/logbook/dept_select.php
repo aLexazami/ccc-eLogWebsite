@@ -25,26 +25,29 @@ $pageScript = "/assets/js/kiosk.js";
 
 require_once __DIR__ . '/../../includes/header.php';
 
-// Mock list of departments (Fetch this from your database in production)
+// Departments mapped to Admin, Rizal, and JMC Buildings
 $departments = [
-    // Academic & Colleges
-    ['id' => 1, 'name' => 'College of Computer Studies', 'code' => 'CCS', 'category' => 'academic', 'icon' => 'bi-laptop'],
-    ['id' => 2, 'name' => 'College of Business & Accountancy', 'code' => 'CBA', 'category' => 'academic', 'icon' => 'bi-briefcase'],
-    ['id' => 3, 'name' => 'College of Education', 'code' => 'CED', 'category' => 'academic', 'icon' => 'bi-book'],
-    ['id' => 4, 'name' => "Dean's Office", 'code' => 'DO', 'category' => 'academic', 'icon' => 'bi-building'],
-    
-    // Administrative & Student Services
-    ['id' => 5, 'name' => 'Registrar', 'code' => 'REG', 'category' => 'admin', 'icon' => 'bi-file-earmark-text'],
-    ['id' => 6, 'name' => 'Accounting Office', 'code' => 'ACC', 'category' => 'finance', 'icon' => 'bi-cash-coin'],
-    ['id' => 7, 'name' => 'Cashier', 'code' => 'CSH', 'category' => 'finance', 'icon' => 'bi-credit-card'],
-    ['id' => 8, 'name' => 'Admissions Office', 'code' => 'ADM', 'category' => 'admin', 'icon' => 'bi-person-plus'],
-    ['id' => 9, 'name' => 'Guidance & Counseling', 'code' => 'GDC', 'category' => 'services', 'icon' => 'bi-heart-pulse'],
-    ['id' => 10, 'name' => 'Student Affairs (OSA)', 'code' => 'OSA', 'category' => 'services', 'icon' => 'bi-people'],
-    ['id' => 11, 'name' => 'Library', 'code' => 'LIB', 'category' => 'services', 'icon' => 'bi-journal-bookmark'],
-    ['id' => 12, 'name' => 'School Clinic', 'code' => 'CLN', 'category' => 'services', 'icon' => 'bi-hospital'],
-    ['id' => 13, 'name' => 'MIS / IT Support', 'code' => 'IT', 'category' => 'admin', 'icon' => 'bi-pc-display'],
-    ['id' => 14, 'name' => 'Human Resources', 'code' => 'HR', 'category' => 'admin', 'icon' => 'bi-person-badge'],
-    ['id' => 15, 'name' => 'Property & Supply Office', 'code' => 'PSO', 'category' => 'admin', 'icon' => 'bi-box-seam'],
+    // --- ADMIN BUILDING ---
+    ['id' => 1, 'name' => 'Admissions Office', 'code' => 'ADM', 'building' => 'Admin Building', 'icon' => 'bi-person-plus'],
+    ['id' => 2, 'name' => 'Accounting Office', 'code' => 'ACC', 'building' => 'Admin Building', 'icon' => 'bi-cash-coin'],
+    ['id' => 3, 'name' => 'Cashier', 'code' => 'CSH', 'building' => 'Admin Building', 'icon' => 'bi-credit-card'],
+    ['id' => 4, 'name' => 'Human Resources', 'code' => 'HR', 'building' => 'Admin Building', 'icon' => 'bi-person-badge'],
+    ['id' => 5, 'name' => 'College of Business & Accountancy', 'code' => 'CBA', 'building' => 'Admin Building', 'icon' => 'bi-briefcase'],
+    ['id' => 6, 'name' => 'College of Education', 'code' => 'CE', 'building' => 'Admin Building', 'icon' => 'bi-book'],
+    ['id' => 7, 'name' => 'MIS / IT Support', 'code' => 'MIS', 'building' => 'Admin Building', 'icon' => 'bi-pc-display'],
+    ['id' => 8, 'name' => 'Office of Student Affairs', 'code' => 'OSA', 'building' => 'Admin Building', 'icon' => 'bi-people'],
+    ['id' => 9, 'name' => 'Property & Supply Office', 'code' => 'PSO', 'building' => 'Admin Building', 'icon' => 'bi-box-seam'],
+    ['id' => 10, 'name' => 'Guidance & Counseling', 'code' => 'GDC', 'building' => 'Admin Building', 'icon' => 'bi-heart-pulse'],
+    ['id' => 11, 'name' => 'School Clinic', 'code' => 'CLN', 'building' => 'Admin Building', 'icon' => 'bi-hospital'],
+    ['id' => 12, 'name' => "Dean's Office", 'code' => 'DO', 'building' => 'Admin Building', 'icon' => 'bi-building'],
+
+    // --- RIZAL BUILDING ---
+    ['id' => 13, 'name' => 'College of Computer Studies', 'code' => 'CCS', 'building' => 'Rizal Building', 'icon' => 'bi-laptop'],
+    ['id' => 14, 'name' => 'College of Industrial Technology', 'code' => 'CIT', 'building' => 'Rizal Building', 'icon' => 'bi-gear-wide-connected'],
+
+    // --- JMC BUILDING ---
+    ['id' => 15, 'name' => 'Library', 'code' => 'LIB', 'building' => 'JMC Building', 'icon' => 'bi-journal-bookmark'],
+    ['id' => 16, 'name' => 'Registrar Office', 'code' => 'REG', 'building' => 'JMC Building', 'icon' => 'bi-file-earmark-text'],
 ];
 ?>
 
@@ -74,30 +77,32 @@ $departments = [
             <div class="col-md-6">
                 <div class="position-relative">
                     <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3" style="color: var(--color-text-muted);"></i>
-                    <input type="text" id="deptSearch" class="form-control custom-glass-control ps-5" placeholder="Search office or department name...">
+                    <input type="text" id="deptSearch" class="form-control custom-glass-control ps-5" placeholder="Search office name or acronym (e.g., CCS, Registrar)...">
                 </div>
             </div>
         </div>
 
-        <!-- Filter Category Tabs -->
+        <!-- Filter Building Tabs -->
         <div class="d-flex gap-2 overflow-auto mb-4 pb-2" id="categoryFilters">
-            <button class="btn btn-filter active" data-filter="all">All Offices</button>
-            <button class="btn btn-filter" data-filter="admin">Administrative</button>
-            <button class="btn btn-filter" data-filter="finance">Finance & Payment</button>
-            <button class="btn btn-filter" data-filter="academic">Academic & Colleges</button>
-            <button class="btn btn-filter" data-filter="services">Student Services</button>
+            <button class="btn btn-filter active" data-filter="all">All Buildings</button>
+            <button class="btn btn-filter" data-filter="Admin Building">Admin Building</button>
+            <button class="btn btn-filter" data-filter="Rizal Building">Rizal Building</button>
+            <button class="btn btn-filter" data-filter="JMC Building">JMC Building</button>
         </div>
 
         <!-- Department Cards Grid -->
         <div class="row g-3" id="deptGrid">
             <?php foreach ($departments as $dept): ?>
                 <div class="col-6 col-md-4 col-lg-3 dept-item" 
-                     data-category="<?= htmlspecialchars($dept['category']) ?>" 
+                     data-building="<?= htmlspecialchars($dept['building']) ?>" 
                      data-name="<?= strtolower(htmlspecialchars($dept['name'])) ?>"
                      data-code="<?= strtolower(htmlspecialchars($dept['code'])) ?>">
                      
-                    <a href="select_inquiry.php?dept_id=<?= $dept['id'] ?>" class="card dept-card h-100 p-3 text-decoration-none text-center d-flex flex-column align-items-center justify-content-center">
-                        <div class="dept-icon-box mb-3">
+                    <a href="select_inquiry.php?dept_id=<?= $dept['id'] ?>" class="card dept-card h-100 p-3 text-decoration-none text-center d-flex flex-column align-items-center justify-content-center position-relative">
+                        <span class="badge bg-secondary-subtle text-dark position-absolute top-0 end-0 m-2" style="font-size: 0.65rem;">
+                            <?= htmlspecialchars($dept['building']) ?>
+                        </span>
+                        <div class="dept-icon-box mb-3 mt-2">
                             <i class="bi <?= htmlspecialchars($dept['icon']) ?> fs-2"></i>
                         </div>
                         <h6 class="fw-bold mb-1 dept-title" style="color: var(--color-text-primary);"><?= htmlspecialchars($dept['name']) ?></h6>
@@ -111,60 +116,18 @@ $departments = [
         <div id="noResults" class="text-center py-5 d-none">
             <i class="bi bi-search fs-1 mb-2 d-block" style="color: var(--color-text-muted);"></i>
             <h5 class="fw-bold" style="color: var(--color-text-primary);">No matching offices found</h5>
-            <p class="fw-semibold" style="color: var(--color-text-secondary);">Try searching for a different keyword or select another category.</p>
+            <p class="fw-semibold" style="color: var(--color-text-secondary);">Try searching for a different keyword or select another building.</p>
         </div>
 
     </div>
 </div>
 
-<!-- Simple Filtering & Search Logic -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('deptSearch');
-    const filterBtns = document.querySelectorAll('.btn-filter');
-    const deptItems = document.querySelectorAll('.dept-item');
-    const noResults = document.getElementById('noResults');
+<?php
+// JS Auto Versioning Injection
+$deptSelectJsPath = ROOT_PATH . '/assets/js/dept_select.js';
+$deptSelectJsVersion = file_exists($deptSelectJsPath) ? filemtime($deptSelectJsPath) : time();
 
-    let currentCategory = 'all';
+$extraJs = '<script src="' . $baseUrl . '/assets/js/dept_select.js?v=' . $deptSelectJsVersion . '"></script>';
 
-    function filterDepartments() {
-        const query = searchInput.value.toLowerCase().trim();
-        let visibleCount = 0;
-
-        deptItems.forEach(item => {
-            const category = item.dataset.category;
-            const name = item.dataset.name;
-            const code = item.dataset.code;
-
-            const matchesCategory = (currentCategory === 'all' || category === currentCategory);
-            const matchesSearch = name.includes(query) || code.includes(query);
-
-            if (matchesCategory && matchesSearch) {
-                item.classList.remove('d-none');
-                visibleCount++;
-            } else {
-                item.classList.add('d-none');
-            }
-        });
-
-        if (visibleCount === 0) {
-            noResults.classList.remove('d-none');
-        } else {
-            noResults.classList.add('d-none');
-        }
-    }
-
-    searchInput.addEventListener('input', filterDepartments);
-
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            currentCategory = this.dataset.filter;
-            filterDepartments();
-        });
-    });
-});
-</script>
-
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
+require_once __DIR__ . '/../../includes/footer.php';
+?>
