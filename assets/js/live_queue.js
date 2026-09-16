@@ -1,172 +1,205 @@
 /* =====================================================
-     DATA CONFIGURATION (12 Offices Total)
-     ===================================================== */
-  const queueData = [
-    { number: "R-024", office: "Registrar Office" },
-    { number: "AC-015", office: "Accounting Office" },
-    { number: "AD-008", office: "Admissions Office" },
-    { number: "G-011", office: "Guidance Office" },
-    { number: "L-012", office: "Library" },
-    { number: "C-006", office: "School Clinic" },
-    { number: "CA-018", office: "Cashier" },
-    { number: "HR-004", office: "Human Resources" },
-    { number: "IT-009", office: "IT Center" },
-    { number: "SA-021", office: "Student Affairs" },
-    { number: "VP-003", office: "VPAA Office" },
-    { number: "OS-001", office: "OIC Dean Office" }
-  ];
+   DATA CONFIGURATION (12 Offices Total with Building Mapping)
+   ===================================================== */
+const officeBuildingMap = {
+  "Admissions Office": "Admin Building",
+  "Accounting Office": "Admin Building",
+  "Cashier": "Admin Building",
+  "Human Resources": "Admin Building",
+  "College of Business & Accountancy": "Admin Building",
+  "College of Education": "Admin Building",
+  "IT Center": "Admin Building",
+  "MIS / IT Support": "Admin Building",
+  "Student Affairs": "Admin Building",
+  "Property & Supply Office": "Admin Building",
+  "Guidance Office": "Admin Building",
+  "Guidance & Counseling": "Admin Building",
+  "School Clinic": "Admin Building",
+  "OIC Dean Office": "Admin Building",
+  "VPAA Office": "Admin Building",
+  "College of Computer Studies": "Rizal Building",
+  "College of Industrial Technology": "Rizal Building",
+  "Library": "JMC Building",
+  "Registrar Office": "JMC Building"
+};
 
-  const officeStatus = [
-    { office: "Registrar Office", queue: "R-024", status: "SERVING", icon: "bi-file-earmark-text-fill", color: "text-primary bg-primary-subtle" },
-    { office: "Accounting Office", queue: "AC-015", status: "SERVING", icon: "bi-calculator-fill", color: "text-success bg-success-subtle" },
-    { office: "Admissions Office", queue: "AD-008", status: "SERVING", icon: "bi-mortarboard-fill", color: "text-warning bg-warning-subtle" },
-    { office: "Guidance Office", queue: "G-011", status: "SERVING", icon: "bi-people-fill", color: "text-info bg-info-subtle" },
-    { office: "School Clinic", queue: "C-006", status: "SERVING", icon: "bi-hospital-fill", color: "text-danger bg-danger-subtle" },
-    { office: "Library", queue: "L-012", status: "SERVING", icon: "bi-book-fill", color: "text-secondary bg-secondary-subtle" },
-    { office: "Cashier", queue: "CA-018", status: "SERVING", icon: "bi-cash-coin", color: "text-success bg-success-subtle" },
-    { office: "Human Resources", queue: "HR-004", status: "SERVING", icon: "bi-briefcase-fill", color: "text-dark bg-light-subtle" },
-    { office: "IT Center", queue: "IT-009", status: "SERVING", icon: "bi-laptop-fill", color: "text-primary bg-primary-subtle" },
-    { office: "Student Affairs", queue: "SA-021", status: "SERVING", icon: "bi-person-badge-fill", color: "text-info bg-info-subtle" },
-    { office: "VPAA Office", queue: "VP-003", status: "SERVING", icon: "bi-award-fill", color: "text-warning bg-warning-subtle" },
-    { office: "OIC Dean Office", queue: "OS-001", status: "SERVING", icon: "bi-building-gear", color: "text-danger bg-danger-subtle" }
-  ];
+const queueData = [
+  { number: "R-024", office: "Registrar Office" },
+  { number: "AC-015", office: "Accounting Office" },
+  { number: "AD-008", office: "Admissions Office" },
+  { number: "G-011", office: "Guidance Office" },
+  { number: "L-012", office: "Library" },
+  { number: "C-006", office: "School Clinic" },
+  { number: "CA-018", office: "Cashier" },
+  { number: "HR-004", office: "Human Resources" },
+  { number: "IT-009", office: "IT Center" },
+  { number: "SA-021", office: "Student Affairs" },
+  { number: "VP-003", office: "VPAA Office" },
+  { number: "OS-001", office: "OIC Dean Office" }
+];
 
-  let currentIndex = 0;
+const officeStatus = [
+  { office: "Registrar Office", queue: "R-024", status: "SERVING", icon: "bi-file-earmark-text-fill", color: "text-primary bg-primary-subtle" },
+  { office: "Accounting Office", queue: "AC-015", status: "SERVING", icon: "bi-calculator-fill", color: "text-success bg-success-subtle" },
+  { office: "Admissions Office", queue: "AD-008", status: "SERVING", icon: "bi-mortarboard-fill", color: "text-warning bg-warning-subtle" },
+  { office: "Guidance Office", queue: "G-011", status: "SERVING", icon: "bi-people-fill", color: "text-info bg-info-subtle" },
+  { office: "School Clinic", queue: "C-006", status: "SERVING", icon: "bi-hospital-fill", color: "text-danger bg-danger-subtle" },
+  { office: "Library", queue: "L-012", status: "SERVING", icon: "bi-book-fill", color: "text-secondary bg-secondary-subtle" },
+  { office: "Cashier", queue: "CA-018", status: "SERVING", icon: "bi-cash-coin", color: "text-success bg-success-subtle" },
+  { office: "Human Resources", queue: "HR-004", status: "SERVING", icon: "bi-briefcase-fill", color: "text-dark bg-light-subtle" },
+  { office: "IT Center", queue: "IT-009", status: "SERVING", icon: "bi-laptop-fill", color: "text-primary bg-primary-subtle" },
+  { office: "Student Affairs", queue: "SA-021", status: "SERVING", icon: "bi-person-badge-fill", color: "text-info bg-info-subtle" },
+  { office: "VPAA Office", queue: "VP-003", status: "SERVING", icon: "bi-award-fill", color: "text-warning bg-warning-subtle" },
+  { office: "OIC Dean Office", queue: "OS-001", status: "SERVING", icon: "bi-building-gear", color: "text-danger bg-danger-subtle" }
+];
 
-  /* =====================================================
-     VOICE ANNOUNCEMENT LOGIC
-     ===================================================== */
-  let singleFemaleVoice = null;
+let currentIndex = 0;
 
-  function getBestFemaleVoice() {
-    if (!('speechSynthesis' in window)) return null;
-    const voices = window.speechSynthesis.getVoices();
-    if (!voices || voices.length === 0) return null;
+/* =====================================================
+   VOICE ANNOUNCEMENT LOGIC
+   ===================================================== */
+let singleFemaleVoice = null;
 
-    const femaleNames = ["zira", "janny", "jenny", "samantha", "siri", "victoria", "karen", "aria", "ava", "emma", "hazel", "susan", "female", "google us english"];
-    const maleNames = ["david", "mark", "george", "james", "richard", "male", "guy", "stefan"];
+function getBestFemaleVoice() {
+  if (!('speechSynthesis' in window)) return null;
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices || voices.length === 0) return null;
 
-    let selected = voices.find(v => v.lang.startsWith('en') && femaleNames.some(fn => v.name.toLowerCase().includes(fn)));
-    if (!selected) {
-      selected = voices.find(v => v.lang.startsWith('en') && !maleNames.some(mn => v.name.toLowerCase().includes(mn)));
-    }
-    return selected || voices.find(v => v.lang.startsWith('en')) || voices[0];
+  const femaleNames = ["zira", "janny", "jenny", "samantha", "siri", "victoria", "karen", "aria", "ava", "emma", "hazel", "susan", "female", "google us english"];
+  const maleNames = ["david", "mark", "george", "james", "richard", "male", "guy", "stefan"];
+
+  let selected = voices.find(v => v.lang.startsWith('en') && femaleNames.some(fn => v.name.toLowerCase().includes(fn)));
+  if (!selected) {
+    selected = voices.find(v => v.lang.startsWith('en') && !maleNames.some(mn => v.name.toLowerCase().includes(mn)));
   }
+  return selected || voices.find(v => v.lang.startsWith('en')) || voices[0];
+}
 
-  function loadVoices() { singleFemaleVoice = getBestFemaleVoice(); }
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.onvoiceschanged = loadVoices;
-    loadVoices();
+function loadVoices() { singleFemaleVoice = getBestFemaleVoice(); }
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+  loadVoices();
+}
+
+function playBellDing() {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(659.25, ctx.currentTime);
+    gain1.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain1.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.start(ctx.currentTime);
+    osc1.stop(ctx.currentTime + 1.2);
+
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(783.99, ctx.currentTime + 0.25);
+    gain2.gain.setValueAtTime(0.35, ctx.currentTime + 0.25);
+    gain2.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.6);
+
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.start(ctx.currentTime + 0.25);
+    osc2.stop(ctx.currentTime + 1.6);
+  } catch (e) {
+    console.warn("Audio Context blocked until page interaction.", e);
   }
+}
 
-  function playBellDing() {
-    try {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      const ctx = new AudioContext();
+function speakNowCalling(ticketNumber, officeName, buildingName) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  if (!singleFemaleVoice) loadVoices();
 
-      const osc1 = ctx.createOscillator();
-      const gain1 = ctx.createGain();
-      osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(659.25, ctx.currentTime);
-      gain1.gain.setValueAtTime(0.3, ctx.currentTime);
-      gain1.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+  const spokenTicket = ticketNumber.split('').map(char => (char === '-' ? ' ' : char)).join(', ');
+  
+  // Announcement includes building location
+  const speechText = buildingName 
+    ? `Now Calling, ${spokenTicket}, please proceed to ${officeName} at ${buildingName}.`
+    : `Now Calling, ${spokenTicket}, please proceed to ${officeName}.`;
 
-      osc1.connect(gain1);
-      gain1.connect(ctx.destination);
-      osc1.start(ctx.currentTime);
-      osc1.stop(ctx.currentTime + 1.2);
+  const utterance = new SpeechSynthesisUtterance(speechText);
+  utterance.rate = 0.88;
+  utterance.pitch = 1.1;
+  utterance.lang = 'en-US';
+  if (singleFemaleVoice) utterance.voice = singleFemaleVoice;
 
-      const osc2 = ctx.createOscillator();
-      const gain2 = ctx.createGain();
-      osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(783.99, ctx.currentTime + 0.25);
-      gain2.gain.setValueAtTime(0.35, ctx.currentTime + 0.25);
-      gain2.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.6);
+  setTimeout(() => window.speechSynthesis.speak(utterance), 500);
+}
 
-      osc2.connect(gain2);
-      gain2.connect(ctx.destination);
-      osc2.start(ctx.currentTime + 0.25);
-      osc2.stop(ctx.currentTime + 1.6);
-    } catch (e) {
-      console.warn("Audio Context blocked until page interaction.", e);
-    }
-  }
-
-  function speakNowCalling(ticketNumber, officeName) {
-    if (!('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    if (!singleFemaleVoice) loadVoices();
-
-    const spokenTicket = ticketNumber.split('').map(char => (char === '-' ? ' ' : char)).join(', ');
-    const utterance = new SpeechSynthesisUtterance(`Now Calling, ${spokenTicket}, please proceed to ${officeName}.`);
-    utterance.rate = 0.88;
-    utterance.pitch = 1.1;
-    utterance.lang = 'en-US';
-    if (singleFemaleVoice) utterance.voice = singleFemaleVoice;
-
-    setTimeout(() => window.speechSynthesis.speak(utterance), 500);
-  }
-
-  /* =====================================================
-     DOM UPDATES
-     ===================================================== */
-  function updateCallingQueue() {
-    if (!Array.isArray(queueData) || queueData.length === 0 || !queueData[currentIndex]) {
-      const currentNumberEl = document.getElementById("currentNumber");
-      const servingOfficeEl = document.getElementById("servingOffice");
-      const queueCountEl = document.getElementById("queueCount");
-
-      if (currentNumberEl) currentNumberEl.textContent = "---";
-      if (servingOfficeEl) servingOfficeEl.textContent = "NO ACTIVE CALLS";
-      if (queueCountEl) queueCountEl.textContent = "0 WAITING";
-      return;
-    }
-
-    const current = queueData[currentIndex];
-
+/* =====================================================
+   DOM UPDATES
+   ===================================================== */
+function updateCallingQueue() {
+  if (!Array.isArray(queueData) || queueData.length === 0 || !queueData[currentIndex]) {
     const currentNumberEl = document.getElementById("currentNumber");
     const servingOfficeEl = document.getElementById("servingOffice");
+    const servingBuildingEl = document.getElementById("servingBuilding");
+    const queueCountEl = document.getElementById("queueCount");
 
-    if (currentNumberEl) currentNumberEl.textContent = current.number || "---";
-    if (servingOfficeEl) servingOfficeEl.textContent = current.office || "---";
+    if (currentNumberEl) currentNumberEl.textContent = "---";
+    if (servingOfficeEl) servingOfficeEl.textContent = "NO ACTIVE CALLS";
+    if (servingBuildingEl) servingBuildingEl.textContent = "---";
+    if (queueCountEl) queueCountEl.textContent = "0 WAITING";
+    return;
+  }
 
-    if (typeof playBellDing === "function") playBellDing();
-    if (typeof speakNowCalling === "function") {
-      speakNowCalling(current.number, current.office);
-    }
+  const current = queueData[currentIndex];
+  const buildingName = officeBuildingMap[current.office] || "Main Campus";
 
-    const waitingList = document.getElementById("waitingList");
-    if (waitingList) {
-      waitingList.innerHTML = "";
-      const fragment = document.createDocumentFragment();
+  const currentNumberEl = document.getElementById("currentNumber");
+  const servingOfficeEl = document.getElementById("servingOffice");
+  const servingBuildingEl = document.getElementById("servingBuilding");
 
-      for (let i = 1; i < queueData.length; i++) {
-        const index = (currentIndex + i) % queueData.length;
-        const queue = queueData[index];
+  if (currentNumberEl) currentNumberEl.textContent = current.number || "---";
+  if (servingOfficeEl) servingOfficeEl.textContent = current.office || "---";
+  if (servingBuildingEl) servingBuildingEl.textContent = buildingName;
 
-        const item = document.createElement("div");
-        item.className = "waiting-item d-flex justify-content-between align-items-center p-2 mb-2 rounded-3";
-        item.innerHTML = `
+  if (typeof playBellDing === "function") playBellDing();
+  if (typeof speakNowCalling === "function") {
+    speakNowCalling(current.number, current.office, buildingName);
+  }
+
+  const waitingList = document.getElementById("waitingList");
+  if (waitingList) {
+    waitingList.innerHTML = "";
+    const fragment = document.createDocumentFragment();
+
+    for (let i = 1; i < queueData.length; i++) {
+      const index = (currentIndex + i) % queueData.length;
+      const queue = queueData[index];
+
+      const item = document.createElement("div");
+      item.className = "waiting-item d-flex justify-content-between align-items-center p-2 mb-2 rounded-3";
+      item.innerHTML = `
         <span class="token-pill">${queue.number || "---"}</span>
         <span class="fw-bold text-dark small ms-2 text-truncate">${queue.office || "---"}</span>
       `;
-        fragment.appendChild(item);
-      }
-      waitingList.appendChild(fragment);
+      fragment.appendChild(item);
     }
-
-    const queueCountEl = document.getElementById("queueCount");
-    if (queueCountEl) {
-      queueCountEl.textContent = `${Math.max(0, queueData.length - 1)} WAITING`;
-    }
-
-    if (typeof updateOfficeStatus === "function") {
-      updateOfficeStatus();
-    }
+    waitingList.appendChild(fragment);
   }
 
-  function updateOfficeStatus() {
+  const queueCountEl = document.getElementById("queueCount");
+  if (queueCountEl) {
+    queueCountEl.textContent = `${Math.max(0, queueData.length - 1)} WAITING`;
+  }
+
+  if (typeof updateOfficeStatus === "function") {
+    updateOfficeStatus();
+  }
+}
+
+function updateOfficeStatus() {
   const grid = document.getElementById("officeGrid");
   const subtitle = document.getElementById("officeSubtitle");
   
@@ -213,57 +246,57 @@
   }
 }
 
-  function updateClock() {
-    const now = new Date();
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
-    const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12;
-    minutes = minutes.toString().padStart(2, "0");
+function updateClock() {
+  const now = new Date();
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12;
+  minutes = minutes.toString().padStart(2, "0");
 
-    document.getElementById("headerClock").textContent = `${hours}:${minutes} ${ampm}`;
+  document.getElementById("headerClock").textContent = `${hours}:${minutes} ${ampm}`;
 
-    const options = { weekday: "short", month: "long", day: "numeric", year: "numeric" };
-    document.getElementById("headerDate").textContent = now.toLocaleDateString("en-US", options).toUpperCase();
-  }
+  const options = { weekday: "short", month: "long", day: "numeric", year: "numeric" };
+  document.getElementById("headerDate").textContent = now.toLocaleDateString("en-US", options).toUpperCase();
+}
 
-  /* =====================================================
-     INIT
-     ===================================================== */
-  updateClock();
-  setInterval(updateClock, 1000);
+/* =====================================================
+   INIT
+   ===================================================== */
+updateClock();
+setInterval(updateClock, 1000);
 
-  setTimeout(() => {
+setTimeout(() => {
+  updateCallingQueue();
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % queueData.length;
     updateCallingQueue();
-    setInterval(() => {
-      currentIndex = (currentIndex + 1) % queueData.length;
-      updateCallingQueue();
-    }, 10000);
-  }, 300);
+  }, 10000);
+}, 300);
 
-  function initTickerCycle() {
-    const items = document.querySelectorAll('#tickerContainer .ticker-item');
-    if (items.length <= 1) return;
+function initTickerCycle() {
+  const items = document.querySelectorAll('#tickerContainer .ticker-item');
+  if (items.length <= 1) return;
 
-    let activeIndex = 0;
+  let activeIndex = 0;
 
-    setInterval(() => {
-      const currentItem = items[activeIndex];
-      
-      currentItem.classList.remove('active');
-      currentItem.classList.add('exit');
+  setInterval(() => {
+    const currentItem = items[activeIndex];
+    
+    currentItem.classList.remove('active');
+    currentItem.classList.add('exit');
 
-      activeIndex = (activeIndex + 1) % items.length;
-      const nextItem = items[activeIndex];
+    activeIndex = (activeIndex + 1) % items.length;
+    const nextItem = items[activeIndex];
 
-      nextItem.classList.remove('exit');
-      nextItem.classList.add('active');
+    nextItem.classList.remove('exit');
+    nextItem.classList.add('active');
 
-      setTimeout(() => {
-        currentItem.classList.remove('exit');
-      }, 500);
+    setTimeout(() => {
+      currentItem.classList.remove('exit');
+    }, 500);
 
-    }, 6000);
-  }
+  }, 6000);
+}
 
-  document.addEventListener('DOMContentLoaded', initTickerCycle);
+document.addEventListener('DOMContentLoaded', initTickerCycle);

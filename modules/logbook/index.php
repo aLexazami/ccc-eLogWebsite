@@ -10,18 +10,6 @@ require_once __DIR__ . '/../../includes/header.php';
     
     <!-- MAIN PAGE CONTAINER -->
     <div class="container my-auto py-2">
-        
-        <!-- NAVIGATION HEADER (BRIGHT BACK BUTTON) -->
-        <div class="row mb-4">
-            <div class="col-12 d-flex align-items-center">
-                <a href="<?= BASE_URL; ?>/" class="btn btn-back text-decoration-none">
-                    <span class="btn-back-icon">
-                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
-                    </span>
-                    <span>BACK</span>
-                </a>
-            </div>
-        </div>
 
         <!-- PAGE HEADER TITLE -->
         <div class="text-center mb-5">

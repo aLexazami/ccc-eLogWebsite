@@ -52,18 +52,6 @@ require_once __DIR__ . '/../../includes/header.php';
 
 <div class="portal-bg py-5 min-vh-100">
     <div class="container py-2">
-        
-        <!-- Navigation Header -->
-        <div class="row mb-4">
-            <div class="col-12 d-flex align-items-center">
-                <a href="dept_select.php" class="btn btn-back text-decoration-none">
-                    <span class="btn-back-icon">
-                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
-                    </span>
-                    <span>BACK</span>
-                </a>
-            </div>
-        </div>
 
         <!-- Selected Department Header Card -->
         <div class="row mb-4">
