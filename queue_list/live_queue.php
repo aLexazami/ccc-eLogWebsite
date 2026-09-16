@@ -15,97 +15,272 @@ $extraCss = '<link rel="stylesheet" href="' . $baseUrl . '/assets/css/style.css?
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="portal-bg min-vh-100 d-flex flex-column justify-content-between">
+<style>
+  /* =====================================================
+     1. DESKTOP / TV DISPLAY STYLES (992px and up)
+     ===================================================== */
+  @media (min-width: 992px) {
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden !important;
+    }
 
-  <div class="live-queue-wrapper flex-grow-1 position-relative z-1">
+    .portal-bg {
+      height: 100vh !important;
+      max-height: 100vh !important;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .live-queue-wrapper {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .queue-main-content {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .queue-main-content .row {
+      height: 100%;
+      margin-right: -0.5rem;
+      margin-left: -0.5rem;
+    }
+
+    .queue-main-content .col-12 {
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .hero-calling-card {
+      height: 100% !important;
+      max-width: 100% !important;
+      min-height: 0 !important;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .queue-card {
+      height: 100% !important;
+      min-height: 0 !important;
+      overflow: hidden;
+    }
+
+    .office-status-grid-container {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(6, 1fr);
+      gap: 0.35rem !important;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .queue-footer-strip {
+      height: 48px;
+      min-height: 48px;
+      max-height: 48px;
+      z-index: 10;
+      position: relative;
+      flex-shrink: 0 !important;
+    }
+  }
+
+  /* =====================================================
+     2. MOBILE / SHRINK SCREEN STYLES (Below 992px)
+     ===================================================== */
+  @media (max-width: 991.98px) {
+    html, body {
+      height: auto !important;
+      overflow-y: auto !important;
+    }
+
+    .portal-bg {
+      min-height: 100vh;
+      height: auto !important;
+      overflow-y: auto !important;
+    }
+
+    .live-queue-wrapper {
+      height: auto !important;
+      min-height: 0;
+      display: block;
+    }
+
+    .queue-main-content {
+      overflow: visible !important;
+    }
+
+    .queue-main-content .row {
+      height: auto !important;
+    }
+
+    .hero-calling-card {
+      min-height: 380px !important;
+      height: auto !important;
+      margin-bottom: 1rem;
+    }
+
+    .queue-card {
+      min-height: 350px !important;
+      height: auto !important;
+      margin-bottom: 1rem;
+    }
+
+    .office-status-grid-container {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem !important;
+      height: auto !important;
+    }
+
+    .queue-footer-strip {
+      position: sticky;
+      bottom: 0;
+      width: 100%;
+      min-height: 50px;
+      z-index: 1000;
+    }
+  }
+
+  /* Compact Office Card Utility Rules */
+  .office-compact-card {
+    min-height: 0 !important;
+    padding: 0.35rem 0.5rem !important;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .office-compact-card .icon-circle {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    font-size: 0.75rem !important;
+  }
+
+  .office-compact-card .office-title {
+    font-size: 0.65rem !important;
+    line-height: 1.1 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .office-compact-card .office-ticket {
+    font-size: 0.75rem !important;
+    line-height: 1.1 !important;
+  }
+
+  .office-compact-card .status-indicator {
+    font-size: 0.55rem !important;
+    line-height: 1 !important;
+    white-space: nowrap;
+  }
+</style>
+
+<div class="portal-bg">
+
+  <!-- WRAPPER FOR HEADER AND MAIN CONTENT -->
+  <div class="live-queue-wrapper">
 
     <!-- TOP HEADER -->
-    <header class="queue-nav-header d-flex align-items-center justify-content-between">
+    <header class="queue-nav-header d-flex align-items-center justify-content-between px-3 px-md-4 py-2 flex-shrink-0">
       <!-- Left: Logo & Branding -->
       <div class="d-flex align-items-center gap-3">
         <a href="<?= $baseUrl; ?>/index.php" class="d-flex align-items-center gap-3 text-decoration-none text-white">
-          <img src="<?= $baseUrl; ?>/assets/img/ccc-logo.png" alt="CCC Logo" class="queue-logo"
-            onerror="this.style.display='none'">
+          <img src="<?= $baseUrl; ?>/assets/img/ccc-logo.png" alt="CCC Logo" class="queue-logo" onerror="this.style.display='none'">
           <div>
-            <h3 class="fw-bold mb-0 text-white tracking-tight fs-4">City College of Calamba</h3>
-            <p class="small text-white-50 mb-0 fw-bold tracking-widest text-uppercase" style="font-size: 0.65rem;">STUDENT
-              SERVICE QUEUE SYSTEM</p>
+            <h3 class="fw-bold mb-0 text-white tracking-tight fs-5 fs-md-4">City College of Calamba</h3>
+            <p class="small text-white-50 mb-0 fw-bold tracking-widest text-uppercase" style="font-size: 0.65rem;">STUDENT SERVICE QUEUE SYSTEM</p>
           </div>
         </a>
       </div>
 
+      <!-- Center: Tagline Text -->
+      <div class="d-none d-xl-flex align-items-center gap-3 text-white-50 fw-semibold tracking-wider text-uppercase" style="font-size: 0.85rem;">
+        <div class="header-v-divider"></div>
+        <span>LEARN &bull; GROW &bull; BUILD YOUR FUTURE</span>
+        <div class="header-v-divider"></div>
+      </div>
+
       <!-- Right: Live Date & Clock -->
       <div class="d-flex align-items-center gap-3 text-white">
-        <div class="d-flex align-items-center gap-2 fw-bold small text-uppercase"
-          style="font-size: 0.85rem; opacity: 0.9;">
+        <div class="d-none d-sm-flex align-items-center gap-2 fw-bold small text-uppercase" style="font-size: 0.85rem; opacity: 0.9;">
           <i class="bi bi-calendar3"></i>
-          <span id="headerDate">MON, SEPTEMBER 14, 2026</span>
+          <span id="headerDate">TUE, SEPTEMBER 15, 2026</span>
         </div>
-        <div class="header-v-divider"></div>
-        <div class="d-flex align-items-center gap-2 fs-3 fw-extrabold">
+        <div class="header-v-divider d-none d-sm-block"></div>
+        <div class="d-flex align-items-center gap-2 fs-4 fs-md-3 fw-extrabold">
           <i class="bi bi-clock"></i>
-          <span id="headerClock">10:23 AM</span>
+          <span id="headerClock">7:39 AM</span>
         </div>
       </div>
     </header>
 
     <!-- MAIN DASHBOARD CONTENT -->
-    <main class="queue-main-content">
-      <div class="row g-3 h-100 align-items-stretch">
+    <main class="queue-main-content p-2 p-md-3">
+      <div class="row g-3 align-items-stretch">
 
-        <!-- LEFT: Waiting Queue Sidebar -->
-        <div class="col-12 col-lg-3 h-100">
-          <div class="queue-card h-100 d-flex flex-column">
-            <div class="card-blue-header d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center gap-2 fw-bold text-uppercase fs-6">
-                <i class="bi bi-people-fill"></i> Waiting Queue
-              </div>
-              <span class="badge bg-white text-primary rounded-pill px-3 py-1 fw-bold fs-7" id="queueCount">0
-                WAITING</span>
-            </div>
-
-            <div class="waiting-list-scroll p-3 flex-grow-1" id="waitingList">
-              <!-- Dynamic items generated by JS -->
-            </div>
-          </div>
-        </div>
-
-        <!-- CENTER: Hero Screen (Now Calling) -->
-        <div class="col-12 col-lg-6 h-100">
-          <div
-            class="hero-calling-card h-100 text-center text-white d-flex flex-column justify-content-between align-items-center position-relative">
+        <!-- CENTER: Hero Screen (Now Calling) -> Reordered to Top on Mobile -->
+        <div class="col-12 col-lg-6 order-1 order-lg-2 d-flex flex-column">
+          <div class="hero-calling-card text-center text-white d-flex flex-column justify-content-between align-items-center p-4">
 
             <!-- Top Announcement Pill -->
-            <div
-              class="now-calling-pill rounded-pill px-5 py-3 text-white fw-extrabold text-uppercase d-inline-flex align-items-center gap-2">
+            <div class="now-calling-pill rounded-pill px-4 px-md-5 py-2 text-white fw-extrabold text-uppercase d-inline-flex align-items-center gap-2 flex-shrink-0">
               <i class="bi bi-megaphone-fill"></i> NOW CALLING
             </div>
 
-            <!-- Center Display (Chevron Arrows & Token) -->
-            <div class="my-auto w-100 position-relative py-3">
-              <h1 class="hero-ticket-text" id="currentNumber">---</h1>
-              <h2 class="hero-office-text" id="servingOffice">---</h2>
+            <!-- Center Display -->
+            <div class="my-auto w-100 position-relative py-3 py-md-2">
+              <h1 class="hero-ticket-text mb-1" id="currentNumber">---</h1>
+              <h2 class="hero-office-text mb-2" id="servingOffice">---</h2>
               <div class="divider-line mx-auto"></div>
             </div>
 
-            <p class="proceed-notice fs-10 text-white mb-0 text-uppercase">
+            <p class="proceed-notice fs-10 text-white mb-0 text-uppercase flex-shrink-0">
               Please proceed to the indicated office.
             </p>
           </div>
         </div>
 
-        <!-- RIGHT: Office Status Grid (6 rows x 2 cols - Full Height Span) -->
-        <div class="col-12 col-lg-3 h-100">
-          <div class="queue-card h-100 d-flex flex-column p-2">
+        <!-- LEFT: Waiting Queue Sidebar -> Reordered to 2nd on Mobile -->
+        <div class="col-12 col-lg-3 order-2 order-lg-1 d-flex flex-column">
+          <div class="queue-card d-flex flex-column">
+            <div class="card-blue-header d-flex justify-content-between align-items-center flex-shrink-0">
+              <div class="d-flex align-items-center gap-2 fw-bold text-uppercase fs-6">
+                <i class="bi bi-people-fill"></i> Waiting Queue
+              </div>
+              <span class="badge bg-white text-primary rounded-pill px-3 py-1 fw-bold fs-7" id="queueCount">0 WAITING</span>
+            </div>
+
+            <div class="waiting-list-scroll p-3 flex-grow-1 overflow-auto" id="waitingList">
+              <!-- Dynamic items generated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Office Status Grid -> Reordered to 3rd on Mobile -->
+        <div class="col-12 col-lg-3 order-3 order-lg-3 d-flex flex-column">
+          <div class="queue-card d-flex flex-column p-2">
             <div class="card-blue-header d-flex justify-content-between align-items-center mb-2 p-2 flex-shrink-0">
               <div class="d-flex align-items-center gap-2 fw-bold text-uppercase fs-6">
                 <i class="bi bi-building-fill"></i> Office Status
               </div>
-              <span class="badge bg-white text-primary rounded-pill px-2 py-1 fw-bold" style="font-size: 0.65rem;" id="officeSubtitle">0 OFFICES</span>
+              <span class="badge bg-white text-primary rounded-pill px-2 py-1 fw-bold" style="font-size: 0.65rem;" id="officeSubtitle">12 OFFICES</span>
             </div>
 
-            <!-- Grid Container set to flex-grow-1 to take up all remaining vertical space -->
-            <div class="d-grid g-2 flex-grow-1" id="officeGrid" style="grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(6, 1fr); gap: 0.5rem;">
+            <div class="office-status-grid-container flex-grow-1" id="officeGrid">
               <!-- Dynamic 2-column office cards generated by JS -->
             </div>
           </div>
@@ -114,39 +289,41 @@ require_once __DIR__ . '/../includes/header.php';
       </div>
     </main>
 
-    <!-- FOOTER STRIP WITH CAMPUS IMAGE BACKGROUND -->
-    <footer class="queue-footer-strip d-flex align-items-center justify-content-between px-4 py-2 text-white position-relative overflow-hidden">
-  <!-- Background Campus Image Container -->
-  <div class="footer-bg-image" style="background-image: url('<?= $baseUrl; ?>/assets/img/queue_footer.webp');"></div>
-  <div class="footer-bg-overlay"></div>
+  </div> <!-- END .live-queue-wrapper -->
 
-  <!-- Left: Announcements Label -->
-  <div class="d-flex align-items-center gap-2 fw-bold text-uppercase fs-7 text-warning pe-3 border-end border-secondary position-relative z-1" style="white-space: nowrap;">
-    <i class="bi bi-megaphone-fill"></i> ANNOUNCEMENTS
-  </div>
+  <!-- FOOTER STRIP AT ROOT LEVEL -->
+  <footer class="queue-footer-strip d-flex align-items-center justify-content-between px-3 px-md-4 text-white">
+    <!-- Background Campus Image Container -->
+    <div class="footer-bg-image" style="background-image: url('<?= $baseUrl; ?>/assets/img/queue_footer.webp');"></div>
+    <div class="footer-bg-overlay"></div>
 
-  <!-- Middle: Ticker Items -->
-  <div class="overflow-hidden flex-grow-1 mx-3 position-relative z-1" style="height: 24px;" id="tickerContainer">
-  <div class="ticker-item active d-flex align-items-center gap-2 fw-medium small text-white text-truncate">
-    <i class="bi bi-info-circle text-info"></i>
-    <span>Office hours are strictly from 7:00 AM to 6:00 PM, Monday to Thursday only. Ticket issuance automatically closes at 5:30 PM, and late requests will be rejected.</span>
-  </div>
-  <div class="ticker-item d-flex align-items-center gap-2 fw-medium small text-white text-truncate">
-    <i class="bi bi-calendar-event text-warning"></i>
-    <span>Skipped or missed queue numbers will be given one final call at the end of the batch queue. Unclaimed numbers will be automatically marked as cancelled.</span>
-  </div>
-  <div class="ticker-item d-flex align-items-center gap-2 fw-medium small text-white text-truncate">
-    <i class="bi bi-card-checklist text-success"></i>
-    <span>Please ensure all required documents, valid IDs, and official forms are prepared prior to approaching your designated transaction window.</span>
-  </div>
-</div>
+    <!-- Left: Announcements Label -->
+    <div class="d-flex align-items-center gap-2 fw-bold text-uppercase fs-7 text-warning pe-3 border-end border-secondary position-relative z-1" style="white-space: nowrap;">
+      <i class="bi bi-megaphone-fill"></i> ANNOUNCEMENTS
+    </div>
 
-  <!-- Right: Voice Status Indicator -->
-  <div class="d-flex align-items-center gap-2 fw-bold small text-success ps-3 border-start border-secondary position-relative z-1" style="white-space: nowrap; font-size: 0.75rem;">
-    <i class="bi bi-broadcast"></i> Voice Announcements ON
-  </div>
-</footer>
-  </div>
+    <!-- Middle: Ticker Items -->
+    <div class="overflow-hidden flex-grow-1 mx-3 position-relative z-1" style="height: 24px;" id="tickerContainer">
+      <div class="ticker-item active d-flex align-items-center gap-2 fw-medium small text-white text-truncate">
+        <i class="bi bi-info-circle text-info"></i>
+        <span>Office hours are strictly from 7:00 AM to 6:00 PM, Monday to Thursday only. Ticket issuance automatically closes at 5:30 PM, and late requests will be rejected.</span>
+      </div>
+      <div class="ticker-item d-flex align-items-center gap-2 fw-medium small text-white text-truncate">
+        <i class="bi bi-calendar-event text-warning"></i>
+        <span>Skipped or missed queue numbers will be given one final call at the end of the batch queue. Unclaimed numbers will be automatically marked as cancelled.</span>
+      </div>
+      <div class="ticker-item d-flex align-items-center gap-2 fw-medium small text-white text-truncate">
+        <i class="bi bi-card-checklist text-success"></i>
+        <span>Please ensure all required documents, valid IDs, and official forms are prepared prior to approaching your designated transaction window.</span>
+      </div>
+    </div>
+
+    <!-- Right: Voice Status Indicator -->
+    <div class="d-none d-md-flex align-items-center gap-2 fw-bold small text-success ps-3 border-start border-secondary position-relative z-1" style="white-space: nowrap; font-size: 0.75rem;">
+      <i class="bi bi-broadcast"></i> Voice Announcements ON
+    </div>
+  </footer>
+
 </div>
 
 <script>
@@ -184,7 +361,6 @@ require_once __DIR__ . '/../includes/header.php';
   ];
 
   let currentIndex = 0;
-  const officesPerPage = 12;
 
   /* =====================================================
      VOICE ANNOUNCEMENT LOGIC
@@ -330,29 +506,26 @@ require_once __DIR__ . '/../includes/header.php';
       const office = officeStatus[i];
       const isNowCalling = office.queue === currentTicket;
 
-      const col = document.createElement("div");
-      col.style.minHeight = "0";
-
       const displayStatus = isNowCalling ? "NOW CALLING" : office.status;
       const badgeColor = isNowCalling ? "text-warning" : "text-success";
 
-      // Card set to h-100 & flex-grow-1 to stretch evenly across all 6 rows
-      col.innerHTML = `
-      <div class="office-status-card w-100 h-100 d-flex align-items-center gap-2 p-1 rounded-2 border ${isNowCalling ? 'active-calling border-warning bg-warning-subtle' : 'bg-white'}" style="min-height: 0;">
-        <div class="icon-circle p-1 rounded-circle ${office.color} d-flex align-items-center justify-content-center" style="width:32px; height:32px; flex-shrink:0;">
-          <i class="bi ${office.icon || 'bi-building'}" style="font-size:0.85rem;"></i>
+      const card = document.createElement("div");
+      card.className = `office-status-card office-compact-card w-100 d-flex align-items-center gap-1 rounded-2 border ${isNowCalling ? 'active-calling border-warning bg-warning-subtle' : 'bg-white'}`;
+
+      card.innerHTML = `
+        <div class="icon-circle rounded-circle ${office.color} d-flex align-items-center justify-content-center flex-shrink-0">
+          <i class="bi ${office.icon || 'bi-building'}"></i>
         </div>
-        <div class="overflow-hidden leading-tight flex-grow-1">
-          <div class="fw-bold text-dark text-truncate" style="font-size:0.75rem; line-height:1.1;">${office.office}</div>
-          <div class="fw-extrabold text-primary" style="font-size:0.85rem; line-height:1.1;">${office.queue}</div>
-          <span class="status-indicator ${badgeColor} d-block text-truncate" style="font-size:0.6rem; line-height:1;">
-            <i class="bi bi-circle-fill me-1" style="font-size:0.4rem;"></i>${displayStatus}
+        <div class="overflow-hidden flex-grow-1">
+          <div class="fw-bold text-dark office-title">${office.office}</div>
+          <div class="fw-extrabold text-primary office-ticket">${office.queue}</div>
+          <span class="status-indicator ${badgeColor} d-block">
+            <i class="bi bi-circle-fill me-1" style="font-size:0.35rem;"></i>${displayStatus}
           </span>
         </div>
-      </div>
-    `;
+      `;
 
-      grid.appendChild(col);
+      grid.appendChild(card);
     }
 
     document.getElementById("officeSubtitle").textContent = `${totalOffices} OFFICES`;
@@ -387,35 +560,31 @@ require_once __DIR__ . '/../includes/header.php';
   }, 300);
 
   function initTickerCycle() {
-  const items = document.querySelectorAll('#tickerContainer .ticker-item');
-  if (items.length <= 1) return;
+    const items = document.querySelectorAll('#tickerContainer .ticker-item');
+    if (items.length <= 1) return;
 
-  let activeIndex = 0;
+    let activeIndex = 0;
 
-  setInterval(() => {
-    const currentItem = items[activeIndex];
-    
-    // Set exit animation class on current item
-    currentItem.classList.remove('active');
-    currentItem.classList.add('exit');
+    setInterval(() => {
+      const currentItem = items[activeIndex];
+      
+      currentItem.classList.remove('active');
+      currentItem.classList.add('exit');
 
-    // Calculate next index
-    activeIndex = (activeIndex + 1) % items.length;
-    const nextItem = items[activeIndex];
+      activeIndex = (activeIndex + 1) % items.length;
+      const nextItem = items[activeIndex];
 
-    // Reset exit class and activate next item
-    nextItem.classList.remove('exit');
-    nextItem.classList.add('active');
+      nextItem.classList.remove('exit');
+      nextItem.classList.add('active');
 
-    // Clean up exit class after transition completes
-    setTimeout(() => {
-      currentItem.classList.remove('exit');
-    }, 500);
+      setTimeout(() => {
+        currentItem.classList.remove('exit');
+      }, 500);
 
-  }, 6000); // Cycles every 6 seconds
-}
+    }, 6000);
+  }
 
-document.addEventListener('DOMContentLoaded', initTickerCycle);
+  document.addEventListener('DOMContentLoaded', initTickerCycle);
 </script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
