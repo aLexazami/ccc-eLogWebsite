@@ -187,6 +187,57 @@ require_once __DIR__ . '/../includes/header.php';
     line-height: 1 !important;
     white-space: nowrap;
   }
+
+  /* Step-by-Step Header Process Flow */
+.header-process-flow {
+  gap: 0.75rem;
+}
+
+.step-circle-icon {
+  width: 38px;
+  height: 38px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.step-badge-number {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 16px;
+  height: 16px;
+  background-color: #0dcaf0;
+  color: #000000;
+  font-size: 0.6rem;
+  font-weight: 800;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ffffff;
+}
+
+.step-title {
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+}
+
+.step-subtitle {
+  font-size: 0.6rem;
+  opacity: 0.75;
+  color: #ffffff;
+}
+
+.step-arrow {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
 </style>
 
 <div class="portal-bg">
@@ -195,38 +246,102 @@ require_once __DIR__ . '/../includes/header.php';
   <div class="live-queue-wrapper">
 
     <!-- TOP HEADER -->
-    <header class="queue-nav-header d-flex align-items-center justify-content-between px-3 px-md-4 py-2 flex-shrink-0">
-      <!-- Left: Logo & Branding -->
-      <div class="d-flex align-items-center gap-3">
-        <a href="<?= $baseUrl; ?>/index.php" class="d-flex align-items-center gap-3 text-decoration-none text-white">
-          <img src="<?= $baseUrl; ?>/assets/img/ccc-logo.png" alt="CCC Logo" class="queue-logo" onerror="this.style.display='none'">
-          <div>
-            <h3 class="fw-bold mb-0 text-white tracking-tight fs-5 fs-md-4">City College of Calamba</h3>
-            <p class="small text-white-50 mb-0 fw-bold tracking-widest text-uppercase" style="font-size: 0.65rem;">STUDENT SERVICE QUEUE SYSTEM</p>
+    <header class="queue-nav-header px-3 px-md-4 py-2 flex-shrink-0">
+  <div class="row align-items-center g-0 w-100">
+
+    <!-- Left (col-lg-3): Logo & Branding -->
+    <div class="col-12 col-lg-3 d-flex align-items-center justify-content-start">
+      <a href="<?= $baseUrl; ?>/index.php" class="d-flex align-items-center gap-3 text-decoration-none text-white">
+        <img src="<?= $baseUrl; ?>/assets/img/ccc-logo.webp" alt="CCC Logo" class="queue-logo" onerror="this.style.display='none'">
+        <div>
+          <h3 class="fw-bold mb-0 text-white tracking-tight fs-5 fs-md-4">City College of Calamba</h3>
+          <p class="small text-white-50 mb-0 fw-bold tracking-widest text-uppercase" style="font-size: 0.65rem;">STUDENT SERVICE QUEUE SYSTEM</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Center (col-lg-6): Process Flow aligned with NOW CALLING -->
+    <div class="col-12 col-lg-6 d-none d-xl-flex align-items-center justify-content-center">
+      <div class="d-flex align-items-center justify-content-between w-100 px-3 header-process-flow position-relative">
+        
+        <!-- Left Column Boundary Divider -->
+        <div class="header-v-divider"></div>
+
+        <!-- Step 1 -->
+        <div class="d-flex align-items-center gap-2">
+          <div class="step-circle-icon text-primary fs-5">
+            <i class="bi bi-ticket-perforated-fill"></i>
+            <span class="step-badge-number">1</span>
           </div>
-        </a>
-      </div>
-
-      <!-- Center: Tagline Text -->
-      <div class="d-none d-xl-flex align-items-center gap-3 text-white-50 fw-semibold tracking-wider text-uppercase" style="font-size: 0.85rem;">
-        <div class="header-v-divider"></div>
-        <span>LEARN &bull; GROW &bull; BUILD YOUR FUTURE</span>
-        <div class="header-v-divider"></div>
-      </div>
-
-      <!-- Right: Live Date & Clock -->
-      <div class="d-flex align-items-center gap-3 text-white">
-        <div class="d-none d-sm-flex align-items-center gap-2 fw-bold small text-uppercase" style="font-size: 0.85rem; opacity: 0.9;">
-          <i class="bi bi-calendar3"></i>
-          <span id="headerDate">TUE, SEPTEMBER 15, 2026</span>
+          <div class="lh-1">
+            <div class="step-title fw-extrabold text-uppercase">GET TICKET</div>
+            <div class="step-subtitle">From the kiosk</div>
+          </div>
         </div>
-        <div class="header-v-divider d-none d-sm-block"></div>
-        <div class="d-flex align-items-center gap-2 fs-4 fs-md-3 fw-extrabold">
-          <i class="bi bi-clock"></i>
-          <span id="headerClock">7:39 AM</span>
+
+        <i class="bi bi-chevron-right step-arrow"></i>
+
+        <!-- Step 2 -->
+        <div class="d-flex align-items-center gap-2">
+          <div class="step-circle-icon text-primary fs-5">
+            <i class="bi bi-people-fill"></i>
+            <span class="step-badge-number">2</span>
+          </div>
+          <div class="lh-1">
+            <div class="step-title fw-extrabold text-uppercase">WAIT</div>
+            <div class="step-subtitle">For your number</div>
+          </div>
         </div>
+
+        <i class="bi bi-chevron-right step-arrow"></i>
+
+        <!-- Step 3 -->
+        <div class="d-flex align-items-center gap-2">
+          <div class="step-circle-icon text-primary fs-5">
+            <i class="bi bi-megaphone-fill"></i>
+            <span class="step-badge-number">3</span>
+          </div>
+          <div class="lh-1">
+            <div class="step-title fw-extrabold text-uppercase">GET CALLED</div>
+            <div class="step-subtitle">Via screen &amp; audio</div>
+          </div>
+        </div>
+
+        <i class="bi bi-chevron-right step-arrow"></i>
+
+        <!-- Step 4 -->
+        <div class="d-flex align-items-center gap-2">
+          <div class="step-circle-icon text-primary fs-5">
+            <i class="bi bi-building-fill"></i>
+            <span class="step-badge-number">4</span>
+          </div>
+          <div class="lh-1">
+            <div class="step-title fw-extrabold text-uppercase">PROCEED</div>
+            <div class="step-subtitle">To indicated office</div>
+          </div>
+        </div>
+
+        <!-- Right Column Boundary Divider -->
+        <div class="header-v-divider"></div>
+
       </div>
-    </header>
+    </div>
+
+    <!-- Right (col-lg-3): Live Date & Clock -->
+    <div class="col-12 col-lg-3 d-flex align-items-center justify-content-end gap-3 text-white">
+      <div class="d-none d-sm-flex align-items-center gap-2 fw-bold small text-uppercase" style="font-size: 0.85rem; opacity: 0.9;">
+        <i class="bi bi-calendar3"></i>
+        <span id="headerDate">TUE, SEPTEMBER 15, 2026</span>
+      </div>
+      <div class="header-v-divider d-none d-sm-block"></div>
+      <div class="d-flex align-items-center gap-2 fs-4 fs-md-3 fw-extrabold">
+        <i class="bi bi-clock"></i>
+        <span id="headerClock">7:39 AM</span>
+      </div>
+    </div>
+
+  </div>
+</header>
 
     <!-- MAIN DASHBOARD CONTENT -->
     <main class="queue-main-content p-2 p-md-3">
@@ -249,7 +364,7 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
 
             <p class="proceed-notice fs-10 text-white mb-0 text-uppercase flex-shrink-0">
-              Please proceed to the indicated office.
+              Please proceed to the indicated office
             </p>
           </div>
         </div>
