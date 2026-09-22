@@ -1,5 +1,5 @@
 /* =====================================================
-   DATA CONFIGURATION (12 Offices Total with Building Mapping)
+   DATA CONFIGURATION & BUILDING MAPPING
    ===================================================== */
 const officeBuildingMap = {
   "Admissions Office": "Admin Building",
@@ -13,9 +13,8 @@ const officeBuildingMap = {
   "Student Affairs": "Admin Building",
   "Property & Supply Office": "Admin Building",
   "Guidance Office": "Admin Building",
-  "Guidance & Counseling": "Admin Building",
   "School Clinic": "Admin Building",
-  "OIC Dean Office": "Admin Building",
+  "Dean's Office": "Admin Building",
   "VPAA Office": "Admin Building",
   "College of Computer Studies": "Rizal Building",
   "College of Industrial Technology": "Rizal Building",
@@ -23,7 +22,49 @@ const officeBuildingMap = {
   "Registrar Office": "JMC Building"
 };
 
-const queueData = [
+const officeMetaDefaults = {
+  "Registrar Office": { icon: "bi-file-earmark-text-fill", color: "text-primary bg-primary-subtle" },
+  "Accounting Office": { icon: "bi-calculator-fill", color: "text-success bg-success-subtle" },
+  "Admissions Office": { icon: "bi-mortarboard-fill", color: "text-warning bg-warning-subtle" },
+  "Guidance Office": { icon: "bi-people-fill", color: "text-info bg-info-subtle" },
+  "School Clinic": { icon: "bi-hospital-fill", color: "text-danger bg-danger-subtle" },
+  "Library": { icon: "bi-book-fill", color: "text-secondary bg-secondary-subtle" },
+  "Cashier": { icon: "bi-cash-coin", color: "text-success bg-success-subtle" },
+  "Human Resources": { icon: "bi-briefcase-fill", color: "text-dark bg-light-subtle" },
+  "IT Center": { icon: "bi-laptop-fill", color: "text-primary bg-primary-subtle" },
+  "Student Affairs": { icon: "bi-person-badge-fill", color: "text-info bg-info-subtle" },
+  "VPAA Office": { icon: "bi-award-fill", color: "text-warning bg-warning-subtle" },
+  "Dean's Office": { icon: "bi-building-gear", color: "text-danger bg-danger-subtle" },
+  "College of Business & Accountancy": { icon: "bi-briefcase-fill", color: "text-primary bg-primary-subtle" },
+  "College of Education": { icon: "bi-journal-bookmark-fill", color: "text-success bg-success-subtle" },
+  "College of Computer Studies": { icon: "bi-cpu-fill", color: "text-info bg-info-subtle" },
+  "College of Industrial Technology": { icon: "bi-tools", color: "text-warning bg-warning-subtle" },
+  "MIS / IT Support": { icon: "bi-headset", color: "text-primary bg-primary-subtle" },
+  "Property & Supply Office": { icon: "bi-box-seam-fill", color: "text-secondary bg-secondary-subtle" },
+};
+
+/* =====================================================
+   ACRONYM & TEXT SHORTENING HELPER
+   ===================================================== */
+const officeAcronyms = {
+  "College of Business & Accountancy": "CBA Office",
+  "College of Education": "CED Office",
+  "College of Computer Studies": "CCS Office",
+  "College of Industrial Technology": "CIT Office",
+  "MIS / IT Support": "M.I.S.D Office",
+  "Property & Supply Office": "PSO",
+  "Human Resources": "HR Office",
+  "Student Affairs": "OSA"
+};
+
+function getShortName(fullName, maxLength = 20) {
+  if (officeAcronyms[fullName]) {
+    return officeAcronyms[fullName];
+  }
+  return fullName.length > maxLength ? fullName.substring(0, maxLength - 3) + "..." : fullName;
+}
+
+let queueData = [
   { number: "R-024", office: "Registrar Office" },
   { number: "AC-015", office: "Accounting Office" },
   { number: "AD-008", office: "Admissions Office" },
@@ -35,25 +76,72 @@ const queueData = [
   { number: "IT-009", office: "IT Center" },
   { number: "SA-021", office: "Student Affairs" },
   { number: "VP-003", office: "VPAA Office" },
-  { number: "OS-001", office: "OIC Dean Office" }
+  { number: "DO-001", office: "Dean's Office" },
+  { number: "CBA-005", office: "College of Business & Accountancy" },
+  { number: "CED-003", office: "College of Education" },
+  { number: "CCS-010", office: "College of Computer Studies" },
+  { number: "CIT-007", office: "College of Industrial Technology" },
+  { number: "MISD-002", office: "MIS / IT Support" },
+  { number: "PSO-004", office: "Property & Supply Office" },
 ];
 
-const officeStatus = [
-  { office: "Registrar Office", queue: "R-024", status: "SERVING", icon: "bi-file-earmark-text-fill", color: "text-primary bg-primary-subtle" },
-  { office: "Accounting Office", queue: "AC-015", status: "SERVING", icon: "bi-calculator-fill", color: "text-success bg-success-subtle" },
-  { office: "Admissions Office", queue: "AD-008", status: "SERVING", icon: "bi-mortarboard-fill", color: "text-warning bg-warning-subtle" },
-  { office: "Guidance Office", queue: "G-011", status: "SERVING", icon: "bi-people-fill", color: "text-info bg-info-subtle" },
-  { office: "School Clinic", queue: "C-006", status: "SERVING", icon: "bi-hospital-fill", color: "text-danger bg-danger-subtle" },
-  { office: "Library", queue: "L-012", status: "SERVING", icon: "bi-book-fill", color: "text-secondary bg-secondary-subtle" },
-  { office: "Cashier", queue: "CA-018", status: "SERVING", icon: "bi-cash-coin", color: "text-success bg-success-subtle" },
-  { office: "Human Resources", queue: "HR-004", status: "SERVING", icon: "bi-briefcase-fill", color: "text-dark bg-light-subtle" },
-  { office: "IT Center", queue: "IT-009", status: "SERVING", icon: "bi-laptop-fill", color: "text-primary bg-primary-subtle" },
-  { office: "Student Affairs", queue: "SA-021", status: "SERVING", icon: "bi-person-badge-fill", color: "text-info bg-info-subtle" },
-  { office: "VPAA Office", queue: "VP-003", status: "SERVING", icon: "bi-award-fill", color: "text-warning bg-warning-subtle" },
-  { office: "OIC Dean Office", queue: "OS-001", status: "SERVING", icon: "bi-building-gear", color: "text-danger bg-danger-subtle" }
-];
-
+let officeStatus = [];
 let currentIndex = 0;
+
+// CAROUSEL PAGING SETTINGS FOR OFFICES
+let currentOfficePage = 0;
+const OFFICES_PER_PAGE = 12;
+
+/* =====================================================
+   INITIALIZE DEPARTMENTS DIRECTLY FROM PHP GLOBAL
+   ===================================================== */
+function initOfficesFromPhp() {
+  const data = window.DB_DEPARTMENTS;
+
+  if (Array.isArray(data) && data.length > 0) {
+    officeStatus = data.map(dept => {
+      const name = dept.department_name || dept.name || "Office";
+      const meta = officeMetaDefaults[name] || {
+        icon: "bi-building-fill",
+        color: "text-primary bg-primary-subtle"
+      };
+      return {
+        office: name,
+        queue: dept.current_ticket || "---",
+        status: dept.status || "SERVING",
+        icon: meta.icon,
+        color: meta.color,
+        counter: dept.counter_name || ""
+      };
+    });
+  } else {
+    loadFallbackOffices();
+  }
+  
+  updateOfficeStatus();
+}
+
+function loadFallbackOffices() {
+  const officeList = [
+    "Registrar Office", "Accounting Office", "Admissions Office", "Guidance Office", 
+    "School Clinic", "Library", "Cashier", "Human Resources", "IT Center", 
+    "Student Affairs", "VPAA Office", "Dean's Office", 
+    "College of Business & Accountancy", "College of Education", "College of Computer Studies", 
+    "College of Industrial Technology", "MIS / IT Support", "Property & Supply Office"
+  ];
+
+  officeStatus = officeList.map(name => {
+    const meta = officeMetaDefaults[name] || { icon: "bi-building-fill", color: "text-primary bg-primary-subtle" };
+    const qItem = queueData.find(q => q.office === name);
+    return {
+      office: name,
+      queue: qItem ? qItem.number : "---",
+      status: "SERVING",
+      icon: meta.icon,
+      color: meta.color
+    };
+  });
+}
 
 /* =====================================================
    VOICE ANNOUNCEMENT LOGIC
@@ -122,7 +210,6 @@ function speakNowCalling(ticketNumber, officeName, buildingName) {
 
   const spokenTicket = ticketNumber.split('').map(char => (char === '-' ? ' ' : char)).join(', ');
   
-  // Announcement includes building location
   const speechText = buildingName 
     ? `Now Calling, ${spokenTicket}, please proceed to ${officeName} at ${buildingName}.`
     : `Now Calling, ${spokenTicket}, please proceed to ${officeName}.`;
@@ -137,7 +224,7 @@ function speakNowCalling(ticketNumber, officeName, buildingName) {
 }
 
 /* =====================================================
-   DOM UPDATES
+   DOM UPDATES WITH CAROUSEL SUPPORT & SHORT NAMES
    ===================================================== */
 function updateCallingQueue() {
   if (!Array.isArray(queueData) || queueData.length === 0 || !queueData[currentIndex]) {
@@ -169,6 +256,7 @@ function updateCallingQueue() {
     speakNowCalling(current.number, current.office, buildingName);
   }
 
+  // Update waiting sidebar
   const waitingList = document.getElementById("waitingList");
   if (waitingList) {
     waitingList.innerHTML = "";
@@ -182,7 +270,7 @@ function updateCallingQueue() {
       item.className = "waiting-item d-flex justify-content-between align-items-center p-2 mb-2 rounded-3";
       item.innerHTML = `
         <span class="token-pill">${queue.number || "---"}</span>
-        <span class="fw-bold text-dark small ms-2 text-truncate">${queue.office || "---"}</span>
+        <span class="fw-bold text-dark small ms-2 text-truncate" title="${queue.office}">${getShortName(queue.office, 18)}</span>
       `;
       fragment.appendChild(item);
     }
@@ -194,34 +282,58 @@ function updateCallingQueue() {
     queueCountEl.textContent = `${Math.max(0, queueData.length - 1)} WAITING`;
   }
 
-  if (typeof updateOfficeStatus === "function") {
-    updateOfficeStatus();
+  // Sync ticket into officeStatus array
+  const targetOffice = officeStatus.find(o => o.office === current.office);
+  if (targetOffice) {
+    targetOffice.queue = current.number;
   }
+
+  rotateOfficePage();
+  updateOfficeStatus();
+}
+
+function rotateOfficePage() {
+  if (officeStatus.length <= OFFICES_PER_PAGE) return;
+  const totalPages = Math.ceil(officeStatus.length / OFFICES_PER_PAGE);
+  currentOfficePage = (currentOfficePage + 1) % totalPages;
 }
 
 function updateOfficeStatus() {
   const grid = document.getElementById("officeGrid");
   const subtitle = document.getElementById("officeSubtitle");
   
+  if (!grid) return;
   grid.innerHTML = "";
 
   const totalOffices = officeStatus.length;
   const currentTicket = queueData[currentIndex] ? queueData[currentIndex].number : "";
+  const currentOfficeName = queueData[currentIndex] ? queueData[currentIndex].office : "";
 
-  if (subtitle) {
-    subtitle.textContent = `${totalOffices} OFFICE${totalOffices === 1 ? '' : 'S'}`;
+  // Auto-jump to active office page if it lives on another page
+  const callingOfficeIndex = officeStatus.findIndex(o => o.office === currentOfficeName);
+  if (callingOfficeIndex !== -1) {
+    currentOfficePage = Math.floor(callingOfficeIndex / OFFICES_PER_PAGE);
   }
 
-  for (let i = 0; i < totalOffices; i++) {
-    const office = officeStatus[i];
-    const isNowCalling = office.queue === currentTicket;
+  const totalPages = Math.ceil(totalOffices / OFFICES_PER_PAGE);
+  if (subtitle) {
+    const pageIndicator = totalPages > 1 ? ` (PG ${currentOfficePage + 1}/${totalPages})` : '';
+    subtitle.textContent = `${totalOffices} OFFICE${totalOffices === 1 ? '' : 'S'}${pageIndicator}`;
+  }
 
+  const startIndex = currentOfficePage * OFFICES_PER_PAGE;
+  const visibleOffices = officeStatus.slice(startIndex, startIndex + OFFICES_PER_PAGE);
+
+  visibleOffices.forEach(office => {
+    const isNowCalling = office.office === currentOfficeName && currentTicket !== "";
     const displayStatus = isNowCalling ? "NOW CALLING" : office.status;
     const badgeColor = isNowCalling ? "text-warning" : "text-success";
 
     const counterBadge = office.counter 
       ? `<span class="badge bg-secondary-subtle text-dark ms-1" style="font-size: 0.55rem;">${office.counter}</span>` 
       : "";
+
+    const shortTitle = getShortName(office.office, 20);
 
     const card = document.createElement("div");
     card.className = `office-status-card office-compact-card w-100 d-flex align-items-center gap-1 rounded-2 border ${isNowCalling ? 'active-calling border-warning bg-warning-subtle' : 'bg-white'}`;
@@ -231,7 +343,7 @@ function updateOfficeStatus() {
         <i class="bi ${office.icon || 'bi-building'}"></i>
       </div>
       <div class="overflow-hidden flex-grow-1 d-flex flex-column align-items-start">
-        <div class="fw-bold text-dark office-title">${office.office}</div>
+        <div class="fw-bold text-dark office-title text-truncate w-100" title="${office.office}">${shortTitle}</div>
         <div class="d-flex align-items-center">
           <span class="fw-extrabold text-primary office-ticket">${office.queue}</span>
           ${counterBadge}
@@ -243,7 +355,7 @@ function updateOfficeStatus() {
     `;
 
     grid.appendChild(card);
-  }
+  });
 }
 
 function updateClock() {
@@ -254,17 +366,21 @@ function updateClock() {
   hours = hours % 12 || 12;
   minutes = minutes.toString().padStart(2, "0");
 
-  document.getElementById("headerClock").textContent = `${hours}:${minutes} ${ampm}`;
+  const clockEl = document.getElementById("headerClock");
+  if (clockEl) clockEl.textContent = `${hours}:${minutes} ${ampm}`;
 
   const options = { weekday: "short", month: "long", day: "numeric", year: "numeric" };
-  document.getElementById("headerDate").textContent = now.toLocaleDateString("en-US", options).toUpperCase();
+  const dateEl = document.getElementById("headerDate");
+  if (dateEl) dateEl.textContent = now.toLocaleDateString("en-US", options).toUpperCase();
 }
 
 /* =====================================================
-   INIT
+   INIT & INTERVALS
    ===================================================== */
 updateClock();
 setInterval(updateClock, 1000);
+
+initOfficesFromPhp();
 
 setTimeout(() => {
   updateCallingQueue();

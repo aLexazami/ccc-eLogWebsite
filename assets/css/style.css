@@ -219,49 +219,6 @@ html, body {
     box-shadow: 0 4px 12px rgba(0, 82, 204, 0.3) !important;
 }
 
-.btn-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(0, 82, 204, 0.1);
-    color: var(--color-royal-blue, #0052CC) !important;
-    border: 1.5px solid rgba(0, 82, 204, 0.25);
-    border-radius: 30px;
-    padding: 0.4rem 1rem 0.4rem 0.5rem;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: all var(--transition-fast, 0.2s ease);
-}
-
-.btn-back-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--color-royal-blue, #0052CC);
-    color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    transition: all var(--transition-fast, 0.2s ease);
-}
-
-.btn-back:hover {
-    background: var(--color-royal-blue, #0052CC);
-    color: #FFFFFF !important;
-    border-color: var(--color-royal-blue, #0052CC);
-    box-shadow: 0 4px 14px rgba(0, 82, 204, 0.35);
-    transform: translateX(-3px);
-}
-
-.btn-back:hover .btn-back-icon {
-    background: #FFFFFF;
-    color: var(--color-royal-blue, #0052CC);
-}
-
 /* ==========================================================================
    6. LOGBOOK FORM & NAVIGATION STYLES
    ========================================================================== */
