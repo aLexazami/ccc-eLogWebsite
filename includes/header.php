@@ -21,5 +21,7 @@ $cssVersion = file_exists($customCssPath) ? filemtime($customCssPath) : time();
 
     <!-- Custom CSS Overrides with Auto Cache-Busting -->
     <link rel="stylesheet" href="<?= BASE_URL; ?>/assets/css/style.css?v=<?= $cssVersion; ?>">
+
+    <?= $extraCss ?? '' ?>
 </head>
 <body>

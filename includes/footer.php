@@ -5,8 +5,7 @@
     <script src="<?= BASE_URL; ?>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Optional Page-Specific JS Injection -->
-    <?php if (isset($pageScript)): ?>
-        <script src="<?= BASE_URL . htmlspecialchars($pageScript); ?>"></script>
-    <?php endif; ?>
+    <?= $extraJs ?? '' ?>
+
 </body>
 </html>
