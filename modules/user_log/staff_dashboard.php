@@ -223,7 +223,7 @@ if (file_exists($headerPath)) {
                 </div>
             </div>
 
-            <!-- LOWER SECTION (WAITING QUEUE & COMBINED SUMMARY PANEL) -->
+            <!-- LOWER SECTION (WAITING QUEUE & UNIFIED QUEUE OVERVIEW) -->
             <div class="row g-3 flex-grow-1 overflow-hidden">
                 
                 <!-- WAITING QUEUE TABLE (LEFT SIDE) -->
@@ -318,92 +318,117 @@ if (file_exists($headerPath)) {
                     </div>
                 </div>
 
-                <!-- COMBINED OVERVIEW & RECENT ACTIVITIES (RIGHT SIDE) -->
+                <!-- UNIFIED QUEUE OVERVIEW (RIGHT SIDE) -->
                 <div class="col-lg-4 d-flex flex-column h-100">
                     <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100 d-flex flex-column overflow-auto">
                         
-                        <!-- Header -->
+                        <!-- Single Card Header with View All Link -->
                         <div class="d-flex align-items-center justify-content-between mb-3 flex-shrink-0">
                             <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-clock-history text-primary fs-5"></i>
-                                <h6 class="fw-bold text-dark mb-0">Daily Summary & Activity</h6>
+                                <i class="bi bi-bar-chart-fill text-primary fs-5"></i>
+                                <h6 class="fw-bold text-dark mb-0">Queue Overview</h6>
                             </div>
-                            <span class="badge bg-light text-muted border fw-normal" style="font-size: 0.68rem;">Live Updates</span>
+                            <a href="#" class="text-decoration-none small text-primary fw-semibold d-flex align-items-center gap-1" style="font-size: 0.75rem;">
+                                View All <i class="bi bi-arrow-right"></i>
+                            </a>
                         </div>
 
-                        <!-- Stat Counters -->
-                        <div class="row g-2 mb-2 flex-shrink-0">
+                        <!-- 4 Stat Tiles Grid (Added P-3 Padding & Clean Spacing) -->
+                        <div class="row g-2 mb-3 flex-shrink-0">
+                            <!-- Tile 1: Waiting -->
                             <div class="col-6">
-                                <div class="p-2.5 bg-light border border-primary border-opacity-25 rounded-3 text-center shadow-sm">
-                                    <small class="text-primary fw-bold d-block mb-0" style="font-size: 0.72rem;">Waiting</small>
-                                    <h3 class="fw-bold text-primary mb-0">7</h3>
+                                <div class="p-3 rounded-3 border bg-light d-flex align-items-center gap-2">
+                                    <div class="rounded-2 d-flex align-items-center justify-content-center text-primary flex-shrink-0" style="width: 32px; height: 32px; background-color: #e7f0ff;">
+                                        <i class="bi bi-people-fill" style="font-size: 0.9rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1 text-center overflow-hidden">
+                                        <h5 class="fw-bold text-dark mb-0 lh-1">7</h5>
+                                        <small class="text-muted fw-medium d-block text-truncate mt-1" style="font-size: 0.65rem;">Waiting</small>
+                                    </div>
                                 </div>
                             </div>
+                            <!-- Tile 2: Completed -->
                             <div class="col-6">
-                                <div class="p-2.5 bg-light border border-success border-opacity-25 rounded-3 text-center shadow-sm">
-                                    <small class="text-success fw-bold d-block mb-0" style="font-size: 0.72rem;">Served</small>
-                                    <h3 class="fw-bold text-success mb-0">42</h3>
+                                <div class="p-3 rounded-3 border bg-light d-flex align-items-center gap-2">
+                                    <div class="rounded-2 d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 32px; height: 32px; background-color: #e6f7ed;">
+                                        <i class="bi bi-check-circle-fill" style="font-size: 0.9rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1 text-center overflow-hidden">
+                                        <h5 class="fw-bold text-dark mb-0 lh-1">42</h5>
+                                        <small class="text-muted fw-medium d-block text-truncate mt-1" style="font-size: 0.65rem;">Completed</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tile 3: Skipped -->
+                            <div class="col-6">
+                                <div class="p-3 rounded-3 border bg-light d-flex align-items-center gap-2">
+                                    <div class="rounded-2 d-flex align-items-center justify-content-center text-warning flex-shrink-0" style="width: 32px; height: 32px; background-color: #fff8e6;">
+                                        <i class="bi bi-arrow-clockwise" style="font-size: 0.9rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1 text-center overflow-hidden">
+                                        <h5 class="fw-bold text-dark mb-0 lh-1">3</h5>
+                                        <small class="text-muted fw-medium d-block text-truncate mt-1" style="font-size: 0.65rem;">Skipped</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tile 4: Avg Serving Time -->
+                            <div class="col-6">
+                                <div class="p-3 rounded-3 border bg-light d-flex align-items-center gap-2">
+                                    <div class="rounded-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px; background-color: #f2e9fc; color: #6f42c1;">
+                                        <i class="bi bi-clock-history" style="font-size: 0.9rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1 text-center overflow-hidden">
+                                        <h5 class="fw-bold text-dark mb-0 lh-1">4m</h5>
+                                        <small class="text-muted fw-medium d-block text-truncate mt-1" style="font-size: 0.65rem;">Avg Time</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Average Service Time Widget -->
-                        <div class="p-2.5 bg-light rounded-3 border mb-3 flex-shrink-0">
-                            <div class="d-flex align-items-center justify-content-between mb-1.5">
-                                <small class="text-muted fw-semibold" style="font-size: 0.72rem;">Avg. Service Time</small>
-                                <strong class="text-dark" style="font-size: 0.8rem;"><i class="bi bi-speedometer2 text-info me-1"></i> 4m 30s</strong>
-                            </div>
-                            <div class="progress" style="height: 5px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-
-                        <!-- Recent Activities Stream -->
-                        <div class="flex-grow-1">
-                            <div class="text-uppercase fw-bold text-muted mb-2" style="font-size: 0.65rem; letter-spacing: 0.5px;">
-                                Recent Activity Log
-                            </div>
-
-                            <ul class="list-group list-group-flush small">
-                                <li class="list-group-item px-0 py-2 border-0 bg-transparent d-flex align-items-start gap-2">
-                                    <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center flex-shrink-0 mt-0.5" style="width: 24px; height: 24px;">
-                                        <i class="bi bi-check-circle-fill" style="font-size: 0.75rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1 lh-sm">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <strong class="text-dark" style="font-size: 0.78rem;">CA-017 Completed</strong>
-                                            <small class="text-muted" style="font-size: 0.65rem;">10:18 AM</small>
-                                        </div>
-                                        <span class="text-muted d-block" style="font-size: 0.72rem;">Juan Dela Cruz • Payment</span>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item px-0 py-2 border-0 bg-transparent d-flex align-items-start gap-2">
-                                    <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center flex-shrink-0 mt-0.5" style="width: 24px; height: 24px;">
-                                        <i class="bi bi-megaphone-fill" style="font-size: 0.75rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1 lh-sm">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <strong class="text-dark" style="font-size: 0.78rem;">CA-018 Called</strong>
-                                            <small class="text-muted" style="font-size: 0.65rem;">10:20 AM</small>
-                                        </div>
-                                        <span class="text-muted d-block" style="font-size: 0.72rem;">Juan Dela Cruz • Window 1</span>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item px-0 py-2 border-0 bg-transparent d-flex align-items-start gap-2">
-                                    <div class="rounded-circle bg-warning bg-opacity-10 text-warning d-flex align-items-center justify-content-center flex-shrink-0 mt-0.5" style="width: 24px; height: 24px;">
-                                        <i class="bi bi-arrow-clockwise" style="font-size: 0.75rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1 lh-sm">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <strong class="text-dark" style="font-size: 0.78rem;">CA-016 Recalled</strong>
-                                            <small class="text-muted" style="font-size: 0.65rem;">10:10 AM</small>
-                                        </div>
-                                        <span class="text-muted d-block" style="font-size: 0.72rem;">Pedro Penduko • Counter 2</span>
-                                    </div>
-                                </li>
-                            </ul>
+                        <!-- Integrated Activity Table inside Overview -->
+                        <div class="table-responsive flex-grow-1">
+                            <table class="table table-borderless table-hover align-middle mb-0" style="font-size: 0.73rem;">
+                                <thead class="text-muted border-bottom" style="font-size: 0.68rem;">
+                                    <tr>
+                                        <th class="ps-0 py-1 fw-semibold">Time</th>
+                                        <th class="py-1 fw-semibold">Ticket No.</th>
+                                        <th class="py-1 fw-semibold">Action</th>
+                                        <th class="pe-0 py-1 fw-semibold text-end">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="ps-0 py-2 text-muted">10:20 AM</td>
+                                        <td class="py-2 fw-bold text-dark">CA-018</td>
+                                        <td class="py-2 text-muted">Called</td>
+                                        <td class="pe-0 py-2 text-end"><span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-0.5">In Service</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-0 py-2 text-muted">10:16 AM</td>
+                                        <td class="py-2 fw-bold text-dark">CA-017</td>
+                                        <td class="py-2 text-muted">Completed</td>
+                                        <td class="pe-0 py-2 text-end"><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-0.5">Served</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-0 py-2 text-muted">10:12 AM</td>
+                                        <td class="py-2 fw-bold text-dark">CA-016</td>
+                                        <td class="py-2 text-muted">Skipped</td>
+                                        <td class="pe-0 py-2 text-end"><span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2 py-0.5">Skipped</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-0 py-2 text-muted">10:08 AM</td>
+                                        <td class="py-2 fw-bold text-dark">CA-015</td>
+                                        <td class="py-2 text-muted">Completed</td>
+                                        <td class="pe-0 py-2 text-end"><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-0.5">Served</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-0 py-2 text-muted">10:03 AM</td>
+                                        <td class="py-2 fw-bold text-dark">CA-014</td>
+                                        <td class="py-2 text-muted">Called</td>
+                                        <td class="pe-0 py-2 text-end"><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-0.5">Served</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
 
                     </div>
