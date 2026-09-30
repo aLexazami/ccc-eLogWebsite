@@ -1,6 +1,10 @@
 <?php
 // user_log/staff_dashboard.php
 
+// Debugging (Uncomment if needed)
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+
 // 1. Session and path setup
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -47,12 +51,30 @@ if (file_exists($headerPath)) {
 <body style="background-color: #f4f6f9;">
 <?php } ?>
 
-<div class="d-flex vh-100 overflow-hidden" style="background-color: #f4f6f9;">
+<style>
+    .hover-white:hover { color: #fff !important; }
+
+    /* Responsive Layout Rules */
+    @media (min-width: 992px) {
+        .app-layout { flex-direction: row !important; height: 100vh !important; overflow: hidden !important; }
+        .app-sidebar { width: 250px !important; min-width: 250px !important; height: 100vh !important; }
+        .app-sidebar-collapse { display: block !important; }
+        .app-main-content { height: 100vh !important; overflow: hidden !important; }
+    }
+
+    @media (max-width: 991.98px) {
+        .app-layout { flex-direction: column !important; height: auto !important; overflow: auto !important; }
+        .app-sidebar { width: 100% !important; min-width: 100% !important; height: auto !important; }
+        .app-main-content { height: auto !important; overflow: visible !important; }
+    }
+</style>
+
+<div class="d-flex app-layout bg-light">
 
     <!-- SIDEBAR NAVIGATION -->
-    <aside class="text-white d-flex flex-column flex-shrink-0 p-0" style="width: 250px; background-color: #002366; height: 100vh;">
+    <aside class="text-white d-flex flex-column flex-shrink-0 p-0 app-sidebar" style="background-color: #002366;">
         
-        <!-- Header Branding -->
+        <!-- Header Branding & Mobile Toggle Button -->
         <div class="d-flex align-items-center justify-content-between p-3 border-bottom border-secondary border-opacity-25">
             <div class="d-flex align-items-center gap-2 overflow-hidden">
                 <img 
@@ -63,50 +85,56 @@ if (file_exists($headerPath)) {
                     onerror="this.onerror=null; this.src='<?= htmlspecialchars($baseUrl); ?>/../../assets/img/ccc-logo.png';"
                 >
             </div>
-            <button class="btn btn-link text-white p-0 fs-5 border-0"><i class="bi bi-list"></i></button>
+            <!-- Mobile Toggle Button -->
+            <button class="btn btn-outline-light d-lg-none py-1 px-2 border-opacity-50" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapseNav" aria-controls="sidebarCollapseNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-4"></i>
+            </button>
         </div>
 
-        <div class="px-3 pt-2 pb-1">
-            <small class="text-white-50 text-uppercase fw-bold" style="font-size: 0.65rem; letter-spacing: 1px;">STAFF PORTAL</small>
-        </div>
+        <!-- Collapsible Content Wrapper for Mobile -->
+        <div class="collapse app-sidebar-collapse flex-grow-1" id="sidebarCollapseNav">
+            <div class="px-3 pt-3 pb-1">
+                <small class="text-white-50 text-uppercase fw-bold" style="font-size: 0.65rem; letter-spacing: 1px;">STAFF PORTAL</small>
+            </div>
 
-        <!-- Navigation Links -->
-        <nav class="nav nav-pills flex-column px-2 gap-1 mt-1">
-            <a href="staff_dashboard.php" class="nav-link active bg-white bg-opacity-10 text-white d-flex align-items-center gap-3 py-2 px-3 rounded">
-                <i class="bi bi-house-door fs-5"></i>
-                <span class="fw-medium">Dashboard</span>
-            </a>
-            <a href="<?= htmlspecialchars($baseUrl); ?>modules/logbook/" class="nav-link text-white-50 hover-white d-flex align-items-center gap-3 py-2 px-3 rounded">
-                <i class="bi bi-people fs-5"></i>
-                <span class="fw-medium">User Information</span>
-            </a>
-            <a href="#" class="nav-link text-white-50 hover-white d-flex align-items-center gap-3 py-2 px-3 rounded">
-                <i class="bi bi-list-task fs-5"></i>
-                <span class="fw-medium">Activity Log</span>
-            </a>
-            <a href="#" class="nav-link text-white-50 hover-white d-flex align-items-center gap-3 py-2 px-3 rounded">
-                <i class="bi bi-person-badge fs-5"></i>
-                <span class="fw-medium">User Log</span>
-            </a>
-        </nav>
+            <!-- Navigation Links -->
+            <nav class="nav nav-pills flex-column px-2 gap-1 mt-1 pb-3">
+                <a href="staff_dashboard.php" class="nav-link active bg-white bg-opacity-10 text-white d-flex align-items-center gap-3 py-2 px-3 rounded">
+                    <i class="bi bi-house-door fs-5"></i>
+                    <span class="fw-medium">Dashboard</span>
+                </a>
+                <a href="<?= htmlspecialchars($baseUrl); ?>modules/logbook/" class="nav-link text-white-50 hover-white d-flex align-items-center gap-3 py-2 px-3 rounded">
+                    <i class="bi bi-people fs-5"></i>
+                    <span class="fw-medium">User Information</span>
+                </a>
+                <a href="#" class="nav-link text-white-50 hover-white d-flex align-items-center gap-3 py-2 px-3 rounded">
+                    <i class="bi bi-list-task fs-5"></i>
+                    <span class="fw-medium">Activity Log</span>
+                </a>
+                <a href="#" class="nav-link text-white-50 hover-white d-flex align-items-center gap-3 py-2 px-3 rounded">
+                    <i class="bi bi-person-badge fs-5"></i>
+                    <span class="fw-medium">User Log</span>
+                </a>
+            </nav>
+        </div>
     </aside>
 
     <!-- MAIN CONTENT AREA -->
-    <div class="flex-grow-1 d-flex flex-column h-100 overflow-hidden">
+    <div class="flex-grow-1 d-flex flex-column app-main-content overflow-hidden">
 
         <!-- TOP BAR HEADER -->
-        <header class="bg-white border-bottom px-4 py-2 d-flex justify-content-between align-items-center shadow-sm flex-shrink-0" style="height: 56px;">
-            <div class="text-muted small fw-medium">
+        <header class="bg-white border-bottom px-3 px-md-4 py-2 d-flex justify-content-between align-items-center shadow-sm flex-shrink-0" style="min-height: 56px;">
+            <div class="text-muted small fw-medium text-truncate me-2">
                 <?= date('D | F j, Y g:i:s A'); ?>
             </div>
 
             <!-- User Menu Profile -->
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-decoration-none text-dark gap-2 dropdown-toggle" id="staffUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 32px; height: 32px; background-color: #002B66; font-size: 0.8rem;">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold flex-shrink-0" style="width: 32px; height: 32px; background-color: #002B66; font-size: 0.8rem;">
                         <?= htmlspecialchars($userInitials); ?>
                     </div>
-                    <div class="text-start lh-sm">
+                    <div class="text-start lh-sm d-none d-sm-block">
                         <div class="fw-bold small mb-0" style="font-size: 0.8rem;"><?= htmlspecialchars($fullName); ?></div>
                         <small class="text-muted" style="font-size: 0.65rem;"><?= htmlspecialchars($normalizedRole); ?></small>
                     </div>
@@ -120,10 +148,10 @@ if (file_exists($headerPath)) {
         </header>
 
         <!-- MAIN CONTAINER -->
-        <main class="p-3 flex-grow-1 d-flex flex-column overflow-hidden">
+        <main class="p-2 p-md-3 flex-grow-1 d-flex flex-column overflow-auto">
 
             <!-- Title & Compact Breadcrumb -->
-            <div class="d-flex align-items-center justify-content-between mb-2 flex-shrink-0">
+            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-2 flex-shrink-0 gap-1">
                 <h4 class="fw-bold text-dark mb-0" style="color: #0d1b2a;">Staff Queue Dashboard</h4>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 small">
@@ -133,19 +161,18 @@ if (file_exists($headerPath)) {
                 </nav>
             </div>
 
-            <!-- HERO CARD (CURRENTLY SERVING + 4 EQUAL SIZED ACTION BUTTONS) -->
+            <!-- HERO CARD (CURRENTLY SERVING + ACTION BUTTONS) -->
             <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-3 flex-shrink-0 bg-white">
                 <div class="card-body p-3">
-                    
                     <div class="row align-items-center g-3">
                         
                         <!-- 1. Ticket Highlight Box -->
-                        <div class="col-md-3">
+                        <div class="col-12 col-md-4 col-lg-3">
                             <div class="rounded-3 p-3 text-center border" style="background-color: #f8faff; border-color: #d0e1fd !important;">
                                 <div class="text-uppercase fw-bold text-muted mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">
                                     NOW CALLING
                                 </div>
-                                <h1 class="fw-extrabold text-primary mb-1" style="font-size: 2.5rem; letter-spacing: -1px;">CA-018</h1>
+                                <h1 class="fw-extrabold text-primary mb-1" style="font-size: 2.2rem; letter-spacing: -1px;">CA-018</h1>
                                 <span class="badge bg-success text-white rounded-pill px-3 py-1 fw-semibold" style="font-size: 0.7rem;">
                                     <i class="bi bi-record-fill me-1 text-warning"></i> IN SERVICE
                                 </span>
@@ -153,14 +180,14 @@ if (file_exists($headerPath)) {
                         </div>
 
                         <!-- 2. Student Details with Timers Below -->
-                        <div class="col-md-5 border-end pe-md-4">
+                        <div class="col-12 col-md-8 col-lg-5 border-end-md pe-md-3">
                             <!-- Student Info Top -->
                             <div class="d-flex align-items-center gap-3 mb-2.5">
                                 <div class="rounded-circle d-flex align-items-center justify-content-center text-primary fw-bold fs-4 flex-shrink-0" style="width: 44px; height: 44px; background-color: #e7f0ff;">
                                     <i class="bi bi-person-fill"></i>
                                 </div>
                                 <div class="overflow-hidden">
-                                    <h5 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 1.15rem;">Juan Dela Cruz</h5>
+                                    <h5 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 1.1rem;">Juan Dela Cruz</h5>
                                     <p class="text-muted small mb-0" style="font-size: 0.8rem;"><i class="bi bi-mortarboard me-1"></i>BSIT - 3A</p>
                                     <span class="badge bg-primary bg-opacity-10 mb-2 text-primary fw-semibold px-2 py-0.5 rounded-2" style="font-size: 0.72rem;">
                                         <i class="bi bi-credit-card me-1"></i> Payment Transaction
@@ -172,21 +199,21 @@ if (file_exists($headerPath)) {
                             <div class="pt-2 border-top">
                                 <div class="row g-2 text-center">
                                     <div class="col-4">
-                                        <div class="p-1.5">
-                                            <div class="text-muted" style="font-size: 0.65rem;"><i class="bi bi-clock me-1 text-primary"></i>Called at</div>
-                                            <strong class="text-dark d-block" style="font-size: 0.82rem;">10:20 AM</strong>
+                                        <div class="p-1">
+                                            <div class="text-muted text-nowrap" style="font-size: 0.65rem;"><i class="bi bi-clock me-1 text-primary"></i>Called at</div>
+                                            <strong class="text-dark d-block text-nowrap" style="font-size: 0.8rem;">10:20 AM</strong>
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <div class="p-1.5">
-                                            <div class="text-muted" style="font-size: 0.65rem;"><i class="bi bi-hourglass-split me-1 text-warning"></i>Waiting</div>
-                                            <strong class="text-dark d-block" style="font-size: 0.82rem;">3m</strong>
+                                        <div class="p-1">
+                                            <div class="text-muted text-nowrap" style="font-size: 0.65rem;"><i class="bi bi-hourglass-split me-1 text-warning"></i>Waiting</div>
+                                            <strong class="text-dark d-block text-nowrap" style="font-size: 0.8rem;">3m</strong>
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <div class="p-1.5">
-                                            <div class="text-muted" style="font-size: 0.65rem;"><i class="bi bi-stopwatch me-1 text-success"></i>Service</div>
-                                            <strong class="text-dark d-block" style="font-size: 0.82rem;">12m</strong>
+                                        <div class="p-1">
+                                            <div class="text-muted text-nowrap" style="font-size: 0.65rem;"><i class="bi bi-stopwatch me-1 text-success"></i>Service</div>
+                                            <strong class="text-dark d-block text-nowrap" style="font-size: 0.8rem;">12m</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -194,27 +221,19 @@ if (file_exists($headerPath)) {
                         </div>
 
                         <!-- 3. Action Buttons -->
-                        <div class="col-md-4 ps-md-3">
-                            <div class="row g-2 align-items-stretch">
-                                <div class="col-6 d-flex">
-                                    <button class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 h-100" style="font-size: 0.88rem;">
-                                        <span>Call Next</span>
-                                    </button>
+                        <div class="col-12 col-lg-4 ps-lg-3">
+                            <div class="row g-2">
+                                <div class="col-6 col-sm-3 col-lg-6">
+                                    <button class="btn btn-primary w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">Call Next</button>
                                 </div>
-                                <div class="col-6 d-flex">
-                                    <button class="btn btn-success w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 h-100" style="font-size: 0.88rem;">
-                                        <span>Complete</span>
-                                    </button>
+                                <div class="col-6 col-sm-3 col-lg-6">
+                                    <button class="btn btn-success w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">Complete</button>
                                 </div>
-                                <div class="col-6 d-flex">
-                                    <button class="btn btn-warning text-dark w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 h-100" style="font-size: 0.88rem;">
-                                        <span>Recall</span>
-                                    </button>
+                                <div class="col-6 col-sm-3 col-lg-6">
+                                    <button class="btn btn-warning text-dark w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">Recall</button>
                                 </div>
-                                <div class="col-6 d-flex">
-                                    <button class="btn text-white w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 h-100" style="background-color: #6f42c1; font-size: 0.88rem;">
-                                        <span>Transfer</span>
-                                    </button>
+                                <div class="col-6 col-sm-3 col-lg-6">
+                                    <button class="btn text-white w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="background-color: #6f42c1; font-size: 0.82rem;">Transfer</button>
                                 </div>
                             </div>
                         </div>
@@ -224,11 +243,11 @@ if (file_exists($headerPath)) {
             </div>
 
             <!-- LOWER SECTION (WAITING QUEUE & UNIFIED QUEUE OVERVIEW) -->
-            <div class="row g-3 flex-grow-1 overflow-hidden">
+            <div class="row g-3 flex-grow-1">
                 
                 <!-- WAITING QUEUE TABLE (LEFT SIDE) -->
-                <div class="col-lg-8 d-flex flex-column h-100">
-                    <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100 d-flex flex-column overflow-hidden">
+                <div class="col-12 col-lg-7 col-xl-8 d-flex flex-column">
+                    <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100 d-flex flex-column">
                         
                         <!-- Header & Badges -->
                         <div class="d-flex align-items-center justify-content-between mb-3 flex-shrink-0">
@@ -239,15 +258,15 @@ if (file_exists($headerPath)) {
                             </div>
                         </div>
 
-                        <!-- Compact Filters -->
+                        <!-- Filters -->
                         <div class="row g-2 mb-3 flex-shrink-0">
-                            <div class="col-md-7">
+                            <div class="col-12 col-sm-7">
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
                                     <input type="text" class="form-control bg-light border-start-0" placeholder="Search ticket number or student name...">
                                 </div>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-12 col-sm-5">
                                 <select class="form-select form-select-sm bg-light">
                                     <option selected>All Services</option>
                                     <option value="payment">Payment</option>
@@ -258,8 +277,8 @@ if (file_exists($headerPath)) {
                         </div>
 
                         <!-- Scrollable Internal Table Container -->
-                        <div class="table-responsive flex-grow-1 overflow-auto">
-                            <table class="table table-hover align-middle mb-0 small">
+                        <div class="table-responsive flex-grow-1">
+                            <table class="table table-hover align-middle mb-0 small text-nowrap">
                                 <thead class="table-light text-muted sticky-top" style="font-size: 0.75rem;">
                                     <tr>
                                         <th scope="col">#</th>
@@ -319,10 +338,10 @@ if (file_exists($headerPath)) {
                 </div>
 
                 <!-- UNIFIED QUEUE OVERVIEW (RIGHT SIDE) -->
-                <div class="col-lg-4 d-flex flex-column h-100">
-                    <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100 d-flex flex-column overflow-auto">
+                <div class="col-12 col-lg-5 col-xl-4 d-flex flex-column">
+                    <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100 d-flex flex-column">
                         
-                        <!-- Single Card Header with View All Link -->
+                        <!-- Header with View All Link -->
                         <div class="d-flex align-items-center justify-content-between mb-3 flex-shrink-0">
                             <div class="d-flex align-items-center gap-2">
                                 <i class="bi bi-bar-chart-fill text-primary fs-5"></i>
@@ -333,7 +352,7 @@ if (file_exists($headerPath)) {
                             </a>
                         </div>
 
-                        <!-- 4 Stat Tiles Grid (Added P-3 Padding & Clean Spacing) -->
+                        <!-- 4 Stat Tiles Grid -->
                         <div class="row g-2 mb-3 flex-shrink-0">
                             <!-- Tile 1: Waiting -->
                             <div class="col-6">
@@ -387,7 +406,7 @@ if (file_exists($headerPath)) {
 
                         <!-- Integrated Activity Table inside Overview -->
                         <div class="table-responsive flex-grow-1">
-                            <table class="table table-borderless table-hover align-middle mb-0" style="font-size: 0.73rem;">
+                            <table class="table table-borderless table-hover align-middle mb-0 text-nowrap" style="font-size: 0.73rem;">
                                 <thead class="text-muted border-bottom" style="font-size: 0.68rem;">
                                     <tr>
                                         <th class="ps-0 py-1 fw-semibold">Time</th>
