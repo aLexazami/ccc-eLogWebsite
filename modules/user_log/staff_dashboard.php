@@ -198,25 +198,24 @@ if (file_exists($headerPath)) {
                             <div class="row g-2 align-items-stretch">
                                 <div class="col-6 d-flex">
                                     <button class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 h-100" style="font-size: 0.88rem;">
-                                        <i class="bi bi-play-circle-fill fs-4"></i>
                                         <span>Call Next</span>
                                     </button>
                                 </div>
                                 <div class="col-6 d-flex">
                                     <button class="btn btn-success w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 h-100" style="font-size: 0.88rem;">
-                                        <i class="bi bi-check-circle-fill fs-4"></i>
+                                        
                                         <span>Complete</span>
                                     </button>
                                 </div>
                                 <div class="col-6 d-flex">
                                     <button class="btn btn-warning text-dark w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 h-100" style="font-size: 0.88rem;">
-                                        <i class="bi bi-arrow-clockwise fs-4"></i>
+                                     
                                         <span>Recall</span>
                                     </button>
                                 </div>
                                 <div class="col-6 d-flex">
                                     <button class="btn text-white w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 h-100" style="background-color: #6f42c1; font-size: 0.88rem;">
-                                        <i class="bi bi-arrow-right-left fs-4"></i>
+                                       
                                         <span>Transfer</span>
                                     </button>
                                 </div>
