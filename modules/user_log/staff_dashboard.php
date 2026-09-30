@@ -105,15 +105,11 @@ if (file_exists($headerPath)) {
                 </a>
                 <a href="<?= htmlspecialchars($baseUrl); ?>modules/logbook/" class="nav-link text-white-50 hover-white d-flex align-items-center gap-3 py-2 px-3 rounded">
                     <i class="bi bi-people fs-5"></i>
-                    <span class="fw-medium">User Information</span>
+                    <span class="fw-medium">Service History</span>
                 </a>
                 <a href="#" class="nav-link text-white-50 hover-white d-flex align-items-center gap-3 py-2 px-3 rounded">
                     <i class="bi bi-list-task fs-5"></i>
-                    <span class="fw-medium">Activity Log</span>
-                </a>
-                <a href="#" class="nav-link text-white-50 hover-white d-flex align-items-center gap-3 py-2 px-3 rounded">
-                    <i class="bi bi-person-badge fs-5"></i>
-                    <span class="fw-medium">User Log</span>
+                    <span class="fw-medium">Reports</span>
                 </a>
             </nav>
         </div>
@@ -152,7 +148,7 @@ if (file_exists($headerPath)) {
 
             <!-- Title & Compact Breadcrumb -->
             <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-2 flex-shrink-0 gap-1">
-                <h4 class="fw-bold text-dark mb-0" style="color: #0d1b2a;">Staff Queue Dashboard</h4>
+                <h4 class="fw-bold text-dark mb-3" style="color: #0d1b2a;">Staff Queue Dashboard</h4>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 small">
                         <li class="breadcrumb-item"><a href="#" class="text-decoration-none"><i class="bi bi-house-door"></i></a></li>
