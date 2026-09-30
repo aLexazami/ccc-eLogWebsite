@@ -90,7 +90,7 @@ require_once __DIR__ . '/includes/header.php';
                         </div>
                         <h3 class="fw-extrabold mb-4" style="color: var(--color-text-primary);">Staff Portal</h3>
 
-                        <a href="<?= BASE_URL; ?>/user_log/staff_login.php" class="btn btn-portal btn-oval w-100 py-3 mt-auto shadow-sm" role="button">
+                        <a href="<?= BASE_URL; ?>/modules/user_log/staff_login.php" class="btn btn-portal btn-oval w-100 py-3 mt-auto shadow-sm" role="button">
                             <span class="btn-label fw-semibold">Login</span>
                         </a>
                     </div>
