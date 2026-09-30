@@ -193,7 +193,7 @@ if (file_exists($headerPath)) {
                             </div>
                         </div>
 
-                        <!-- 3. Perfectly Aligned & Larger Action Buttons -->
+                        <!-- 3. Action Buttons -->
                         <div class="col-md-4 ps-md-3">
                             <div class="row g-2 align-items-stretch">
                                 <div class="col-6 d-flex">
@@ -203,19 +203,16 @@ if (file_exists($headerPath)) {
                                 </div>
                                 <div class="col-6 d-flex">
                                     <button class="btn btn-success w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 h-100" style="font-size: 0.88rem;">
-                                        
                                         <span>Complete</span>
                                     </button>
                                 </div>
                                 <div class="col-6 d-flex">
                                     <button class="btn btn-warning text-dark w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 h-100" style="font-size: 0.88rem;">
-                                     
                                         <span>Recall</span>
                                     </button>
                                 </div>
                                 <div class="col-6 d-flex">
                                     <button class="btn text-white w-100 py-3 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 h-100" style="background-color: #6f42c1; font-size: 0.88rem;">
-                                       
                                         <span>Transfer</span>
                                     </button>
                                 </div>
@@ -226,7 +223,7 @@ if (file_exists($headerPath)) {
                 </div>
             </div>
 
-            <!-- LOWER SECTION (WAITING QUEUE & TODAY'S SUMMARY) -->
+            <!-- LOWER SECTION (WAITING QUEUE & COMBINED SUMMARY PANEL) -->
             <div class="row g-3 flex-grow-1 overflow-hidden">
                 
                 <!-- WAITING QUEUE TABLE (LEFT SIDE) -->
@@ -321,35 +318,94 @@ if (file_exists($headerPath)) {
                     </div>
                 </div>
 
-                <!-- TODAY'S QUEUE OVERVIEW / SUMMARY (RIGHT SIDE) -->
+                <!-- COMBINED OVERVIEW & RECENT ACTIVITIES (RIGHT SIDE) -->
                 <div class="col-lg-4 d-flex flex-column h-100">
-                    <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100 d-flex flex-column justify-content-between overflow-auto">
-                        <div>
-                            <h6 class="fw-bold text-dark mb-3"><i class="bi bi-bar-chart-fill me-1 text-primary"></i>Today's Queue Overview</h6>
-                            <div class="row g-2 mb-3">
-                                <div class="col-6">
-                                    <div class="p-3 bg-light border border-primary border-opacity-25 rounded-3 text-center shadow-sm">
-                                        <small class="text-primary fw-bold d-block mb-1" style="font-size: 0.75rem;">Waiting</small>
-                                        <h2 class="fw-bold text-primary mb-0">7</h2>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="p-3 bg-light border border-success border-opacity-25 rounded-3 text-center shadow-sm">
-                                        <small class="text-success fw-bold d-block mb-1" style="font-size: 0.75rem;">Served</small>
-                                        <h2 class="fw-bold text-success mb-0">42</h2>
-                                    </div>
+                    <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100 d-flex flex-column overflow-auto">
+                        
+                        <!-- Header -->
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-shrink-0">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-clock-history text-primary fs-5"></i>
+                                <h6 class="fw-bold text-dark mb-0">Daily Summary & Activity</h6>
+                            </div>
+                            <span class="badge bg-light text-muted border fw-normal" style="font-size: 0.68rem;">Live Updates</span>
+                        </div>
+
+                        <!-- Stat Counters -->
+                        <div class="row g-2 mb-2 flex-shrink-0">
+                            <div class="col-6">
+                                <div class="p-2.5 bg-light border border-primary border-opacity-25 rounded-3 text-center shadow-sm">
+                                    <small class="text-primary fw-bold d-block mb-0" style="font-size: 0.72rem;">Waiting</small>
+                                    <h3 class="fw-bold text-primary mb-0">7</h3>
                                 </div>
                             </div>
-                            <div class="p-3 bg-light rounded-3 border">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <small class="text-muted fw-semibold" style="font-size: 0.75rem;">Avg. Service Time</small>
-                                    <strong class="text-dark" style="font-size: 0.85rem;"><i class="bi bi-speedometer2 text-info me-1"></i> 4m 30s</strong>
-                                </div>
-                                <div class="progress" style="height: 6px;">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="col-6">
+                                <div class="p-2.5 bg-light border border-success border-opacity-25 rounded-3 text-center shadow-sm">
+                                    <small class="text-success fw-bold d-block mb-0" style="font-size: 0.72rem;">Served</small>
+                                    <h3 class="fw-bold text-success mb-0">42</h3>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Average Service Time Widget -->
+                        <div class="p-2.5 bg-light rounded-3 border mb-3 flex-shrink-0">
+                            <div class="d-flex align-items-center justify-content-between mb-1.5">
+                                <small class="text-muted fw-semibold" style="font-size: 0.72rem;">Avg. Service Time</small>
+                                <strong class="text-dark" style="font-size: 0.8rem;"><i class="bi bi-speedometer2 text-info me-1"></i> 4m 30s</strong>
+                            </div>
+                            <div class="progress" style="height: 5px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activities Stream -->
+                        <div class="flex-grow-1">
+                            <div class="text-uppercase fw-bold text-muted mb-2" style="font-size: 0.65rem; letter-spacing: 0.5px;">
+                                Recent Activity Log
+                            </div>
+
+                            <ul class="list-group list-group-flush small">
+                                <li class="list-group-item px-0 py-2 border-0 bg-transparent d-flex align-items-start gap-2">
+                                    <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center flex-shrink-0 mt-0.5" style="width: 24px; height: 24px;">
+                                        <i class="bi bi-check-circle-fill" style="font-size: 0.75rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1 lh-sm">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <strong class="text-dark" style="font-size: 0.78rem;">CA-017 Completed</strong>
+                                            <small class="text-muted" style="font-size: 0.65rem;">10:18 AM</small>
+                                        </div>
+                                        <span class="text-muted d-block" style="font-size: 0.72rem;">Juan Dela Cruz • Payment</span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item px-0 py-2 border-0 bg-transparent d-flex align-items-start gap-2">
+                                    <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center flex-shrink-0 mt-0.5" style="width: 24px; height: 24px;">
+                                        <i class="bi bi-megaphone-fill" style="font-size: 0.75rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1 lh-sm">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <strong class="text-dark" style="font-size: 0.78rem;">CA-018 Called</strong>
+                                            <small class="text-muted" style="font-size: 0.65rem;">10:20 AM</small>
+                                        </div>
+                                        <span class="text-muted d-block" style="font-size: 0.72rem;">Juan Dela Cruz • Window 1</span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item px-0 py-2 border-0 bg-transparent d-flex align-items-start gap-2">
+                                    <div class="rounded-circle bg-warning bg-opacity-10 text-warning d-flex align-items-center justify-content-center flex-shrink-0 mt-0.5" style="width: 24px; height: 24px;">
+                                        <i class="bi bi-arrow-clockwise" style="font-size: 0.75rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1 lh-sm">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <strong class="text-dark" style="font-size: 0.78rem;">CA-016 Recalled</strong>
+                                            <small class="text-muted" style="font-size: 0.65rem;">10:10 AM</small>
+                                        </div>
+                                        <span class="text-muted d-block" style="font-size: 0.72rem;">Pedro Penduko • Counter 2</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
 
