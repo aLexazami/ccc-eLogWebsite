@@ -102,9 +102,9 @@ if (file_exists($headerPath)) {
     <!-- MAIN CONTENT AREA -->
     <div class="flex-grow-1 d-flex flex-column app-main-content overflow-hidden">
 
-        <!-- TOP BAR HEADER -->
+        <!-- TOP BAR HEADER WITH DYNAMIC CLOCK -->
         <header class="bg-white border-bottom px-3 px-md-4 py-2 d-flex justify-content-between align-items-center shadow-sm flex-shrink-0" style="min-height: 56px;">
-            <div class="text-muted small fw-medium text-truncate me-2">
+            <div class="text-muted small fw-medium text-truncate me-2" id="liveHeaderClock">
                 <?= date('D | F j, Y g:i:s A'); ?>
             </div>
 
@@ -129,7 +129,7 @@ if (file_exists($headerPath)) {
         <!-- MAIN CONTAINER -->
         <main class="p-3 p-md-4 flex-grow-1 d-flex flex-column overflow-auto">
 
-            <!-- Clean Top Text & Header Controls (Matches Service History) -->
+            <!-- Clean Top Text & Header Controls -->
             <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-3 flex-shrink-0 gap-2">
                 <div>
                     <h4 class="fw-bold text-dark mb-0">Staff Queue Dashboard</h4>
@@ -198,16 +198,24 @@ if (file_exists($headerPath)) {
                         <div class="col-12 col-lg-4 ps-lg-3">
                             <div class="row g-2">
                                 <div class="col-6 col-sm-3 col-lg-6">
-                                    <button class="btn btn-primary w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">Call Next</button>
+                                    <button class="btn btn-primary w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">
+                                        <i class="bi bi-megaphone me-1"></i> Call Next
+                                    </button>
                                 </div>
                                 <div class="col-6 col-sm-3 col-lg-6">
-                                    <button class="btn btn-success w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">Complete</button>
+                                    <button class="btn btn-success w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">
+                                        <i class="bi bi-check-circle me-1"></i> Complete
+                                    </button>
                                 </div>
                                 <div class="col-6 col-sm-3 col-lg-6">
-                                    <button class="btn btn-warning text-dark w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">Recall</button>
+                                    <button class="btn btn-warning text-dark w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">
+                                        <i class="bi bi-bell me-1"></i> Recall
+                                    </button>
                                 </div>
                                 <div class="col-6 col-sm-3 col-lg-6">
-                                    <button class="btn text-white w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="background-color: #6f42c1; font-size: 0.82rem;">Transfer</button>
+                                    <button class="btn text-white w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="background-color: #6f42c1; font-size: 0.82rem;">
+                                        <i class="bi bi-arrow-return-right me-1"></i> Transfer
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -422,6 +430,42 @@ if (file_exists($headerPath)) {
         </main>
     </div>
 </div>
+
+<!-- DYNAMIC LIVE HEADER CLOCK SCRIPT -->
+<script>
+function updateHeaderClock() {
+    const now = new Date();
+    
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                    'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    const dayName = days[now.getDay()];
+    const monthName = months[now.getMonth()];
+    const dayNum = now.getDate();
+    const year = now.getFullYear();
+    
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    const formattedDate = `${dayName} | ${monthName} ${dayNum}, ${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+    
+    const clockEl = document.getElementById('liveHeaderClock');
+    if (clockEl) {
+        clockEl.textContent = formattedDate;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    updateHeaderClock();
+    setInterval(updateHeaderClock, 1000);
+});
+</script>
 
 <?php
 $footerPath = __DIR__ . '/../../includes/footer.php';

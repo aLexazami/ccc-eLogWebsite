@@ -8,26 +8,20 @@ if (session_status() === PHP_SESSION_NONE) {
 $baseUrl = defined('BASE_URL') ? BASE_URL : '../';
 
 // Security & Role Checks
-$userRole = $_SESSION['user_role'] ?? $_SESSION['role'] ?? '';
-$normalizedRole = strtoupper(trim($userRole));
-$allowedRoles = ['STAFF', 'STAFF MEMBER', 'USER', 'SYSTEM ADMIN', 'ADMINISTRATOR', 'ADMIN'];
+$userRole =$_SESSION['user_role'] ?? $_SESSION['role'] ?? '';$normalizedRole = strtoupper(trim($userRole));$allowedRoles = ['STAFF', 'STAFF MEMBER', 'USER', 'SYSTEM ADMIN', 'ADMINISTRATOR', 'ADMIN'];
 
-if (empty($normalizedRole) || !in_array($normalizedRole, $allowedRoles)) {
+if (empty($normalizedRole) || !in_array($normalizedRole,$allowedRoles)) {
     header("Location: staff_login.php?error=unauthorized");
     exit();
 }
 
-$fullName = $_SESSION['full_name'] ?? $_SESSION['username'] ?? 'Staff User';
-$userInitials = 'SU';
-if (!empty($fullName)) {
-    $nameParts = explode(' ', trim($fullName));
-    $firstInitial = $nameParts[0][0] ?? '';
-    $lastInitial = isset($nameParts[1]) ? $nameParts[count($nameParts) - 1][0] : '';
-    $userInitials = strtoupper($firstInitial . $lastInitial);
+$fullName =$_SESSION['full_name'] ?? $_SESSION['username'] ?? 'Staff User';$userInitials = 'SU';
+if (!empty($fullName)) {$nameParts = explode(' ', trim($fullName));$firstInitial = $nameParts[0][0] ?? '';$lastInitial = isset($nameParts[1]) ?$nameParts[count($nameParts) - 1][0] : '';$userInitials = strtoupper($firstInitial .$lastInitial);
 }
 
 // Selected Date Filter (Defaults to Today)
-$selectedDate = $_GET['date'] ?? date('Y-m-d');
+$selectedDate =$_GET['date'] ?? date('Y-m-d');
+$formattedDisplayDate = date('F j, Y', strtotime($selectedDate));
 
 $headerPath = __DIR__ . '/../../includes/header.php';
 if (file_exists($headerPath)) {
@@ -105,9 +99,9 @@ if (file_exists($headerPath)) {
     <!-- MAIN CONTENT AREA -->
     <div class="flex-grow-1 d-flex flex-column app-main-content overflow-hidden">
         
-        <!-- TOP BAR HEADER -->
+        <!-- TOP BAR HEADER WITH DYNAMIC CLOCK -->
         <header class="bg-white border-bottom px-3 px-md-4 py-2 d-flex justify-content-between align-items-center shadow-sm flex-shrink-0" style="min-height: 56px;">
-            <div class="text-muted small fw-medium text-truncate me-2">
+            <div class="text-muted small fw-medium text-truncate me-2" id="liveHeaderClock">
                 <?= date('D | F j, Y g:i:s A'); ?>
             </div>
 
@@ -139,13 +133,18 @@ if (file_exists($headerPath)) {
                     <p class="text-muted small mb-0">View today's transactions and past daily records.</p>
                 </div>
                 
-                <!-- Per-Day Date Selector Form -->
-                <form method="GET" action="staff_service.php" class="d-flex align-items-center gap-2">
+                <!-- Per-Day Date Selector Form (Removed onchange auto-submit, added Filter button) -->
+                <form method="GET" action="staff_service.php" class="d-flex align-items-center gap-1">
                     <div class="btn-group btn-group-sm me-1" role="group">
                         <a href="staff_service.php?date=<?= date('Y-m-d'); ?>" class="btn btn-outline-secondary <?= ($selectedDate === date('Y-m-d')) ? 'active' : ''; ?>">Today</a>
                         <a href="staff_service.php?date=<?= date('Y-m-d', strtotime('-1 day')); ?>" class="btn btn-outline-secondary <?= ($selectedDate === date('Y-m-d', strtotime('-1 day'))) ? 'active' : ''; ?>">Yesterday</a>
                     </div>
-                    <input type="date" name="date" class="form-control form-control-sm bg-white border-secondary-subtle fw-medium shadow-sm" value="<?= htmlspecialchars($selectedDate); ?>" onchange="this.form.submit()">
+                    <div class="input-group input-group-sm">
+                        <input type="date" name="date" class="form-control form-control-sm bg-white border-secondary-subtle fw-medium shadow-sm" value="<?= htmlspecialchars($selectedDate); ?>">
+                        <button type="submit" class="btn btn-primary btn-sm px-2 shadow-sm d-flex align-items-center gap-1">
+                            <i class="bi bi-filter"></i> Filter
+                        </button>
+                    </div>
                 </form>
             </div>
 
@@ -288,7 +287,7 @@ if (file_exists($headerPath)) {
 
                 <!-- Footer Pagination & Record Count -->
                 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center pt-3 border-top mt-auto gap-2 flex-shrink-0">
-                    <span class="text-muted small">Showing 1–10 of 42 records for <strong><?= date('M j, Y', strtotime($selectedDate)); ?></strong></span>
+                    <span class="text-muted small">Showing 1–10 of 42 records for <strong><?= htmlspecialchars($formattedDisplayDate); ?></strong></span>
                     <nav aria-label="Page navigation">
                         <ul class="pagination pagination-sm mb-0">
                             <li class="page-item disabled"><a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a></li>
@@ -306,6 +305,42 @@ if (file_exists($headerPath)) {
         </main>
     </div>
 </div>
+
+<!-- DYNAMIC LIVE HEADER CLOCK SCRIPT -->
+<script>
+function updateHeaderClock() {
+    const now = new Date();
+    
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                    'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    const dayName = days[now.getDay()];
+    const monthName = months[now.getMonth()];
+    const dayNum = now.getDate();
+    const year = now.getFullYear();
+    
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    const formattedDate = `${dayName} | ${monthName} ${dayNum}, ${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+    
+    const clockEl = document.getElementById('liveHeaderClock');
+    if (clockEl) {
+        clockEl.textContent = formattedDate;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    updateHeaderClock();
+    setInterval(updateHeaderClock, 1000);
+});
+</script>
 
 <?php 
 $footerPath = __DIR__ . '/../../includes/footer.php';

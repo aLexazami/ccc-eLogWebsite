@@ -7,6 +7,12 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $baseUrl = defined('BASE_URL') ? BASE_URL : '../';
 
+// Include database connection if available
+$dbPath = __DIR__ . '/../../includes/db.php';
+if (file_exists($dbPath)) {
+    require_once $dbPath;
+}
+
 // Security & Role Checks
 $userRole = $_SESSION['user_role'] ?? $_SESSION['role'] ?? '';
 $normalizedRole = strtoupper(trim($userRole));
@@ -27,8 +33,71 @@ if (!empty($fullName)) {
     $userInitials = strtoupper($firstInitial . $lastInitial);
 }
 
-// Selected Date Filter (Defaults to Today)
-$selectedDate = $_GET['date'] ?? date('Y-m-d');
+// ---------------------------------------------------------------------
+// SAFE DYNAMIC DATE VALIDATION & AUTO-RESET LOGIC
+// ---------------------------------------------------------------------
+$today = date('Y-m-d');
+$rawSelectedDate = $_GET['date'] ?? $today;
+$dateResetTriggered = false;
+
+// Check valid date format YYYY-MM-DD
+function isValidDateFormat($date) {
+    $d = DateTime::createFromFormat('Y-m-d', $date);
+    return $d && $d->format('Y-m-d') === $date;
+}
+
+/**
+ * Checks database records safely to prevent crashes or bad queries.
+ */
+function checkHasRecords($date, $todayDate) {
+    global $conn, $pdo; // Checks MySQLi or PDO variables
+
+    if (!isValidDateFormat($date)) {
+        return false;
+    }
+
+    // Always permit today and yesterday dynamically
+    if ($date === $todayDate || $date === date('Y-m-d', strtotime('-1 day'))) {
+        return true;
+    }
+
+    try {
+        // Query PDO if available
+        if (isset($pdo) && $pdo instanceof PDO) {
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM queue_logs WHERE DATE(called_at) = ?");
+            $stmt->execute([$date]);
+            return $stmt->fetchColumn() > 0;
+        } 
+        // Query MySQLi if available
+        elseif (isset($conn) && $conn instanceof mysqli) {
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM queue_logs WHERE DATE(called_at) = ?");
+            if ($stmt) {
+                $stmt->bind_param("s", $date);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = $result->fetch_row();
+                return ($row[0] > 0);
+            }
+        }
+    } catch (Exception $e) {
+        // Fallback safely if table is not yet initialized
+        return true;
+    }
+
+    return ($date <= $todayDate);
+}
+
+// Perform dynamic validation
+if (!checkHasRecords($rawSelectedDate, $today)) {
+    $selectedDate = $today;
+    if (isset($_GET['date']) && $_GET['date'] !== $today) {
+        $dateResetTriggered = true;
+    }
+} else {
+    $selectedDate = isValidDateFormat($rawSelectedDate) ? $rawSelectedDate : $today;
+}
+
+$formattedDisplayDate = date('F j, Y', strtotime($selectedDate));
 
 $headerPath = __DIR__ . '/../../includes/header.php';
 if (file_exists($headerPath)) {
@@ -148,9 +217,9 @@ if (file_exists($headerPath)) {
     <!-- MAIN CONTENT AREA -->
     <div class="flex-grow-1 d-flex flex-column app-main-content overflow-hidden">
 
-        <!-- TOP BAR HEADER -->
+        <!-- TOP BAR HEADER WITH DYNAMIC CLOCK -->
         <header class="bg-white border-bottom px-3 px-md-4 py-2 d-flex justify-content-between align-items-center shadow-sm flex-shrink-0" style="min-height: 56px;">
-            <div class="text-muted small fw-medium text-truncate me-2">
+            <div class="text-muted small fw-medium text-truncate me-2" id="liveHeaderClock">
                 <?= date('D | F j, Y g:i:s A'); ?>
             </div>
 
@@ -175,13 +244,27 @@ if (file_exists($headerPath)) {
         <!-- MAIN CONTAINER -->
         <main class="p-3 p-md-4 flex-grow-1 d-flex flex-column overflow-auto">
 
+            <?php if ($dateResetTriggered): ?>
+                <!-- Auto-reset Alert Notification -->
+                <div class="alert alert-warning alert-dismissible fade show mb-3 py-2 px-3 small border-0 shadow-sm d-flex align-items-center" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2 fs-6"></i>
+                    <div>No report records found for <strong><?= htmlspecialchars(date('F j, Y', strtotime($rawSelectedDate))); ?></strong>. Auto-resetting to current day.</div>
+                    <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
             <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-3 flex-shrink-0 gap-2">
                 <div>
                     <h4 class="fw-bold text-dark mb-0">Reports</h4>
-                    <p class="text-muted small mb-0">View service statistics and performance data.</p>
+                    <p class="text-muted small mb-0">View service statistics and performance data for <strong><?= htmlspecialchars($formattedDisplayDate); ?></strong>.</p>
                 </div>
 
-                <form method="GET" action="staff_report.php" class="d-flex align-items-center gap-2">
+                <!-- Per-Day Dynamic Date Selector Form -->
+                <form method="GET" action="staff_report.php" class="d-flex align-items-center gap-1">
+                    <div class="btn-group btn-group-sm me-1" role="group">
+                        <a href="staff_report.php?date=<?= date('Y-m-d'); ?>" class="btn btn-outline-secondary <?= ($selectedDate === date('Y-m-d')) ? 'active' : ''; ?>">Today</a>
+                        <a href="staff_report.php?date=<?= date('Y-m-d', strtotime('-1 day')); ?>" class="btn btn-outline-secondary <?= ($selectedDate === date('Y-m-d', strtotime('-1 day'))) ? 'active' : ''; ?>">Yesterday</a>
+                    </div>
                     <div class="input-group input-group-sm bg-white rounded-2 shadow-sm border">
                         <span class="input-group-text bg-white border-0 text-muted"><i class="bi bi-calendar-event"></i></span>
                         <input type="date" name="date" class="form-control border-0 bg-transparent fw-medium" value="<?= htmlspecialchars($selectedDate); ?>" onchange="this.form.submit()">
@@ -393,8 +476,40 @@ if (file_exists($headerPath)) {
     </div>
 </div>
 
+<!-- DYNAMIC LIVE HEADER CLOCK SCRIPT -->
 <script>
+function updateHeaderClock() {
+    const now = new Date();
+    
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                    'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    const dayName = days[now.getDay()];
+    const monthName = months[now.getMonth()];
+    const dayNum = now.getDate();
+    const year = now.getFullYear();
+    
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    const formattedDate = `${dayName} | ${monthName} ${dayNum}, ${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+    
+    const clockEl = document.getElementById('liveHeaderClock');
+    if (clockEl) {
+        clockEl.textContent = formattedDate;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+    updateHeaderClock();
+    setInterval(updateHeaderClock, 1000);
+
     if (typeof Chart === 'undefined') {
         return;
     }
