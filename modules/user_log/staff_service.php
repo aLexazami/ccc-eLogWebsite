@@ -135,7 +135,7 @@ if (file_exists($headerPath)) {
             <!-- Header & Per-Day Date Selector Controls -->
             <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-3 flex-shrink-0 gap-2">
                 <div>
-                    <h4 class="fw-bold text-dark mb-0">Daily Service History</h4>
+                    <h4 class="fw-bold text-dark mb-0">Service History</h4>
                     <p class="text-muted small mb-0">View today's transactions and past daily records.</p>
                 </div>
                 
