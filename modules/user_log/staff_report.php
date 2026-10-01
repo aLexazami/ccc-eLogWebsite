@@ -43,11 +43,17 @@ if (file_exists($headerPath)) {
     <title>Reports - City College of Calamba</title>
     <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl); ?>assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl); ?>assets/css/bootstrap-icons.css">
-    <!-- Chart.js for Reports Visualizations -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body style="background-color: #f4f6f9;">
 <?php } ?>
+
+<!-- LOCAL CHART.JS LOAD WITH CDN FALLBACK -->
+<script src="<?= htmlspecialchars($baseUrl); ?>assets/js/chart.umd.min.js"></script>
+<script>
+    if (typeof Chart === 'undefined') {
+        document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"><\/script>');
+    }
+</script>
 
 <style>
     .hover-white:hover { color: #fff !important; }
@@ -83,12 +89,23 @@ if (file_exists($headerPath)) {
         font-size: 1.1rem;
     }
 
-    /* Standardized Royal Blue Styling for Content Components */
     .text-royal-blue {
         color: #4169E1 !important;
     }
     .bg-royal-blue-light {
         background-color: #eef2ff !important;
+    }
+    
+    .bar-chart-wrapper {
+        position: relative;
+        width: 100%;
+        height: 220px;
+    }
+    .doughnut-chart-wrapper {
+        position: relative;
+        width: 140px;
+        height: 140px;
+        margin: 0 auto;
     }
 </style>
 
@@ -112,17 +129,14 @@ if (file_exists($headerPath)) {
 
             <?php $currentPage = basename($_SERVER['PHP_SELF']); ?>
             <nav class="nav nav-pills flex-column px-2 gap-1 mt-1 pb-3">
-                <!-- 1. Dashboard -->
                 <a href="staff_dashboard.php" class="nav-link <?= ($currentPage === 'staff_dashboard.php') ? 'active bg-white bg-opacity-10 text-white' : 'text-white-50 hover-white'; ?> d-flex align-items-center gap-3 py-2 px-3 rounded">
                     <i class="bi bi-house-door fs-5"></i>
                     <span class="fw-medium">Dashboard</span>
                 </a>
-                <!-- 2. Service History -->
                 <a href="staff_service.php" class="nav-link <?= ($currentPage === 'staff_service.php') ? 'active bg-white bg-opacity-10 text-white' : 'text-white-50 hover-white'; ?> d-flex align-items-center gap-3 py-2 px-3 rounded">
                     <i class="bi bi-clock-history fs-5"></i>
                     <span class="fw-medium">Service History</span>
                 </a>
-                <!-- 3. Reports -->
                 <a href="staff_report.php" class="nav-link <?= ($currentPage === 'staff_report.php') ? 'active bg-white bg-opacity-10 text-white' : 'text-white-50 hover-white'; ?> d-flex align-items-center gap-3 py-2 px-3 rounded">
                     <i class="bi bi-bar-chart-line fs-5"></i>
                     <span class="fw-medium">Reports</span>
@@ -161,7 +175,6 @@ if (file_exists($headerPath)) {
         <!-- MAIN CONTAINER -->
         <main class="p-3 p-md-4 flex-grow-1 d-flex flex-column overflow-auto">
 
-            <!-- Title & Date Selector Header -->
             <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-3 flex-shrink-0 gap-2">
                 <div>
                     <h4 class="fw-bold text-dark mb-0">Reports</h4>
@@ -178,7 +191,6 @@ if (file_exists($headerPath)) {
 
             <!-- TOP SUMMARY METRIC CARDS -->
             <div class="row g-3 mb-3 flex-shrink-0">
-                <!-- Card 1: Total Served -->
                 <div class="col-12 col-sm-6 col-xl-3">
                     <div class="card border-0 shadow-sm p-3 metric-card">
                         <div class="d-flex align-items-center gap-2 mb-2">
@@ -192,7 +204,6 @@ if (file_exists($headerPath)) {
                     </div>
                 </div>
 
-                <!-- Card 2: Total Skipped/Missed -->
                 <div class="col-12 col-sm-6 col-xl-3">
                     <div class="card border-0 shadow-sm p-3 metric-card">
                         <div class="d-flex align-items-center gap-2 mb-2">
@@ -206,7 +217,6 @@ if (file_exists($headerPath)) {
                     </div>
                 </div>
 
-                <!-- Card 3: Average Waiting Time -->
                 <div class="col-12 col-sm-6 col-xl-3">
                     <div class="card border-0 shadow-sm p-3 metric-card">
                         <div class="d-flex align-items-center gap-2 mb-2">
@@ -220,7 +230,6 @@ if (file_exists($headerPath)) {
                     </div>
                 </div>
 
-                <!-- Card 4: Average Service Time -->
                 <div class="col-12 col-sm-6 col-xl-3">
                     <div class="card border-0 shadow-sm p-3 metric-card">
                         <div class="d-flex align-items-center gap-2 mb-2">
@@ -244,7 +253,7 @@ if (file_exists($headerPath)) {
                             <i class="bi bi-bar-chart-fill text-royal-blue"></i>
                             <h6 class="fw-bold text-dark mb-0">Tickets Served by Hour</h6>
                         </div>
-                        <div style="position: relative; height: 220px;">
+                        <div class="bar-chart-wrapper">
                             <canvas id="ticketsByHourChart"></canvas>
                         </div>
                     </div>
@@ -258,9 +267,9 @@ if (file_exists($headerPath)) {
                             <h6 class="fw-bold text-dark mb-0">Service Type Distribution</h6>
                         </div>
                         
-                        <div class="row align-items-center g-2 my-auto">
+                        <div class="row align-items-center g-2 my-auto py-2">
                             <div class="col-6 position-relative d-flex justify-content-center">
-                                <div style="width: 150px; height: 150px;">
+                                <div class="doughnut-chart-wrapper">
                                     <canvas id="serviceDistributionChart"></canvas>
                                 </div>
                                 <div class="position-absolute top-50 start-50 translate-middle text-center pointer-events-none">
@@ -295,7 +304,6 @@ if (file_exists($headerPath)) {
 
             <!-- TABLES SECTION -->
             <div class="row g-3 flex-grow-1">
-                <!-- Table 1: Daily Summary -->
                 <div class="col-12 col-lg-5">
                     <div class="card border-0 shadow-sm p-3 bg-white h-100 rounded-3 d-flex flex-column">
                         <div class="d-flex align-items-center gap-2 mb-3">
@@ -337,7 +345,6 @@ if (file_exists($headerPath)) {
                     </div>
                 </div>
 
-                <!-- Table 2: Peak Hours -->
                 <div class="col-12 col-lg-7">
                     <div class="card border-0 shadow-sm p-3 bg-white h-100 rounded-3 d-flex flex-column">
                         <div class="d-flex align-items-center justify-content-between mb-3">
@@ -387,58 +394,59 @@ if (file_exists($headerPath)) {
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    // 1. Bar Chart - Tickets Served by Hour
-    const ctxBar = document.getElementById('ticketsByHourChart').getContext('2d');
-    new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-            labels: ['8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM'],
-            datasets: [{
-                data: [4, 7, 10, 8, 3, 4, 3, 2, 1],
-                backgroundColor: '#4169E1',
-                hoverBackgroundColor: '#2b54c6',
-                borderRadius: 4,
-                barThickness: 18
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 12,
-                    ticks: { stepSize: 3 },
-                    grid: { color: '#f0f0f0' }
-                },
-                x: {
-                    grid: { display: false }
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof Chart === 'undefined') {
+        return;
+    }
+
+    // 1. Bar Chart
+    const barEl = document.getElementById('ticketsByHourChart');
+    if (barEl) {
+        new Chart(barEl.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM'],
+                datasets: [{
+                    data: [4, 7, 10, 8, 3, 4, 3, 2, 1],
+                    backgroundColor: '#4169E1',
+                    hoverBackgroundColor: '#2b54c6',
+                    borderRadius: 4,
+                    barThickness: 16
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, max: 12, ticks: { stepSize: 3 }, grid: { color: '#f0f0f0' } },
+                    x: { grid: { display: false } }
                 }
             }
-        }
-    });
+        });
+    }
 
-    // 2. Doughnut Chart - Service Type Distribution
-    const ctxDoughnut = document.getElementById('serviceDistributionChart').getContext('2d');
-    new Chart(ctxDoughnut, {
-        type: 'doughnut',
-        data: {
-            labels: ['Payment', 'Enrollment', 'Certification', 'Others'],
-            datasets: [{
-                data: [18, 12, 8, 4],
-                backgroundColor: ['#4169E1', '#198754', '#ffc107', '#6f42c1'],
-                borderWidth: 0,
-                cutout: '72%'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } }
-        }
-    });
+    // 2. Doughnut Chart
+    const doughnutEl = document.getElementById('serviceDistributionChart');
+    if (doughnutEl) {
+        new Chart(doughnutEl.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Payment', 'Enrollment', 'Certification', 'Others'],
+                datasets: [{
+                    data: [18, 12, 8, 4],
+                    backgroundColor: ['#4169E1', '#198754', '#ffc107', '#6f42c1'],
+                    borderWidth: 0,
+                    cutout: '72%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+    }
 });
 </script>
 
