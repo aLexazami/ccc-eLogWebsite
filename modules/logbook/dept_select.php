@@ -4,14 +4,18 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Store submitted client information in session if request is POST
+// 1. Process POST data from student_info.php / personnel_info.php / guest_info.php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($_POST as $key => $value) {
         $_SESSION[$key] = $value;
     }
+    
+    // 2. Redirect to self using GET (PRG Pattern) to prevent browser back-button warnings
+    header('Location: dept_select.php');
+    exit;
 }
 
-// Determine previous step safely for explicit Back navigation
+// Determine previous step safely for explicit Back button navigation
 $clientType = $_SESSION['client_type'] ?? 'student';
 $backUrl = 'student_info.php';
 if ($clientType === 'personnel') {
@@ -20,8 +24,14 @@ if ($clientType === 'personnel') {
     $backUrl = 'guest_info.php';
 }
 
+$baseUrl = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
+
+// Calculate Cache-Busting Version for kiosk-flow.js
+$jsPath = __DIR__ . '/../../assets/js/kiosk-flow.js';
+$jsVersion = file_exists($jsPath) ? filemtime($jsPath) : time();
+
 $pageTitle = "Select Department";
-$pageScript = "/assets/js/kiosk.js";
+$extraJs = '<script src="' . $baseUrl . '/assets/js/kiosk-flow.js?v=' . $jsVersion . '"></script>';
 
 require_once __DIR__ . '/../../includes/header.php';
 
@@ -110,12 +120,4 @@ $departments = [
     </div>
 </div>
 
-<?php
-// JS Auto Versioning Injection
-$deptSelectJsPath = ROOT_PATH . '/assets/js/dept_select.js';
-$deptSelectJsVersion = file_exists($deptSelectJsPath) ? filemtime($deptSelectJsPath) : time();
-
-$extraJs = '<script src="' . $baseUrl . '/assets/js/dept_select.js?v=' . $deptSelectJsVersion . '"></script>';
-
-require_once __DIR__ . '/../../includes/footer.php';
-?>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>

@@ -1,7 +1,13 @@
 <?php
 // student_info.php
+$baseUrl = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
+
+// Calculate Cache-Busting Version for kiosk-flow.js
+$jsPath = __DIR__ . '/../../assets/js/kiosk-flow.js';
+$jsVersion = file_exists($jsPath) ? filemtime($jsPath) : time();
+
 $pageTitle = "Student Information";
-$pageScript = "/assets/js/kiosk.js";
+$extraJs = '<script src="' . $baseUrl . '/assets/js/kiosk-flow.js?v=' . $jsVersion . '"></script>';
 
 require_once __DIR__ . '/../../includes/header.php';
 ?>
@@ -29,7 +35,7 @@ require_once __DIR__ . '/../../includes/header.php';
 
                         <div class="mb-3">
                             <label for="studentId" class="form-label-custom">Student ID <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control custom-glass-control" id="studentId" name="student_id" placeholder="Enter your student ID" required>
+                            <input type="text" class="form-control custom-glass-control" id="studentId" name="student_id" placeholder="e.g., 2023-11961" maxlength="10" required>
                         </div>
 
                         <div class="mb-3">

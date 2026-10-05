@@ -7,5 +7,15 @@
     <!-- Optional Page-Specific JS Injection -->
     <?= $extraJs ?? '' ?>
 
+    <!-- Kiosk & Logbook Module JS -->
+<?php if (basename($_SERVER['PHP_SELF']) === 'student_info.php' || strpos($_SERVER['PHP_SELF'], 'modules/logbook') !== false): ?>
+    <script src="<?= htmlspecialchars($baseUrl); ?>assets/js/kiosk-flow.js"></script>
+<?php endif; ?>
+
+<!-- Staff Portal Module JS -->
+<?php if (strpos($_SERVER['PHP_SELF'], 'user_log') !== false): ?>
+    <script src="<?= htmlspecialchars($baseUrl); ?>assets/js/staff-portal.js"></script>
+<?php endif; ?>
+
 </body>
 </html>
