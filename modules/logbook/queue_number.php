@@ -4,6 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once __DIR__ . '/../../config/config.php';
+
 // Store submitted modal inputs directly into $_SESSION
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['transaction_id'])) {
@@ -17,12 +19,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Generate queue ticket prefix & number if not generated yet
+// Generate real ticket and insert into database if not done yet
 if (!isset($_SESSION['queue_number'])) {
     $deptCode = $_SESSION['dept_code'] ?? 'REG';
+    $deptName = $_SESSION['dept_name'] ?? 'Registrar';
+    $txId = $_SESSION['transaction_id'] ?? null;
+    $txTitle = $_SESSION['transaction_title'] ?? 'General Inquiry';
+    $inquiryDetails = $_SESSION['inquiry_details'] ?? '';
+
     $prefix = strtoupper(substr($deptCode, 0, 1));
-    $sequence = str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT);
-    $_SESSION['queue_number'] = $prefix . '-' . $sequence;
+    $today = date('Y-m-d');
+
+    // 1. Get total tickets created for this department TODAY to make sequence 001, 002...
+    $stmtCount = $pdo->prepare("SELECT COUNT(*) FROM queue_tickets WHERE dept_code = ? AND DATE(created_at) = ?");
+    $stmtCount->execute([$deptCode, $today]);
+    $nextSeq = $stmtCount->fetchColumn() + 1;
+
+    $queueNumber = $prefix . '-' . str_pad($nextSeq, 3, '0', STR_PAD_LEFT);
+
+    // 2. Insert into MySQL Database
+    $stmtInsert = $pdo->prepare("
+        INSERT INTO queue_tickets (ticket_number, dept_code, dept_name, transaction_id, transaction_title, inquiry_details)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ");
+    $stmtInsert->execute([$queueNumber, $deptCode, $deptName, $txId, $txTitle, $inquiryDetails]);
+
+    // 3. Save to Session
+    $_SESSION['queue_number'] = $queueNumber;
     $_SESSION['issued_at'] = date('Y-m-d h:i A');
 }
 
@@ -31,7 +54,7 @@ $queueNumber = $_SESSION['queue_number'];
 $transactionTitle = $_SESSION['transaction_title'] ?? 'General Inquiry';
 $issuedAt = $_SESSION['issued_at'] ?? date('Y-m-d h:i A');
 
-// Data string to encode inside the QR code (e.g., ticket verification data)
+// Data string to encode inside the QR code
 $qrData = "Ticket: " . $queueNumber . " | Dept: " . $deptName . " | Trans: " . $transactionTitle;
 
 $pageTitle = "Your Queue Ticket";
@@ -76,16 +99,14 @@ require_once __DIR__ . '/../../includes/header.php';
             <div class="mb-2">
                 <h3 class="fw-black text-uppercase tracking-wider mb-0" style="letter-spacing: 1.5px; color: #000;">
                     eSkueLog</h3>
-                <small class="text-muted text-uppercase fw-semibold" style="font-size: 0.72rem;">Official Queue
-                    Ticket</small>
+                <small class="text-muted text-uppercase fw-semibold" style="font-size: 0.72rem;">Official Queue Ticket</small>
             </div>
 
             <div class="receipt-dashed-line"></div>
 
             <!-- Queue Number -->
             <div class="my-2">
-                <span class="text-uppercase small fw-bold text-muted d-block mb-1" style="font-size: 0.75rem;">Queue
-                    Number</span>
+                <span class="text-uppercase small fw-bold text-muted d-block mb-1" style="font-size: 0.75rem;">Queue Number</span>
                 <h1 class="fw-bolder my-0 text-dark" style="font-size: 3.5rem; line-height: 1;">
                     <?= htmlspecialchars($queueNumber) ?>
                 </h1>
@@ -114,24 +135,19 @@ require_once __DIR__ . '/../../includes/header.php';
             <!-- QR Code Section -->
             <div class="my-3 d-flex flex-column align-items-center">
                 <div id="qrcode" class="mb-2"></div>
-                <small class="text-muted" style="font-size: 0.65rem; letter-spacing: 0.5px;">Scan to verify
-                    ticket</small>
+                <small class="text-muted" style="font-size: 0.65rem; letter-spacing: 0.5px;">Scan to verify ticket</small>
             </div>
 
             <!-- Receipt Footer -->
-            <p class="small text-muted mb-0" style="font-size: 0.7rem;">Please keep this slip and wait for your ticket
-                to be called.</p>
+            <p class="small text-muted mb-0" style="font-size: 0.7rem;">Please keep this slip and wait for your ticket to be called.</p>
         </div>
 
         <!-- Action Control Buttons -->
-        <div class="mt-4 d-flex align-items-center justify-content-center gap-2 w-100 mx-auto"
-            style="max-width: 380px;">
-            <button onclick="downloadPDF()"
-                class="btn btn-outline-light w-50 px-3 py-2 fw-semibold d-inline-flex align-items-center justify-content-center">
+        <div class="mt-4 d-flex align-items-center justify-content-center gap-2 w-100 mx-auto" style="max-width: 380px;">
+            <button onclick="downloadPDF()" class="btn btn-outline-light w-50 px-3 py-2 fw-semibold d-inline-flex align-items-center justify-content-center">
                 <i class="bi bi-file-earmark-pdf me-2"></i>Download PDF
             </button>
-            <a href="reset_session.php"
-                class="btn btn-submit-action w-50 px-3 py-2 fw-semibold text-decoration-none d-inline-flex align-items-center justify-content-center">
+            <a href="reset_session.php" class="btn btn-submit-action w-50 px-3 py-2 fw-semibold text-decoration-none d-inline-flex align-items-center justify-content-center">
                 Done
             </a>
         </div>
@@ -165,7 +181,6 @@ require_once __DIR__ . '/../../includes/header.php';
 
         html2pdf().set(opt).from(element).save();
     }
-
 </script>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

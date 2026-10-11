@@ -26,3 +26,18 @@ if (!defined('BASE_URL')) {
 
     define('BASE_URL', $baseUrl);
 }
+
+// 3. Database Connection (PDO)
+$dbHost = 'localhost';
+$dbUser = 'root';
+$dbPass = ''; // Default XAMPP/WAMP password is empty
+$dbName = 'eskuelog';
+
+try {
+    $pdo = new PDO("mysql:host=$dbHost;dbname=$dbName;charset=utf8mb4", $dbUser, $dbPass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    ]);
+} catch (PDOException $e) {
+    die("Database Connection Failed: " . $e->getMessage());
+}

@@ -4,33 +4,25 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-// 1. INCLUDE YOUR DATABASE CONNECTION
-// Change 'db_connection.php' below to your actual DB file name if different (e.g. db.php, config.php)
-$dbFilePath = __DIR__ . '/../../includes/db_connection.php'; 
-if (file_exists($dbFilePath)) {
-    require_once $dbFilePath;
+// 1. INCLUDE CENTRAL CONFIG
+$configPath = __DIR__ . '/../../config/config.php'; 
+if (file_exists($configPath)) {
+    require_once $configPath;
 }
 
-// 2. SAFE DATABASE QUERY (Supports both $pdo and $conn / mysqli)
+// Ensure BASE_URL is defined cleanly
+$baseUrl = defined('BASE_URL') ? BASE_URL : '/ccc-website';
+
+// 2. SAFE DATABASE QUERY
 $dbOffices = [];
 
 try {
     if (isset($pdo) && $pdo instanceof PDO) {
-        // PDO Connection
-        $stmt = $pdo->prepare("SELECT department_name FROM departments WHERE status = 'active' ORDER BY department_name ASC");
+        $stmt = $pdo->prepare("SELECT department_code, department_name FROM departments WHERE status = 'active' ORDER BY department_name ASC");
         $stmt->execute();
         $dbOffices = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } elseif (isset($conn) && $conn instanceof mysqli) {
-        // MySQLi Connection
-        $result = $conn->query("SELECT department_name FROM departments WHERE status = 'active' ORDER BY department_name ASC");
-        if ($result) {
-            while ($row = $result->fetch_assoc()) {
-                $dbOffices[] = $row;
-            }
-        }
     }
 } catch (Throwable $t) {
-    // Catch any error silently so the page does NOT crash with 500 Error
     $dbOffices = [];
 }
 
@@ -41,8 +33,6 @@ $styleCssVersion = file_exists($styleCssPath) ? filemtime($styleCssPath) : time(
 
 $liveQueueCssPath = __DIR__ . '/../../assets/css/live_queue.css';
 $liveQueueCssVersion = file_exists($liveQueueCssPath) ? filemtime($liveQueueCssPath) : time();
-
-$baseUrl = defined('BASE_URL') ? BASE_URL : '';
 
 $extraCss = '<link rel="stylesheet" href="' . $baseUrl . '/assets/css/style.css?v=' . $styleCssVersion . '">';
 $extraCss .= '<link rel="stylesheet" href="' . $baseUrl . '/assets/css/live_queue.css?v=' . $liveQueueCssVersion . '">';
