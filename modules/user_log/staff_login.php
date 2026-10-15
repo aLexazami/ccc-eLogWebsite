@@ -4,14 +4,19 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// 1. Calculate relative paths to core files
-$baseUrl = defined('BASE_URL') ? BASE_URL : '..';
-require_once __DIR__ . '/../../includes/header.php'; // Includes DB connection & configurations
+// 1. RELATIVE PATH CONFIG IMPORT
+$configPath = __DIR__ . '/../../config/config.php';
+if (file_exists($configPath)) {
+    require_once $configPath;
+}
 
-// 2. Security: Generate CSRF Token for form submission
+// 2. GENERATE CSRF TOKEN BEFORE HEADER OR FORM RENDERING
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
+
+$baseUrl = defined('BASE_URL') ? BASE_URL : '/ccc-website';
+require_once __DIR__ . '/../../includes/header.php';
 
 $error_message = '';
 $success_message = '';
@@ -25,27 +30,26 @@ function getRedirectPathByRole(string $role): string {
         case 'system administrator':
         case 'admin':
         case 'administrator':
-            return 'admin_dashboard.php'; // Same directory (user_log)
+            return 'admin_dashboard.php';
             
         case 'staff':
         case 'staff member':
         case 'user':
-            return 'staff_dashboard.php'; // Same directory (user_log)
+            return 'staff_dashboard.php';
             
         default:
-            return '../index.php'; // Return to root portal
+            return '../index.php';
     }
 }
 
-// 3. Handle POST Request (Form Submission or AJAX)
+// 3. Handle POST Request (Form Submission)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // CSRF Protection Check
     $submittedToken = $_POST['csrf_token'] ?? '';
     if (!hash_equals($_SESSION['csrf_token'], $submittedToken)) {
-        $error_message = 'Invalid request payload (CSRF token mismatch).';
+        $error_message = 'Session expired or invalid token. Please refresh and try again.';
     } else {
-        // Sanitize and collect user input
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
 
@@ -58,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->execute(['username' => $username]);
                     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                    // Check if password matches hash OR plaintext (for migration testing)
                     $isPasswordCorrect = false;
                     if ($user) {
                         if (password_verify($password, $user['password_hash'])) {
@@ -90,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $error_message = 'Invalid username or password.';
                     }
                 } else {
-                    // Fallback stub for local testing without DB connection
+                    // Fallback stub for local testing
                     $cleanUser = strtolower($username);
                     if (($cleanUser === 'admin' || $cleanUser === 'staff') && $password === 'admin123') {
                         session_regenerate_id(true);
@@ -116,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             } catch (PDOException $e) {
                 error_log("Login error: " . $e->getMessage());
-                $error_message = 'A system error occurred. Please try again later.';
+                $error_message = 'Database Error: ' . $e->getMessage();
             }
         }
     }
@@ -159,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="portal-bg min-vh-100 d-flex flex-column justify-content-between position-relative">
 
-    <!-- TOP HEADER / BANNER BACKDROP INTEGRATION -->
+    <!-- TOP HEADER / BANNER -->
     <div class="banner-crop-container">
         <img
             src="<?= $baseUrl; ?>/assets/img/header-backdrop.png"
@@ -174,7 +177,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5 col-xl-4">
                 
-                <!-- Readable High-Contrast Card -->
                 <div class="card glass-card-readable border-0 p-4 rounded-4">
                     
                     <div class="text-center mb-4">
@@ -242,4 +244,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </div>
 
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
+<?php 
+$footerPath = __DIR__ . '/../../includes/footer.php';
+if (file_exists($footerPath)) {
+    require_once $footerPath;
+}
+?>

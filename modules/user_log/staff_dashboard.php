@@ -42,11 +42,61 @@ if (file_exists($headerPath)) {
     <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl); ?>assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl); ?>assets/css/bootstrap-icons.css">
 </head>
-<body style="background-color: #f4f6f9;">
+<body style="background-color: #f4f6f9; overflow: hidden; height: 100vh;">
 <?php } ?>
 
 <style>
+    /* Absolute Viewport Lock & Dynamic Height Distribution */
+    html, body { height: 100vh !important; overflow: hidden !important; margin: 0; padding: 0; }
+
     .hover-white:hover { color: #fff !important; }
+
+    /* Custom Canvas & Cards */
+    .bg-dashboard-canvas { background-color: #f0f4f9; height: 100vh; }
+    .card-custom { border: none; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); }
+    
+    /* Info-Tile with Added Subtle Box Shadow */
+    .info-tile { 
+        background-color: #f8fafc; 
+        border-radius: 10px; 
+        padding: 12px 16px; 
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); 
+        border: 1px solid #e2e8f0; 
+    }
+    
+    /* Compact Action Buttons with Descriptions */
+    .btn-action-call { background-color: #0284c7; color: white; border: none; font-weight: 600; padding: 10px 8px; border-radius: 12px; }
+    .btn-action-call:hover { background-color: #0369a1; color: white; }
+
+    .btn-action-complete { background-color: #10b981; color: white; border: none; font-weight: 600; padding: 10px 8px; border-radius: 12px; }
+    .btn-action-complete:hover { background-color: #059669; color: white; }
+
+    .btn-action-recall { background-color: #f59e0b; color: white; border: none; font-weight: 600; padding: 10px 8px; border-radius: 12px; }
+    .btn-action-recall:hover { background-color: #d97706; color: white; }
+
+    .btn-action-transfer { background-color: #8b5cf6; color: white; border: none; font-weight: 600; padding: 10px 8px; border-radius: 12px; }
+    .btn-action-transfer:hover { background-color: #7c3aed; color: white; }
+
+    .btn-desc {
+        font-size: 0.65rem;
+        opacity: 0.88;
+        font-weight: 400;
+        margin-top: 1px;
+        line-height: 1;
+    }
+
+    /* Counter Status Pill */
+    .status-pill { 
+        background-color: rgba(25, 135, 84, 0.1); 
+        color: #198754; 
+        border-radius: 50rem; 
+        font-weight: 700; 
+        font-size: 0.75rem; 
+        padding: 0.25rem 1rem; 
+        border: 1px solid rgba(25, 135, 84, 0.25); 
+        line-height: 1.5;
+    }
+    .status-pill:hover { background-color: rgba(25, 135, 84, 0.2); }
 
     @media (min-width: 992px) {
         .app-layout { flex-direction: row !important; height: 100vh !important; overflow: hidden !important; }
@@ -62,7 +112,7 @@ if (file_exists($headerPath)) {
     }
 </style>
 
-<div class="d-flex app-layout bg-light">
+<div class="d-flex app-layout bg-dashboard-canvas">
 
     <!-- SIDEBAR NAVIGATION -->
     <aside class="text-white d-flex flex-column flex-shrink-0 p-0 app-sidebar" style="background-color: #002366;">
@@ -100,326 +150,261 @@ if (file_exists($headerPath)) {
     </aside>
 
     <!-- MAIN CONTENT AREA -->
-    <div class="flex-grow-1 d-flex flex-column app-main-content overflow-hidden">
+    <div class="flex-grow-1 d-flex flex-column app-main-content h-100 overflow-hidden">
 
-        <!-- TOP BAR HEADER WITH DYNAMIC CLOCK -->
-        <header class="bg-white border-bottom px-3 px-md-4 py-2 d-flex justify-content-between align-items-center shadow-sm flex-shrink-0" style="min-height: 56px;">
-            <div class="text-muted small fw-medium text-truncate me-2" id="liveHeaderClock">
-                <?= date('D | F j, Y g:i:s A'); ?>
+        <!-- TOP BAR HEADER -->
+        <header class="bg-white px-4 py-2 d-flex justify-content-between align-items-center shadow-sm flex-shrink-0" style="min-height: 52px;">
+            <div class="d-flex align-items-center gap-2 text-dark fw-bold small" id="liveHeaderClock">
+                <i class="bi bi-calendar3 text-primary me-1"></i> <?= date('D | F j, Y'); ?>
             </div>
 
-            <div class="dropdown">
-                <a href="#" class="d-flex align-items-center text-decoration-none text-dark gap-2 dropdown-toggle" id="staffUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold flex-shrink-0" style="width: 32px; height: 32px; background-color: #002B66; font-size: 0.8rem;">
-                        <?= htmlspecialchars($userInitials); ?>
-                    </div>
-                    <div class="text-start lh-sm d-none d-sm-block">
-                        <div class="fw-bold small mb-0" style="font-size: 0.8rem;"><?= htmlspecialchars($fullName); ?></div>
-                        <small class="text-muted" style="font-size: 0.65rem;"><?= htmlspecialchars($normalizedRole); ?></small>
-                    </div>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" aria-labelledby="staffUserDropdown">
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>My Profile</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="staff_login.php"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a></li>
-                </ul>
+            <div class="d-flex align-items-center gap-3">
+                <!-- User Profile Dropdown -->
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-decoration-none text-dark gap-2 dropdown-toggle" id="staffUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold flex-shrink-0" style="width: 34px; height: 34px; background-color: #002B66; font-size: 0.85rem;">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <span class="fw-bold small text-dark d-none d-sm-inline"><?= htmlspecialchars($fullName); ?> (SU)</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" aria-labelledby="staffUserDropdown">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>My Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="staff_login.php"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a></li>
+                    </ul>
+                </div>
             </div>
         </header>
 
         <!-- MAIN CONTAINER -->
-        <main class="p-3 p-md-4 flex-grow-1 d-flex flex-column overflow-auto">
+        <main class="px-3 py-2 px-md-4 flex-grow-1 d-flex flex-column overflow-hidden justify-content-between">
 
-            <!-- Clean Top Text & Header Controls -->
-            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-3 flex-shrink-0 gap-2">
-                <div>
-                    <h4 class="fw-bold text-dark mb-0">Staff Queue Dashboard</h4>
-                    <p class="text-muted small mb-0">Manage active queue counters and monitor live queue status.</p>
-                </div>
-            </div>
-
-            <!-- HERO CARD (CURRENTLY SERVING + ACTION BUTTONS) -->
-            <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-3 flex-shrink-0 bg-white">
-                <div class="card-body p-3">
-                    <div class="row align-items-center g-3">
-
-                        <!-- 1. Ticket Highlight Box -->
-                        <div class="col-12 col-md-4 col-lg-3">
-                            <div class="rounded-3 p-3 text-center border" style="background-color: #f8faff; border-color: #d0e1fd !important;">
-                                <div class="text-uppercase fw-bold text-muted mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">
-                                    NOW CALLING
-                                </div>
-                                <h1 class="fw-extrabold text-primary mb-1" style="font-size: 2.2rem; letter-spacing: -1px;">CA-018</h1>
-                                <span class="badge bg-success text-white rounded-pill px-3 py-1 fw-semibold" style="font-size: 0.7rem;">
-                                    <i class="bi bi-record-fill me-1 text-warning"></i> IN SERVICE
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- 2. Student Details with Timers Below -->
-                        <div class="col-12 col-md-8 col-lg-5 border-end-md pe-md-3">
-                            <div class="d-flex align-items-center gap-3 mb-2.5">
-                                <div class="rounded-circle d-flex align-items-center justify-content-center text-primary fw-bold fs-4 flex-shrink-0" style="width: 44px; height: 44px; background-color: #e7f0ff;">
-                                    <i class="bi bi-person-fill"></i>
-                                </div>
-                                <div class="overflow-hidden">
-                                    <h5 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 1.1rem;">Juan Dela Cruz</h5>
-                                    <p class="text-muted small mb-0" style="font-size: 0.8rem;"><i class="bi bi-mortarboard me-1"></i>BSIT - 3A</p>
-                                    <span class="badge bg-primary bg-opacity-10 mb-2 text-primary fw-semibold px-2 py-0.5 rounded-2" style="font-size: 0.72rem;">
-                                        <i class="bi bi-credit-card me-1"></i> Payment Transaction
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="pt-2 border-top">
-                                <div class="row g-2 text-center">
-                                    <div class="col-4">
-                                        <div class="p-1">
-                                            <div class="text-muted text-nowrap" style="font-size: 0.65rem;"><i class="bi bi-clock me-1 text-primary"></i>Called at</div>
-                                            <strong class="text-dark d-block text-nowrap" style="font-size: 0.8rem;">10:20 AM</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="p-1">
-                                            <div class="text-muted text-nowrap" style="font-size: 0.65rem;"><i class="bi bi-hourglass-split me-1 text-warning"></i>Waiting</div>
-                                            <strong class="text-dark d-block text-nowrap" style="font-size: 0.8rem;">3m</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="p-1">
-                                            <div class="text-muted text-nowrap" style="font-size: 0.65rem;"><i class="bi bi-stopwatch me-1 text-success"></i>Service</div>
-                                            <strong class="text-dark d-block text-nowrap" style="font-size: 0.8rem;">12m</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 3. Action Buttons -->
-                        <div class="col-12 col-lg-4 ps-lg-3">
-                            <div class="row g-2">
-                                <div class="col-6 col-sm-3 col-lg-6">
-                                    <button class="btn btn-primary w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">
-                                        <i class="bi bi-megaphone me-1"></i> Call Next
-                                    </button>
-                                </div>
-                                <div class="col-6 col-sm-3 col-lg-6">
-                                    <button class="btn btn-success w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">
-                                        <i class="bi bi-check-circle me-1"></i> Complete
-                                    </button>
-                                </div>
-                                <div class="col-6 col-sm-3 col-lg-6">
-                                    <button class="btn btn-warning text-dark w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="font-size: 0.82rem;">
-                                        <i class="bi bi-bell me-1"></i> Recall
-                                    </button>
-                                </div>
-                                <div class="col-6 col-sm-3 col-lg-6">
-                                    <button class="btn text-white w-100 py-2 rounded-3 fw-bold shadow-sm text-nowrap" style="background-color: #6f42c1; font-size: 0.82rem;">
-                                        <i class="bi bi-arrow-return-right me-1"></i> Transfer
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
+            <!-- HERO CARD: NOW SERVING COUNTER -->
+            <div class="card card-custom bg-white p-3 p-md-4 mb-2 flex-shrink-0">
+                
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <i class="bi bi-people-fill text-primary fs-4"></i>
+                    <h5 class="fw-extrabold text-dark mb-0 me-2" style="letter-spacing: 0.5px;">NOW SERVING COUNTER</h5>
+                    
+                    <!-- Counter Status Toggle Pill -->
+                    <div class="dropdown">
+                        <button class="btn status-pill dropdown-toggle d-flex align-items-center gap-2 shadow-sm" type="button" id="counterStatusBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="rounded-circle bg-success" style="width: 7px; height: 7px;"></span>
+                            <span id="currentStatusText">ONLINE</span>
+                        </button>
+                        <ul class="dropdown-menu shadow border-0 mt-2" aria-labelledby="counterStatusBtn">
+                            <li><a class="dropdown-item fw-semibold text-success d-flex align-items-center gap-2" href="javascript:void(0)" onclick="setStatus('ONLINE', 'bg-success')"><span class="rounded-circle bg-success" style="width: 8px; height: 8px;"></span> Online</a></li>
+                            <li><a class="dropdown-item fw-semibold text-warning d-flex align-items-center gap-2" href="javascript:void(0)" onclick="setStatus('ON BREAK', 'bg-warning')"><span class="rounded-circle bg-warning" style="width: 8px; height: 8px;"></span> On Break</a></li>
+                            <li><a class="dropdown-item fw-semibold text-secondary d-flex align-items-center gap-2" href="javascript:void(0)" onclick="setStatus('OFFLINE', 'bg-secondary')"><span class="rounded-circle bg-secondary" style="width: 8px; height: 8px;"></span> Offline</a></li>
+                        </ul>
                     </div>
                 </div>
+
+                <div class="row g-3">
+                    <!-- LEFT SIDE: TICKET CARD WITH EXPANDED SPACIOUS INNER BOX -->
+                    <div class="col-12 col-lg-5 col-xl-4">
+                        <div class="h-100 rounded-4 p-3 text-center d-flex flex-column justify-content-center align-items-center shadow-sm" style="background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); border: 1px solid #bae6fd;">
+                            
+                            <!-- Expanded Box Container -->
+                            <div class="bg-white rounded-4 shadow-sm border border-primary border-opacity-25 px-4 py-3 d-flex flex-column align-items-center justify-content-center" style="width: 92%; height: 185px;">
+                                <div class="d-flex align-items-center gap-2 text-primary fw-bold mb-2" style="font-size: 0.78rem; letter-spacing: 1px;">
+                                    <i class="bi bi-ticket-perforated-fill fs-5"></i> TICKET NUMBER
+                                </div>
+                                <h1 class="fw-extrabold text-primary mb-0" style="font-size: 3.6rem; letter-spacing: -1.5px; color: #0038a8 !important; line-height: 1;">CA-018</h1>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- RIGHT SIDE: ORIGINAL CLIENT DATA GRID -->
+                    <div class="col-12 col-lg-7 col-xl-8">
+                        <div class="row g-2">
+                            <div class="col-12 col-md-6">
+                                <div class="info-tile d-flex align-items-center gap-3">
+                                    <i class="bi bi-person-fill text-primary fs-4"></i>
+                                    <div>
+                                        <div class="text-muted small fw-medium" style="font-size: 0.72rem;">Full Name:</div>
+                                        <strong class="text-dark d-block" style="font-size: 0.95rem;">Maria Clara Santos</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="info-tile d-flex align-items-center gap-3">
+                                    <i class="bi bi-people-fill text-primary fs-4"></i>
+                                    <div>
+                                        <div class="text-muted small fw-medium" style="font-size: 0.72rem;">Visitor Type:</div>
+                                        <strong class="text-dark d-block" style="font-size: 0.95rem;">GUEST / PUBLIC</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="info-tile d-flex align-items-center gap-3">
+                                    <i class="bi bi-bullseye text-primary fs-4"></i>
+                                    <div>
+                                        <div class="text-muted small fw-medium" style="font-size: 0.72rem;">Primary Purpose:</div>
+                                        <strong class="text-dark d-block" style="font-size: 0.95rem;">Document Claiming & Inquiries</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="info-tile d-flex align-items-center gap-3">
+                                    <i class="bi bi-star-fill text-primary fs-4"></i>
+                                    <div>
+                                        <div class="text-muted small fw-medium" style="font-size: 0.72rem;">Priority Status:</div>
+                                        <strong class="text-dark d-block" style="font-size: 0.95rem;">REGULAR</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="info-tile d-flex align-items-center gap-3">
+                                    <i class="bi bi-telephone-fill text-primary fs-4"></i>
+                                    <div>
+                                        <div class="text-muted small fw-medium" style="font-size: 0.72rem;">Contact No.:</div>
+                                        <strong class="text-dark d-block" style="font-size: 0.95rem;">0917-555-0192</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="info-tile d-flex align-items-center gap-3">
+                                    <i class="bi bi-clock-fill text-primary fs-4"></i>
+                                    <div>
+                                        <div class="text-muted small fw-medium" style="font-size: 0.72rem;">Queue Entry Time:</div>
+                                        <strong class="text-dark d-block" style="font-size: 0.95rem;">08:12 AM <span class="text-muted fw-normal small">(7m waiting)</span></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 ACTION CONTROL BUTTONS -->
+                <div class="row g-2 mt-2 pt-1">
+                    <div class="col-6 col-md-3">
+                        <button class="btn btn-action-call w-100 d-flex flex-column align-items-center justify-content-center shadow-sm">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-megaphone-fill fs-6"></i>
+                                <span>Call Next</span>
+                            </div>
+                            <span class="btn-desc">Serve next ticket</span>
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <button class="btn btn-action-complete w-100 d-flex flex-column align-items-center justify-content-center shadow-sm">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-check-circle-fill fs-6"></i>
+                                <span>Complete</span>
+                            </div>
+                            <span class="btn-desc">Finish transaction</span>
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <button class="btn btn-action-recall w-100 d-flex flex-column align-items-center justify-content-center shadow-sm">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-bell-fill fs-6"></i>
+                                <span>Recall</span>
+                            </div>
+                            <span class="btn-desc">Announce again</span>
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <button class="btn btn-action-transfer w-100 d-flex flex-column align-items-center justify-content-center shadow-sm">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-arrow-left-right fs-6"></i>
+                                <span>Transfer</span>
+                            </div>
+                            <span class="btn-desc">Reassign counter</span>
+                        </button>
+                    </div>
+                </div>
+
             </div>
 
-            <!-- LOWER SECTION (WAITING QUEUE & OVERVIEW) -->
-            <div class="row g-3 flex-grow-1">
+            <!-- LOWER SECTION: DYNAMICALLY STRETCHES TO FILL REMAINING SPACE -->
+            <div class="row g-2 flex-grow-1 overflow-hidden" style="min-height: 0;">
 
-                <!-- WAITING QUEUE TABLE -->
-                <div class="col-12 col-lg-7 col-xl-8 d-flex flex-column">
-                    <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100 d-flex flex-column">
-
-                        <div class="d-flex align-items-center justify-content-between mb-3 flex-shrink-0">
+                <!-- LEFT: HORIZONTAL WAITING QUEUE CARD (CENTERED TICKET COUNT) -->
+                <div class="col-12 col-lg-5 d-flex flex-column h-100">
+                    <div class="card card-custom bg-white p-3 h-100 d-flex flex-column justify-content-between">
+                        
+                        <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-2">
                                 <i class="bi bi-people-fill text-primary fs-5"></i>
                                 <h6 class="fw-bold text-dark mb-0">Waiting Queue</h6>
-                                <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2.5 py-1" style="font-size: 0.72rem;">7 in queue</span>
+                            </div>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="showDetailedListToggle">
+                                <label class="form-check-label text-muted small" for="showDetailedListToggle">Show Detailed List</label>
                             </div>
                         </div>
 
-                        <div class="row g-2 mb-3 flex-shrink-0">
-                            <div class="col-12 col-sm-7">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
-                                    <input type="text" class="form-control bg-light border-start-0" placeholder="Search ticket number or student name...">
+                        <!-- Centered Layout for Tickets Remaining -->
+                        <div class="d-flex align-items-center justify-content-center my-auto w-100">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0" style="background-color: #e0f2fe; width: 54px; height: 54px;">
+                                    <i class="bi bi-people-fill text-primary fs-3"></i>
+                                </div>
+                                <div class="lh-1">
+                                    <div class="fw-extrabold text-primary" style="font-size: 2.5rem;">7</div>
+                                    <span class="text-muted fw-semibold" style="font-size: 0.85rem;">Tickets Remaining</span>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-5">
-                                <select class="form-select form-select-sm bg-light">
-                                    <option selected>All Services</option>
-                                    <option value="payment">Payment</option>
-                                    <option value="enrollment">Enrollment</option>
-                                    <option value="certification">Certification</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive flex-grow-1">
-                            <table class="table table-hover align-middle mb-0 small text-nowrap">
-                                <thead class="table-light text-muted sticky-top" style="font-size: 0.75rem;">
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Ticket Number</th>
-                                        <th scope="col">Student Name</th>
-                                        <th scope="col">Service Type</th>
-                                        <th scope="col">Waiting Time</th>
-                                        <th scope="col" class="text-end">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="fw-bold text-muted">1</td>
-                                        <td class="fw-bold text-primary">CA-019</td>
-                                        <td>Maria Santos</td>
-                                        <td>Payment</td>
-                                        <td>2m</td>
-                                        <td class="text-end"><span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2.5 py-1">Waiting</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold text-muted">2</td>
-                                        <td class="fw-bold text-primary">CA-020</td>
-                                        <td>Jose Reyes</td>
-                                        <td>Enrollment</td>
-                                        <td>4m</td>
-                                        <td class="text-end"><span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2.5 py-1">Waiting</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold text-muted">3</td>
-                                        <td class="fw-bold text-primary">CA-021</td>
-                                        <td>Ana Garcia</td>
-                                        <td>Certification</td>
-                                        <td>6m</td>
-                                        <td class="text-end"><span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2.5 py-1">Waiting</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold text-muted">4</td>
-                                        <td class="fw-bold text-primary">CA-022</td>
-                                        <td>Mark Villanueva</td>
-                                        <td>Payment</td>
-                                        <td>9m</td>
-                                        <td class="text-end"><span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2.5 py-1">Waiting</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold text-muted">5</td>
-                                        <td class="fw-bold text-primary">CA-023</td>
-                                        <td>Sophia Lim</td>
-                                        <td>Enrollment</td>
-                                        <td>11m</td>
-                                        <td class="text-end"><span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2.5 py-1">Waiting</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
 
                     </div>
                 </div>
 
-                <!-- QUEUE OVERVIEW -->
-                <div class="col-12 col-lg-5 col-xl-4 d-flex flex-column">
-                    <div class="card border-0 shadow-sm rounded-3 bg-white p-3 h-100 d-flex flex-column">
-
-                        <div class="d-flex align-items-center justify-content-between mb-3 flex-shrink-0">
+                <!-- RIGHT: SHIFT SUMMARY CARD (VERTICAL BOXES FILLING ALL EMPTY SPACE) -->
+                <div class="col-12 col-lg-7 d-flex flex-column h-100">
+                    <div class="card card-custom bg-white p-3 h-100 d-flex flex-column justify-content-between">
+                        
+                        <div class="d-flex align-items-center justify-content-between mb-2">
                             <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-bar-chart-fill text-primary fs-5"></i>
-                                <h6 class="fw-bold text-dark mb-0">Queue Overview</h6>
+                                <i class="bi bi-clock-history text-primary fs-5"></i>
+                                <h6 class="fw-bold text-dark mb-0">Shift Summary</h6>
                             </div>
-                            <a href="staff_service.php" class="text-decoration-none small text-primary fw-semibold d-flex align-items-center gap-1" style="font-size: 0.75rem;">
-                                View All <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-
-                        <div class="row g-2 mb-3 flex-shrink-0">
-                            <div class="col-6">
-                                <div class="p-3 rounded-3 border bg-light d-flex align-items-center gap-2">
-                                    <div class="rounded-2 d-flex align-items-center justify-content-center text-primary flex-shrink-0" style="width: 32px; height: 32px; background-color: #e7f0ff;">
-                                        <i class="bi bi-people-fill" style="font-size: 0.9rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1 text-center overflow-hidden">
-                                        <h5 class="fw-bold text-dark mb-0 lh-1">7</h5>
-                                        <small class="text-muted fw-medium d-block text-truncate mt-1" style="font-size: 0.65rem;">Waiting</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-3 rounded-3 border bg-light d-flex align-items-center gap-2">
-                                    <div class="rounded-2 d-flex align-items-center justify-content-center text-success flex-shrink-0" style="width: 32px; height: 32px; background-color: #e6f7ed;">
-                                        <i class="bi bi-check-circle-fill" style="font-size: 0.9rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1 text-center overflow-hidden">
-                                        <h5 class="fw-bold text-dark mb-0 lh-1">42</h5>
-                                        <small class="text-muted fw-medium d-block text-truncate mt-1" style="font-size: 0.65rem;">Completed</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-3 rounded-3 border bg-light d-flex align-items-center gap-2">
-                                    <div class="rounded-2 d-flex align-items-center justify-content-center text-warning flex-shrink-0" style="width: 32px; height: 32px; background-color: #fff8e6;">
-                                        <i class="bi bi-arrow-clockwise" style="font-size: 0.9rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1 text-center overflow-hidden">
-                                        <h5 class="fw-bold text-dark mb-0 lh-1">3</h5>
-                                        <small class="text-muted fw-medium d-block text-truncate mt-1" style="font-size: 0.65rem;">Skipped</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-3 rounded-3 border bg-light d-flex align-items-center gap-2">
-                                    <div class="rounded-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px; background-color: #f2e9fc; color: #6f42c1;">
-                                        <i class="bi bi-clock-history" style="font-size: 0.9rem;"></i>
-                                    </div>
-                                    <div class="flex-grow-1 text-center overflow-hidden">
-                                        <h5 class="fw-bold text-dark mb-0 lh-1">4m</h5>
-                                        <small class="text-muted fw-medium d-block text-truncate mt-1" style="font-size: 0.65rem;">Avg Time</small>
-                                    </div>
-                                </div>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="showDetailsToggle">
+                                <label class="form-check-label text-muted small" for="showDetailsToggle">Show Details</label>
                             </div>
                         </div>
 
-                        <div class="table-responsive flex-grow-1">
-                            <table class="table table-borderless table-hover align-middle mb-0 text-nowrap" style="font-size: 0.73rem;">
-                                <thead class="text-muted border-bottom" style="font-size: 0.68rem;">
-                                    <tr>
-                                        <th class="ps-0 py-1 fw-semibold">Time</th>
-                                        <th class="py-1 fw-semibold">Ticket No.</th>
-                                        <th class="py-1 fw-semibold">Action</th>
-                                        <th class="pe-0 py-1 fw-semibold text-end">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="ps-0 py-2 text-muted">10:20 AM</td>
-                                        <td class="py-2 fw-bold text-dark">CA-018</td>
-                                        <td class="py-2 text-muted">Called</td>
-                                        <td class="pe-0 py-2 text-end"><span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-0.5">In Service</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="ps-0 py-2 text-muted">10:16 AM</td>
-                                        <td class="py-2 fw-bold text-dark">CA-017</td>
-                                        <td class="py-2 text-muted">Completed</td>
-                                        <td class="pe-0 py-2 text-end"><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-0.5">Served</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="ps-0 py-2 text-muted">10:12 AM</td>
-                                        <td class="py-2 fw-bold text-dark">CA-016</td>
-                                        <td class="py-2 text-muted">Skipped</td>
-                                        <td class="pe-0 py-2 text-end"><span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2 py-0.5">Skipped</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="ps-0 py-2 text-muted">10:08 AM</td>
-                                        <td class="py-2 fw-bold text-dark">CA-015</td>
-                                        <td class="py-2 text-muted">Completed</td>
-                                        <td class="pe-0 py-2 text-end"><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-0.5">Served</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="ps-0 py-2 text-muted">10:03 AM</td>
-                                        <td class="py-2 fw-bold text-dark">CA-014</td>
-                                        <td class="py-2 text-muted">Called</td>
-                                        <td class="pe-0 py-2 text-end"><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-0.5">Served</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <!-- 3 Vertical Boxes below the title filling full container height -->
+                        <div class="row g-2 flex-grow-1 my-auto align-items-stretch">
+                            <!-- Box 1: Completed -->
+                            <div class="col-4 d-flex">
+                                <div class="rounded-3 p-2 border bg-light w-100 d-flex flex-column align-items-center justify-content-center text-center shadow-sm">
+                                    <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-1 flex-shrink-0" style="width: 36px; height: 36px;">
+                                        <i class="bi bi-check-lg fs-5"></i>
+                                    </div>
+                                    <div class="text-muted fw-bold text-uppercase mb-1" style="font-size: 0.72rem; letter-spacing: 0.5px;">Completed</div>
+                                    <h2 class="fw-extrabold text-dark mb-0 lh-1" style="font-size: 1.8rem;">42</h2>
+                                    <div class="mt-2 rounded-pill bg-success" style="height: 3px; width: 60%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Box 2: Skipped -->
+                            <div class="col-4 d-flex">
+                                <div class="rounded-3 p-2 border bg-light w-100 d-flex flex-column align-items-center justify-content-center text-center shadow-sm">
+                                    <div class="rounded-circle bg-warning text-white d-inline-flex align-items-center justify-content-center mb-1 flex-shrink-0" style="width: 36px; height: 36px;">
+                                        <i class="bi bi-dash-lg fs-5"></i>
+                                    </div>
+                                    <div class="text-muted fw-bold text-uppercase mb-1" style="font-size: 0.72rem; letter-spacing: 0.5px;">Skipped</div>
+                                    <h2 class="fw-extrabold text-dark mb-0 lh-1" style="font-size: 1.8rem;">3</h2>
+                                    <div class="mt-2 rounded-pill bg-warning" style="height: 3px; width: 60%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Box 3: Avg Time -->
+                            <div class="col-4 d-flex">
+                                <div class="rounded-3 p-2 border bg-light w-100 d-flex flex-column align-items-center justify-content-center text-center shadow-sm">
+                                    <div class="rounded-circle text-white d-inline-flex align-items-center justify-content-center mb-1 flex-shrink-0" style="width: 36px; height: 36px; background-color: #8b5cf6;">
+                                        <i class="bi bi-clock fs-5"></i>
+                                    </div>
+                                    <div class="text-muted fw-bold text-uppercase mb-1" style="font-size: 0.72rem; letter-spacing: 0.5px;">Avg. Time</div>
+                                    <h2 class="fw-extrabold text-dark mb-0 lh-1" style="font-size: 1.8rem;">4m</h2>
+                                    <div class="mt-2 rounded-pill" style="height: 3px; width: 60%; background-color: #8b5cf6;"></div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -431,40 +416,50 @@ if (file_exists($headerPath)) {
     </div>
 </div>
 
-<!-- DYNAMIC LIVE HEADER CLOCK SCRIPT -->
+<!-- DYNAMIC SCRIPT FOR STATUS TOGGLE WITH AUTO-CLOSE DROPDOWN FIX -->
 <script>
-function updateHeaderClock() {
-    const now = new Date();
+function setStatus(statusText, badgeClass) {
+    const statusTextEl = document.getElementById('currentStatusText');
+    const statusBtn = document.getElementById('counterStatusBtn');
     
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 
-                    'July', 'August', 'September', 'October', 'November', 'December'];
-    
-    const dayName = days[now.getDay()];
-    const monthName = months[now.getMonth()];
-    const dayNum = now.getDate();
-    const year = now.getFullYear();
-    
-    let hours = now.getHours();
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    
-    hours = hours % 12;
-    hours = hours ? hours : 12;
+    if (statusTextEl && statusBtn) {
+        statusTextEl.textContent = statusText;
+        
+        if (statusText === 'ONLINE') {
+            statusBtn.className = 'btn status-pill dropdown-toggle d-flex align-items-center gap-2 shadow-sm';
+            statusBtn.style = '';
+        } else if (statusText === 'ON BREAK') {
+            statusBtn.className = 'btn dropdown-toggle d-flex align-items-center gap-2 shadow-sm';
+            statusBtn.style.backgroundColor = '#fef3c7';
+            statusBtn.style.color = '#d97706';
+            statusBtn.style.border = '1px solid #fde68a';
+            statusBtn.style.borderRadius = '50px';
+            statusBtn.style.fontWeight = '700';
+            statusBtn.style.fontSize = '0.75rem';
+            statusBtn.style.padding = '0.25rem 1rem';
+        } else {
+            statusBtn.className = 'btn dropdown-toggle d-flex align-items-center gap-2 shadow-sm';
+            statusBtn.style.backgroundColor = '#f1f5f9';
+            statusBtn.style.color = '#475569';
+            statusBtn.style.border = '1px solid #cbd5e1';
+            statusBtn.style.borderRadius = '50px';
+            statusBtn.style.fontWeight = '700';
+            statusBtn.style.fontSize = '0.75rem';
+            statusBtn.style.padding = '0.25rem 1rem';
+        }
 
-    const formattedDate = `${dayName} | ${monthName} ${dayNum}, ${year} ${hours}:${minutes}:${seconds} ${ampm}`;
-    
-    const clockEl = document.getElementById('liveHeaderClock');
-    if (clockEl) {
-        clockEl.textContent = formattedDate;
+        // Auto-close the Bootstrap dropdown list after selection
+        if (window.bootstrap && bootstrap.Dropdown) {
+            const dropdownInstance = bootstrap.Dropdown.getInstance(statusBtn) || new bootstrap.Dropdown(statusBtn);
+            if (dropdownInstance) {
+                dropdownInstance.hide();
+            }
+        } else {
+            // Fallback for click trigger
+            statusBtn.click();
+        }
     }
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    updateHeaderClock();
-    setInterval(updateHeaderClock, 1000);
-});
 </script>
 
 <?php
