@@ -42,17 +42,23 @@ if (file_exists($headerPath)) {
     <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl); ?>assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl); ?>assets/css/bootstrap-icons.css">
 </head>
-<body style="background-color: #f4f6f9; overflow: hidden; height: 100vh;">
+<body style="background-color: #f4f6f9;">
 <?php } ?>
 
 <style>
-    /* Absolute Viewport Lock & Dynamic Height Distribution */
-    html, body { height: 100vh !important; overflow: hidden !important; margin: 0; padding: 0; }
+    /* Default / Mobile Viewport: Natural page height with standard vertical scroll */
+    html, body { 
+        min-height: 100vh; 
+        margin: 0; 
+        padding: 0; 
+        overflow-x: hidden; 
+        overflow-y: auto; 
+    }
 
     .hover-white:hover { color: #fff !important; }
 
     /* Custom Canvas & Cards */
-    .bg-dashboard-canvas { background-color: #f0f4f9; height: 100vh; }
+    .bg-dashboard-canvas { background-color: #f0f4f9; min-height: 100vh; }
     .card-custom { border: none; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); }
     
     /* Info-Tile with Added Subtle Box Shadow */
@@ -71,7 +77,7 @@ if (file_exists($headerPath)) {
     .btn-action-complete { background-color: #10b981; color: white; border: none; font-weight: 600; padding: 10px 8px; border-radius: 12px; }
     .btn-action-complete:hover { background-color: #059669; color: white; }
 
-    .btn-action-recall { background-color: #f59e0b; color: white; border: none; font-weight: 600; padding: 10px 8px; border-radius: 12px; }
+    .btn-action-recall { background-color: #f59e0b; color: white; border: none; font-weight: 600; padding: 12px; border-radius: 12px; }
     .btn-action-recall:hover { background-color: #d97706; color: white; }
 
     .btn-action-transfer { background-color: #8b5cf6; color: white; border: none; font-weight: 600; padding: 10px 8px; border-radius: 12px; }
@@ -98,15 +104,22 @@ if (file_exists($headerPath)) {
     }
     .status-pill:hover { background-color: rgba(25, 135, 84, 0.2); }
 
+    /* Desktop Viewports (>= 992px): Lock layout strictly to 100vh without page scrollbars */
     @media (min-width: 992px) {
+        html, body { 
+            height: 100vh !important; 
+            overflow: hidden !important; 
+        }
+        .bg-dashboard-canvas { height: 100vh !important; }
         .app-layout { flex-direction: row !important; height: 100vh !important; overflow: hidden !important; }
         .app-sidebar { width: 250px !important; min-width: 250px !important; height: 100vh !important; }
         .app-sidebar-collapse { display: block !important; }
         .app-main-content { height: 100vh !important; overflow: hidden !important; }
     }
 
+    /* Mobile / Small Screens (< 992px): Allow sidebars & main content to expand naturally */
     @media (max-width: 991.98px) {
-        .app-layout { flex-direction: column !important; height: auto !important; overflow: auto !important; }
+        .app-layout { flex-direction: column !important; height: auto !important; overflow: visible !important; }
         .app-sidebar { width: 100% !important; min-width: 100% !important; height: auto !important; }
         .app-main-content { height: auto !important; overflow: visible !important; }
     }
@@ -150,7 +163,7 @@ if (file_exists($headerPath)) {
     </aside>
 
     <!-- MAIN CONTENT AREA -->
-    <div class="flex-grow-1 d-flex flex-column app-main-content h-100 overflow-hidden">
+    <div class="flex-grow-1 d-flex flex-column app-main-content h-100 overflow-auto">
 
         <!-- TOP BAR HEADER -->
         <header class="bg-white px-4 py-2 d-flex justify-content-between align-items-center shadow-sm flex-shrink-0" style="min-height: 52px;">
@@ -177,7 +190,7 @@ if (file_exists($headerPath)) {
         </header>
 
         <!-- MAIN CONTAINER -->
-        <main class="px-3 py-2 px-md-4 flex-grow-1 d-flex flex-column overflow-hidden justify-content-between">
+        <main class="px-3 py-2 px-md-4 flex-grow-1 d-flex flex-column justify-content-between overflow-auto">
 
             <!-- HERO CARD: NOW SERVING COUNTER -->
             <div class="card card-custom bg-white p-3 p-md-4 mb-2 flex-shrink-0">
@@ -201,16 +214,16 @@ if (file_exists($headerPath)) {
                 </div>
 
                 <div class="row g-3">
-                    <!-- LEFT SIDE: TICKET CARD WITH EXPANDED SPACIOUS INNER BOX -->
+                    <!-- LEFT SIDE: TICKET CARD WITH ENLARGED TICKET TEXT & LABEL -->
                     <div class="col-12 col-lg-5 col-xl-4">
                         <div class="h-100 rounded-4 p-3 text-center d-flex flex-column justify-content-center align-items-center shadow-sm" style="background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); border: 1px solid #bae6fd;">
                             
-                            <!-- Expanded Box Container -->
-                            <div class="bg-white rounded-4 shadow-sm border border-primary border-opacity-25 px-4 py-3 d-flex flex-column align-items-center justify-content-center" style="width: 92%; height: 185px;">
-                                <div class="d-flex align-items-center gap-2 text-primary fw-bold mb-2" style="font-size: 0.78rem; letter-spacing: 1px;">
-                                    <i class="bi bi-ticket-perforated-fill fs-5"></i> TICKET NUMBER
+                            <!-- Box Container with Enlarged Header and Ticket Code -->
+                            <div class="bg-white rounded-4 shadow-sm border border-primary border-opacity-25 px-4 py-3 d-flex flex-column align-items-center justify-content-center" style="width: 95%; height: 195px;">
+                                <div class="d-flex align-items-center gap-2 text-primary fw-bold mb-1" style="font-size: 0.92rem; letter-spacing: 1.2px;">
+                                    <i class="bi bi-ticket-perforated-fill fs-4"></i> TICKET NUMBER
                                 </div>
-                                <h1 class="fw-extrabold text-primary mb-0" style="font-size: 3.6rem; letter-spacing: -1.5px; color: #0038a8 !important; line-height: 1;">CA-018</h1>
+                                <h1 class="fw-extrabold text-primary mb-0" style="font-size: 4.4rem; letter-spacing: -2px; color: #0038a8 !important; line-height: 1;">CA-018</h1>
                             </div>
 
                         </div>
@@ -338,7 +351,7 @@ if (file_exists($headerPath)) {
                         </div>
 
                         <!-- Centered Layout for Tickets Remaining -->
-                        <div class="d-flex align-items-center justify-content-center my-auto w-100">
+                        <div class="d-flex align-items-center justify-content-center my-auto w-100 py-3">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="d-inline-flex align-items-center justify-content-center rounded-circle flex-shrink-0" style="background-color: #e0f2fe; width: 54px; height: 54px;">
                                     <i class="bi bi-people-fill text-primary fs-3"></i>
@@ -455,7 +468,6 @@ function setStatus(statusText, badgeClass) {
                 dropdownInstance.hide();
             }
         } else {
-            // Fallback for click trigger
             statusBtn.click();
         }
     }
